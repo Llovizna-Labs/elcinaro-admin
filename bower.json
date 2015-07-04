@@ -1,0 +1,19 @@
+{
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "angular": "latest",
+    "angular-ui-router": "latest",
+    "angular-sanitize": "latest",
+    "angular-cookies": "latest",
+    "bootstrap": "latest",
+    "lodash": "latest",
+    "jquery": "latest"
+  },
+  "name": "stack-angularjs",
+  "version": "0.0.0",
+  "private": true
+}
