@@ -11,10 +11,9 @@
     "gulp-connect": "*",
     "gulp-less": "*",
     "gulp-minify-css": "*",
+    "gulp-minify-html": "^1.0.4",
     "gulp-ng-annotate": "*",
-    "gulp-notify": "*",
     "gulp-open": "*",
-    "gulp-rename": "*",
     "gulp-sourcemaps": "*",
     "gulp-uglify": "*",
     "gulp-watch": "*"

@@ -5,12 +5,11 @@ var open = require('gulp-open');
 var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');
-var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
-var notify = require('gulp-notify');
 var annotate = require('gulp-ng-annotate')
 var minifycss = require('gulp-minify-css');
 var sourcemaps = require('gulp-sourcemaps');
+var minifyhtml = require('gulp-minify-html');
 
 // App Files
 var appScripts = [
@@ -115,8 +114,10 @@ gulp.task('vendors', ['bower'], function() {
 // Views
 gulp.task('views', function() {
   gulp.src('index.html')
+    .pipe(minifyhtml())
     .pipe(gulp.dest('www/'));
   gulp.src('assets/views/**/*.html')
+    .pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
 });
 
