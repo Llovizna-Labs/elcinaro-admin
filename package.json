@@ -9,14 +9,16 @@
     "gulp": "*",
     "gulp-concat": "*",
     "gulp-connect": "*",
+    "gulp-imagemin": "*",
     "gulp-less": "*",
     "gulp-minify-css": "*",
-    "gulp-minify-html": "^1.0.4",
+    "gulp-minify-html": "*",
     "gulp-ng-annotate": "*",
     "gulp-open": "*",
     "gulp-sourcemaps": "*",
     "gulp-uglify": "*",
-    "gulp-watch": "*"
+    "gulp-watch": "*",
+    "imagemin-pngquant": "*"
   },
   "author": "José Cols <josecolsg@gmail.com>",
   "license": "MIT License"

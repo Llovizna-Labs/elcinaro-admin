@@ -6,8 +6,10 @@ var watch = require('gulp-watch');
 var connect = require('gulp-connect');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var imagemin = require('gulp-imagemin');
 var annotate = require('gulp-ng-annotate')
 var minifycss = require('gulp-minify-css');
+var pngquant = require('imagemin-pngquant');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyhtml = require('gulp-minify-html');
 
@@ -36,7 +38,6 @@ var vendorScripts = [
   'app/vendors/angular-sanitize/angular-sanitize.min.js',
   'app/vendors/angular-cookies/angular-cookies.min.js',
   'app/vendors/angular-ui-router/release/angular-ui-router.min.js',
-  'app/vendors/lodash/lodash.min.js',
   'app/vendors/bootstrap/dist/js/bootstrap.min.js'
 ];
 var vendorStyles = [
@@ -60,6 +61,11 @@ gulp.task('server', ['default'], function() {
 // Clean
 gulp.task('clean', function(cb) {
   clear(['www/scripts', 'www/assets', 'www/*.html'], cb);
+});
+
+// Prune
+gulp.task('prune', function(cb) {
+  clear('app/vendors', cb);
 });
 
 // Bower
@@ -92,6 +98,13 @@ gulp.task('styles', function() {
 // Images
 gulp.task('images', function() {
   gulp.src(appImages)
+    .pipe(imagemin({
+      progressive: true,
+      svgoPlugins: [{
+        removeViewBox: false
+      }],
+      use: [pngquant()]
+    }))
     .pipe(gulp.dest('www/assets/images/'))
 });
 
@@ -129,9 +142,10 @@ gulp.task('default', ['clean'], function() {
 // Watch
 gulp.task('watch', ['server'], function() {
 
-  // Watch app style and JS files
+  // Watch app style, JS and image files
   gulp.watch(appScripts, ['scripts']);
   gulp.watch(appStyles, ['styles']);
+  gulp.watch(appImages, ['images']);
 
   // Watch HTML files
   gulp.watch(['index.html', 'assets/views/**/*.html'], ['views']);
