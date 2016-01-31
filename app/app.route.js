@@ -5,7 +5,6 @@
     .module('devion-stack-angular')
     .config(routerProvider);
 
-
   routerProvider.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 
   function routerProvider($stateProvider, $urlRouterProvider, $locationProvider) {
