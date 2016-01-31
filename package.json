@@ -1,25 +1,33 @@
 {
-  "name": "stack-angularjs",
+  "name": "devion-stack-angular",
   "private": true,
-  "version": "0.0.0",
-  "description": "Gulp + AngularJS Stack - Devion",
-  "keywords": [],
+  "version": "1.0.0",
+  "description": "Devion's AngularJS development package",
+  "keywords": [
+    "devion",
+    "website",
+    "frontend",
+    "angularjs",
+    "development"
+  ],
   "dependencies": {
     "del": "*",
     "gulp": "*",
     "gulp-concat": "*",
     "gulp-connect": "*",
     "gulp-imagemin": "*",
+    "gulp-jshint": "*",
     "gulp-less": "*",
     "gulp-minify-css": "*",
     "gulp-minify-html": "*",
     "gulp-ng-annotate": "*",
-    "gulp-open": "*",
     "gulp-sourcemaps": "*",
     "gulp-uglify": "*",
     "gulp-watch": "*",
-    "imagemin-pngquant": "*"
+    "imagemin-pngquant": "*",
+    "jshint-stylish": "*",
+    "gulp-uncss": "*"
   },
-  "author": "José Cols <josecolsg@gmail.com>",
+  "author": "José Cols <josecols@devion.io>",
   "license": "MIT License"
 }

@@ -1,11 +1,12 @@
 var gulp = require('gulp');
-var clear = require('del');
+var clean = require('del');
 var less = require('gulp-less');
-var open = require('gulp-open');
 var watch = require('gulp-watch');
-var connect = require('gulp-connect');
+var uncss = require('gulp-uncss');
+var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var connect = require('gulp-connect');
 var imagemin = require('gulp-imagemin');
 var annotate = require('gulp-ng-annotate')
 var minifycss = require('gulp-minify-css');
@@ -13,13 +14,13 @@ var pngquant = require('imagemin-pngquant');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyhtml = require('gulp-minify-html');
 
+
 // App Files
 var appScripts = [
-  'app/app.js',
-  'app/controllers/*.js',
-  'app/directives/*.js',
-  'app/services/*.js',
-  'app/filters/*.js'
+  'app/*.module.js',
+  'app/*.constants.js',
+  'app/*.route.js',
+  'app/**/*.js',
 ];
 var appStyles = [
   'assets/styles/*.less'
@@ -30,49 +31,59 @@ var appImages = [
 var appFonts = [
   'assets/fonts/**'
 ];
+var appVideos = [];
 
 // Vendor Files
 var vendorScripts = [
-  'app/vendors/jquery/dist/jquery.min.js',
-  'app/vendors/angular/angular.min.js',
-  'app/vendors/angular-sanitize/angular-sanitize.min.js',
-  'app/vendors/angular-cookies/angular-cookies.min.js',
-  'app/vendors/angular-ui-router/release/angular-ui-router.min.js',
-  'app/vendors/bootstrap/dist/js/bootstrap.min.js'
+  'bower_components/angular/angular.min.js',
+  'bower_components/angular-ui-router/release/angular-ui-router.min.js'
 ];
-var vendorStyles = [
-  'app/vendors/bootstrap/dist/css/bootstrap.min.css'
-];
+var vendorStyles = [];
+var vendorFonts = [];
+
 
 // Start the server
 gulp.task('server', ['default'], function() {
   connect.server({
     root: "www",
     port: 2000,
-    host: '127.0.0.1',
+    host: '0.0.0.0',
+    livereload: false
+  });
+});
+
+gulp.task('liveserver', ['default'], function() {
+  connect.server({
+    root: "www",
+    port: 2000,
+    host: '0.0.0.0',
     livereload: true
   });
-  gulp.src('./gulpfile.js')
-    .pipe(open('', {
-      url: 'http://localhost:2000'
-    }));
 });
+
+
+// Serve the www/ directory without rebuilding
+gulp.task('serve', function() {
+  connect.server({
+    root: "www",
+    port: 2000,
+    host: '0.0.0.0',
+    livereload: false
+  });
+});
+
 
 // Clean
-gulp.task('clean', function(cb) {
-  clear(['www/scripts', 'www/assets', 'www/*.html'], cb);
+gulp.task('clean', function() {
+  return clean(['www/scripts', 'www/assets', 'www/*.html']);
 });
+
 
 // Prune
-gulp.task('prune', function(cb) {
-  clear('app/vendors', cb);
+gulp.task('prune', function() {
+  return clean(['vendors']);
 });
 
-// Bower
-gulp.task('bower', function() {
-  gulp.src('bower_components/**/')
-    .pipe(gulp.dest('app/vendors'));
-});
 
 // Scripts
 gulp.task('scripts', function() {
@@ -85,6 +96,15 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('www/scripts'))
 });
 
+
+// JSHint
+gulp.task('hint', function() {
+  gulp.src(appScripts)
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
+});
+
+
 // Styles
 gulp.task('styles', function() {
   gulp.src('assets/styles/app.less')
@@ -94,6 +114,7 @@ gulp.task('styles', function() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('www/assets/styles/'))
 });
+
 
 // Images
 gulp.task('images', function() {
@@ -108,21 +129,34 @@ gulp.task('images', function() {
     .pipe(gulp.dest('www/assets/images/'))
 });
 
+
+// Videos
+gulp.task('videos', function() {
+  gulp.src(appVideos)
+    .pipe(gulp.dest('www/assets/videos/'))
+});
+
+
 // Fonts
 gulp.task('fonts', function() {
   gulp.src(appFonts)
     .pipe(gulp.dest('www/assets/fonts/'))
 });
 
+
 // Vendor
-gulp.task('vendors', ['bower'], function() {
+gulp.task('vendors', function() {
   gulp.src(vendorScripts)
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('www/scripts'))
   gulp.src(vendorStyles)
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest('www/assets/styles'))
+  gulp.src(vendorFonts)
+    .pipe(gulp.dest('www/assets/fonts'))
+
 });
+
 
 // Views
 gulp.task('views', function() {
@@ -132,15 +166,38 @@ gulp.task('views', function() {
   gulp.src('assets/views/**/*.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
+  gulp.src('app/components/*.html')
+    .pipe(minifyhtml())
+    .pipe(gulp.dest('www/assets/views'))
 });
+
+
+// Optimize 
+gulp.task('optimize', ['vendors', 'views'], function() {
+  gulp.src('www/assets/styles/vendor.css')
+    .pipe(uncss({
+      html: ['www/index.html', 'www/assets/views/*']
+    }))
+    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('www/assets/styles/'));
+});
+
 
 // Default task
-gulp.task('default', ['clean'], function() {
-  gulp.start('scripts', 'vendors', 'views', 'styles', 'images', 'fonts');
+gulp.task('default', function() {
+  gulp.start('scripts', 'vendors', 'views', 'styles', 'fonts');
 });
 
+
+// Build production site
+gulp.task('build', ['default'], function() {
+  gulp.start('images', 'videos', 'optimize');
+});
+
+
 // Watch
-gulp.task('watch', ['server'], function() {
+gulp.task('watch', ['default'], function() {
 
   // Watch app style, JS and image files
   gulp.watch(appScripts, ['scripts']);
@@ -153,4 +210,34 @@ gulp.task('watch', ['server'], function() {
   // Watch any files in www/, reload on change
   watch("www/**").pipe(connect.reload());
 
+});
+
+gulp.task('watchlive', ['liveserver'], function() {
+
+  // Watch app style, JS and image files
+  gulp.watch(appScripts, ['scripts']);
+  gulp.watch(appStyles, ['styles']);
+  gulp.watch(appImages, ['images']);
+
+  // Watch HTML files
+  gulp.watch(['index.html', 'assets/views/**/*.html'], ['views']);
+
+  // Watch any files in www/, reload on change
+  watch("www/**").pipe(connect.reload());
+
+});
+
+
+// Live task
+gulp.task('live', ['watchlive'], function() {
+  // Watch app style, JS and image files
+  gulp.watch(appScripts, ['scripts']);
+  gulp.watch(appStyles, ['styles']);
+  gulp.watch(appImages, ['images']);
+
+  // Watch HTML files
+  gulp.watch(['index.html', 'assets/views/**/*.html'], ['views']);
+
+  // Watch any files in www/, reload on change
+  watch("www/**").pipe(connect.reload());
 });

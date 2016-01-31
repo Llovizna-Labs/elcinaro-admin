@@ -6,14 +6,9 @@
   ],
   "dependencies": {
     "angular": "latest",
-    "angular-ui-router": "latest",
-    "angular-sanitize": "latest",
-    "angular-cookies": "latest",
-    "bootstrap": "latest",
-    "lodash": "latest",
-    "jquery": "latest"
+    "angular-ui-router": "latest"
   },
-  "name": "stack-angularjs",
-  "version": "0.0.0",
+  "name": "devion-stack-angular",
+  "version": "1.0.0",
   "private": true
 }
