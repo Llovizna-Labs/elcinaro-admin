@@ -1,4 +1,4 @@
-# Gulp + AngularJS - Devion
+# Gulp + AngularJS - 2.0
 Este stack permite empezar un proyecto de Front-end con AngularJS rápidamente. La estructura de los archivos de Angular, las vistas y los estilos ya está definida. También las tareas más esenciales de Gulp.
 
 ## Librerías que incluye el stack
