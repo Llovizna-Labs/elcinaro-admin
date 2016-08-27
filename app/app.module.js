@@ -1,6 +1,6 @@
 /**
  * @ngdoc overview
- * @name devion-stack-angular
+ * @name AnyDayBuddyAds
  * @requires ui.router
  * @description 
  * 
@@ -11,7 +11,7 @@
   'use strict';
 
   angular
-    .module('devion-stack-angular', [
+    .module('AnyDayBuddyAds', [
       'ui.router'
     ]);
 

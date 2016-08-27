@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('devion-stack-angular')
+    .module('AnyDayBuddyAds')
     .constant('API_URL', 'http://api.devion.io');
 
 })();

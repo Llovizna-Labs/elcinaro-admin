@@ -2,17 +2,17 @@
  * @ngdoc service
  * @name userservice
  * @requires $http, $q
- * @description 
- * 
+ * @description
+ *
  * Este servicio es usado para manejar las sesiones de usuario.
- * 
+ *
  */
 
 (function() {
   'use strict';
 
   angular
-    .module('devion-stack-angular')
+    .module('AnyDayBuddyAds')
     .factory('userService', userService);
 
   userService.$inject = ['API_URL', '$http', '$q'];
@@ -54,7 +54,7 @@
       }).error(function(err) {
         deferred.reject(err);
       });
-      
+
       return deferred.promise;
     }
 

@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('devion-stack-angular')
+    .module('AnyDayBuddyAds')
     .config(routerProvider);
 
   routerProvider.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];

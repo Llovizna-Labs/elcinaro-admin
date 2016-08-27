@@ -10,7 +10,7 @@
     'use strict';
 
     angular
-        .module('devion-stack-angular')
+        .module('AnyDayBuddyAds')
         .filter('filter', example);
 
     function example() {

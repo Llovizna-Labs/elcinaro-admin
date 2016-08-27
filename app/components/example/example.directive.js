@@ -1,16 +1,16 @@
 /**
  * @ngdoc directive
  * @name example
- * @description 
- * 
+ * @description
+ *
  * Directiva de ejemplo
- * 
+ *
  */
 (function() {
   'use strict';
 
   angular
-    .module('devion-stack-angular')
+    .module('AnyDayBuddyAds')
     .directive('example', example);
 
   example.$inject = ['userService'];
@@ -24,7 +24,7 @@
       link: link,
       restrict: 'EA',
       scope: {},
-      templateUrl: 'assets/views/example.html'
+      templateUrl: 'assets/views/example/example.html'
     };
     return directive;
 

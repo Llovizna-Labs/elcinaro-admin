@@ -12,7 +12,7 @@
   'use strict';
 
   angular
-    .module('devion-stack-angular')
+    .module('AnyDayBuddyAds')
     .controller('HomeController', HomeController);
 
   HomeController.$inject = ['$rootScope'];
