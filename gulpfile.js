@@ -36,9 +36,15 @@ var appVideos = [];
 // Vendor Files
 var vendorScripts = [
   'bower_components/angular/angular.min.js',
-  'bower_components/angular-ui-router/release/angular-ui-router.min.js'
+  'bower_components/angular-animate/angular-animate.min.js',
+  'bower_components/angular-messages/angular-messages.min.js',
+  'bower_components/angular-aria/angular-aria.min.js',
+  'bower_components/angular-material/angular-material.min.js',
+  'bower_components/angular-ui-router/release/angular-ui-router.min.js',
 ];
-var vendorStyles = [];
+var vendorStyles = [
+  'bower_components/angular-material/angular-material.min.css',
+];
 var vendorFonts = [];
 
 
@@ -166,13 +172,13 @@ gulp.task('views', function() {
   gulp.src('assets/views/**/*.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
-  gulp.src('app/components/*.html')
+  gulp.src('app/components/**/**.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
 });
 
 
-// Optimize 
+// Optimize
 gulp.task('optimize', ['vendors', 'views'], function() {
   gulp.src('www/assets/styles/vendor.css')
     .pipe(uncss({
@@ -186,7 +192,7 @@ gulp.task('optimize', ['vendors', 'views'], function() {
 
 // Default task
 gulp.task('default', function() {
-  gulp.start('scripts', 'vendors', 'views', 'styles', 'fonts');
+  gulp.start('scripts', 'vendors', 'views', 'styles', 'fonts', 'images');
 });
 
 
@@ -205,7 +211,7 @@ gulp.task('watch', ['default'], function() {
   gulp.watch(appImages, ['images']);
 
   // Watch HTML files
-  gulp.watch(['index.html', 'assets/views/**/*.html'], ['views']);
+  gulp.watch(['index.html', 'assets/views/**/*.html', 'app/components/**/**.html'], ['views']);
 
   // Watch any files in www/, reload on change
   watch("www/**").pipe(connect.reload());
@@ -220,7 +226,7 @@ gulp.task('watchlive', ['liveserver'], function() {
   gulp.watch(appImages, ['images']);
 
   // Watch HTML files
-  gulp.watch(['index.html', 'assets/views/**/*.html'], ['views']);
+  gulp.watch(['index.html', 'assets/views/**/*.html', 'app/components/**/**.html'], ['views']);
 
   // Watch any files in www/, reload on change
   watch("www/**").pipe(connect.reload());
@@ -236,7 +242,7 @@ gulp.task('live', ['watchlive'], function() {
   gulp.watch(appImages, ['images']);
 
   // Watch HTML files
-  gulp.watch(['index.html', 'assets/views/**/*.html'], ['views']);
+  gulp.watch(['index.html', 'assets/views/**/*.html', 'app/components/**/**.html'], ['views']);
 
   // Watch any files in www/, reload on change
   watch("www/**").pipe(connect.reload());

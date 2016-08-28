@@ -6,7 +6,8 @@
   ],
   "dependencies": {
     "angular": "latest",
-    "angular-ui-router": "latest"
+    "angular-ui-router": "latest",
+    "angular-material": "^1.1.0"
   },
   "name": "devion-stack-angular",
   "version": "1.0.0",

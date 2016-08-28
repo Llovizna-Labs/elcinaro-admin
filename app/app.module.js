@@ -2,17 +2,18 @@
  * @ngdoc overview
  * @name AnyDayBuddyAds
  * @requires ui.router
- * @description 
- * 
+ * @description
+ *
  * AngularJS basic app template
- * 
+ *
  */
 (function() {
   'use strict';
 
   angular
     .module('AnyDayBuddyAds', [
-      'ui.router'
+      'ui.router',
+      'ngMaterial'
     ]);
 
 })();
