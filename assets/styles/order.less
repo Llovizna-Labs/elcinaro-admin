@@ -1,0 +1,27 @@
+.orders {
+  .progress_bar {
+    .progress_options {
+      text-align: center;
+      position: relative;
+      hr {
+        position: absolute;
+        width: 75%;
+        left: -38%;
+        top: 50%;
+        border: 0;
+        height: 1px;
+        margin-top: 0 !important;
+        background-color:@gray;
+        &.active{
+          background-color: transparent!important;
+          background-image: linear-gradient(to right,rgba(0,0,0,0),@primary-color,rgba(0,0,0,0));
+        }
+      }
+    }
+  }
+  .container{
+    width: 75%;
+    margin: auto;
+    margin-top: 1em;
+  }
+}

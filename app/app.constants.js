@@ -3,6 +3,5 @@
 
   angular
     .module('AnyDayBuddyAds')
-    .constant('API_URL', 'http://api.devion.io');
-
+    .constant('baseApi', 'http://api.anydaybuddy.com');
 })();

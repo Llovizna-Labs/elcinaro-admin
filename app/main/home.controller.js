@@ -2,10 +2,10 @@
  * @ngdoc controller
  * @name HomeController
  * @requires $rootScope
- * @description 
- * 
+ * @description
+ *
  * Maneja el comportamiento de la vista principal
- * 
+ *
  */
 
 (function() {

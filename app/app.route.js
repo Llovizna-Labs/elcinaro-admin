@@ -8,8 +8,10 @@
   routerProvider.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 
   function routerProvider($stateProvider, $urlRouterProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
-
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
     $stateProvider
       .state('home', {
         url: '/',
@@ -18,6 +20,17 @@
             controller: 'HomeController',
             controllerAs: 'vm',
             templateUrl: 'assets/views/home.html'
+          }
+        },
+        authenticate: false
+      })
+      .state('orders', {
+        url: '/orders',
+        views: {
+          'main': {
+            controller: 'ordersController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/orders.html'
           }
         },
         authenticate: false

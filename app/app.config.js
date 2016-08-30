@@ -4,9 +4,10 @@
     .module('AnyDayBuddyAds')
     .config(config);
 
-  config.$inject = ['$mdThemingProvider'];
+  config.$inject = ['$mdThemingProvider', '$locationProvider'];
 
-  function config($mdThemingProvider) {
+  function config($mdThemingProvider, $locationProvider) {
+    $locationProvider.html5Mode(true)
     $mdThemingProvider.definePalette('primary', {
       '50': '#9dceda',
       '100': '#65b2c5',

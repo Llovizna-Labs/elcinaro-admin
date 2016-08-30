@@ -1,0 +1,67 @@
+<section class="orders">
+  <form name="campaign">
+    <div class="progress_bar">
+      <div layout="row" layout-align="center center">
+        <div class="progress_options" ng-repeat="item in vm.infotabs" flex>
+          <md-button ng-class="vm.tab >= $index? 'md-primary':'md-raised'" ng-click="vm.tab = $index" class="md-fab">
+            {{$index + 1}}
+          </md-button>
+          <div class="span">
+            {{item.name}}
+          </div>
+          <hr ng-class="vm.tab >= $index? 'active':''" ng-if="$index != $last">
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div ng-if="vm.tab == 0" class="firts">
+        <div layout-gt-xs="row">
+          <md-input-container class="md-block" flex>
+            <label>Company</label>
+            <input ng-model="vm.payload.infoCompany.company">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Firts Name</label>
+            <input ng-model="vm.payload.infoCompany.firtsName">
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container class="md-block" flex>
+            <label>Last Name</label>
+            <input ng-model="vm.payload.infoCompany.lastName">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Address</label>
+            <input ng-model="vm.payload.infoCompany.address">
+          </md-input-container>
+        </div>
+        <div layout-gt-xs="row">
+          <md-input-container class="md-block" flex>
+            <label>Years in activity</label>
+            <input ng-model="vm.payload.infoCompany.years">
+          </md-input-container>
+          <md-input-container class="md-block" flex>
+            <label>Field of activity</label>
+            <input ng-model="vm.payload.infoCompany.field">
+          </md-input-container>
+        </div>
+      </div>
+      <div ng-if="vm.tab == 1" class="second">
+        {{vm.data.display}}
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Display</label>
+          <md-select ng-model="vm.payload.campaign.display">
+            <md-option ng-repeat="item in vm.data.display" value="{{item.id}}">
+              {{item.display}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div ng-if="vm.tab == 2" class="third">
+        third
+      </div>
+
+    </div>
+
+  </form>
+</section>
