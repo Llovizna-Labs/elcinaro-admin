@@ -3,31 +3,49 @@
 
   angular
     .module('AnyDayBuddyAds')
-    .service('dataService', dataService);
+    .service('DataService', dataService);
 
   dataService.$inject = ['$http', '$q', 'baseApi'];
 
   /* @ngInject */
   function dataService($http, $q, baseApi) {
     var dataService = {
-      getInfo: getInfo
+      getOptions: getOptions,
+      getClientToken : getClientToken
     }
 
     return dataService;
 
-    function getInfo() {
+    function getOptions() {
       var deferred = $q.defer();
 
       $http({
         method: 'GET',
         url: baseApi + '/advertisment/options/'
-      }).then(function successCallback(response) {
-        deferred.resolve(response);
-      }, function errorCallback(err) {
+      }).success(function(data, status, headers, config) {
+        deferred.resolve(data);
+      }).error(function (err) {
         deferred.reject(err);
       });
 
       return deferred.promise;
     }
+
+    function getClientToken() {
+      var deferred = $q.defer();
+
+      $http({
+        method: 'GET',
+        url: 'http://localhost:1338/commerce/clientToken/'
+      }).success(function(data, status, headers, config) {
+        deferred.resolve(data);
+      }).error(function (err) {
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+    }
+
+
   }
 })();

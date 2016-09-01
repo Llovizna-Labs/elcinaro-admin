@@ -13,7 +13,8 @@
   angular
     .module('AnyDayBuddyAds', [
       'ui.router',
-      'ngMaterial'
+      'ngMaterial',
+      'uiGmapgoogle-maps',
     ]);
 
 })();

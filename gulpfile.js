@@ -36,14 +36,23 @@ var appVideos = [];
 // Vendor Files
 var vendorScripts = [
   'bower_components/angular/angular.min.js',
+  'bower_components/angular-ui-router/release/angular-ui-router.min.js',
   'bower_components/angular-animate/angular-animate.min.js',
   'bower_components/angular-messages/angular-messages.min.js',
   'bower_components/angular-aria/angular-aria.min.js',
   'bower_components/angular-material/angular-material.min.js',
-  'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+  'bower_components/lodash/dist/lodash.min.js',
+  'bower_components/angular-simple-logger/dist/angular-simple-logger.js',
+  'bower_components/markerclustererplus/src/markerclusterer.js',
+  'bower_components/angular-google-maps/dist/angular-google-maps.js',
+  'bower_components/dropzone/dist/min/dropzone.min.js',
+  // 'bower_components/braintree-web/client.js',
+  // 'bower_components/braintree-web/paypal.js',
+
 ];
 var vendorStyles = [
   'bower_components/angular-material/angular-material.min.css',
+  'bower_components/dropzone/dist/min/dropzone.min.css',
 ];
 var vendorFonts = [];
 
@@ -172,7 +181,7 @@ gulp.task('views', function() {
   gulp.src('assets/views/**/*.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
-  gulp.src('app/components/**/**.html')
+  gulp.src('app/components/**/*.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
 });

@@ -2,12 +2,23 @@
   'use strict';
   angular
     .module('AnyDayBuddyAds')
-    .config(config);
+    .config(config)
+    .config(mapsProvider);
+
+    mapsProvider.$inject = ['uiGmapGoogleMapApiProvider'];
+
+    function mapsProvider(uiGmapGoogleMapApiProvider) {
+      uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyAonFuCDb7HjXUz0uocKbEGUJz91IL9EVs', //adb-site-0 key
+        // key: 'AIzaSyAlW6hun7VwpFPv0fx_KOUh52l08BRpjYM',
+        libraries: 'places'
+      });
+    }
 
   config.$inject = ['$mdThemingProvider', '$locationProvider'];
 
   function config($mdThemingProvider, $locationProvider) {
-    $locationProvider.html5Mode(true)
+
     $mdThemingProvider.definePalette('primary', {
       '50': '#9dceda',
       '100': '#65b2c5',
