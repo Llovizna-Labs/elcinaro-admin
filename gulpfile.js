@@ -13,6 +13,8 @@ var minifycss = require('gulp-minify-css');
 var pngquant = require('imagemin-pngquant');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyhtml = require('gulp-minify-html');
+var rev = require('gulp-rev');
+var collect = require('gulp-rev-collector');
 
 
 // App Files
@@ -241,6 +243,38 @@ gulp.task('watchlive', ['liveserver'], function() {
   watch("www/**").pipe(connect.reload());
 
 });
+
+gulp.task('clean:dist', function() {
+  return clean(['www/dist']);
+});
+
+
+// Rev
+gulp.task('rev', ['default','clean:dist',], function() {
+  return gulp.src(['www/assets/styles/*.css', 'www/scripts/*.js'])
+    .pipe(rev())
+    .pipe(gulp.dest('www/dist/'))
+    .pipe(rev.manifest({
+      merge: true // merge with the existing manifest (if one exists)
+    }))
+    .pipe(gulp.dest(process.cwd())); // write manifest to build dir
+});
+
+/**
+ * Replace all links to assets in files
+ * from a manifest file
+ */
+gulp.task('rev:collect', ['rev'], function() {
+  return gulp.src(['rev-manifest.json', 'index.html'])
+    .pipe(collect({
+      dirReplacements: {
+        'assets/styles/': 'www/dist',
+        'scripts/': 'www/dist',
+      }
+    }))
+    .pipe(gulp.dest('www/'));
+});
+
 
 
 // Live task

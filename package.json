@@ -21,12 +21,14 @@
     "gulp-minify-css": "*",
     "gulp-minify-html": "*",
     "gulp-ng-annotate": "*",
+    "gulp-rev": "7.1.2",
+    "gulp-rev-collector": "1.0.5",
     "gulp-sourcemaps": "*",
     "gulp-uglify": "*",
+    "gulp-uncss": "*",
     "gulp-watch": "*",
     "imagemin-pngquant": "*",
-    "jshint-stylish": "*",
-    "gulp-uncss": "*"
+    "jshint-stylish": "*"
   },
   "author": "José Cols <josecols@devion.io>",
   "license": "MIT License",

@@ -28,16 +28,19 @@
     }
   }
 
-  Controller.$inject = ['uiGmapGoogleMapApi', 'uiGmapIsReady', '$q', '$scope', '$timeout'];
+  Controller.$inject = ['uiGmapGoogleMapApi', 'uiGmapIsReady', '$q', '$scope', '$timeout', 'DropzoneService'];
 
   /* @ngInject */
-  function Controller(uiGmapGoogleMapApi, uiGmapIsReady, $q, $scope, $timeout) {
+  function Controller(uiGmapGoogleMapApi, uiGmapIsReady, $q, $scope, $timeout, DropzoneService) {
     var vm = this;
     var Places = null;
     var DirectionRenderer = null;
     var DirectionsService = null;
     var PlacesAutocomplete = null;
 
+    vm.control = {
+      uploading: false
+    }
     vm.map = {
       center: {
         latitude: 45.50174502816667,
@@ -71,29 +74,16 @@
       show: false,
     }
 
-    vm.dropzone = {
-      options: {
-        url: 'https://api.cloudinary.com/v1_1/cloud9/ads/upload',
-        uploadMultiple: false,
-        maxFiles: 1,
-        acceptedFiles: 'image/*',
-        dictDefaultMessage: 'Banner image. Drop or click to upload'
-      },
-      eventHandlers: {
-        sending: function(file, xhr, formData) {
-          formData.append('api_key', 839988333153567);
-          formData.append('timestamp', Date.now() / 1000 | 0);
-          formData.append('upload_preset', 'dzuaxeld');
-        },
-        success: function(file, response) {
-          $scope.$apply(function() {
-            console.log(response);
-
-            vm.data.image = response.secure_url;
-          });
-        }
-      }
-    };
+    vm.dropzone = DropzoneService.create(function(file, response) {
+      $scope.$apply(function() {
+        console.log(response.secure_url);
+        vm.control.uploading = false;
+      });
+    }, function() {
+      $scope.$apply(function() {
+        vm.control.uploading = true;
+      });
+    });
 
     activate();
 
