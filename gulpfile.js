@@ -269,8 +269,8 @@ gulp.task('rev:collect', ['rev'], function() {
   return gulp.src(['rev-manifest.json', 'index.html'])
     .pipe(collect({
       dirReplacements: {
-        'assets/styles/': 'www/dist',
-        'scripts/': 'www/dist',
+        'assets/styles/': 'dist',
+        'scripts/': 'dist',
       }
     }))
     .pipe(gulp.dest('www/'));
