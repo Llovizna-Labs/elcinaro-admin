@@ -15,17 +15,23 @@
     .module('AnyDayBuddyAds')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['$rootScope'];
+  HomeController.$inject = ['$rootScope', 'jQuery'];
 
   /* @ngInject */
-  function HomeController($rootScope) {
+  function HomeController($rootScope, jQuery) {
     var vm = this;
     vm.title = 'Home Controller';
-
+    vm.scrollTo = scrollTo;
     activate();
 
     ////////////////
 
     function activate() {}
+
+    function scrollTo(element) {
+      jQuery('html, body').animate({
+        scrollTop: jQuery(element).offset().top
+      }, 1000);
+    }
   }
 })();

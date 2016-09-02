@@ -21,7 +21,7 @@
 
       $http({
         method: 'GET',
-        url: baseApi + '/advertisment/options/'
+        url: baseApi + '/campaign/options/'
       }).success(function(data, status, headers, config) {
         deferred.resolve(data);
       }).error(function (err) {
@@ -36,7 +36,7 @@
 
       $http({
         method: 'GET',
-        url: 'http://localhost:1338/commerce/clientToken/'
+        url: baseApi + '/commerce/clientToken/'
       }).success(function(data, status, headers, config) {
         deferred.resolve(data);
       }).error(function (err) {

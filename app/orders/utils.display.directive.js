@@ -83,7 +83,7 @@
       $scope.$apply(function() {
         vm.control.uploading = true;
       });
-    });
+    })
 
     activate();
 

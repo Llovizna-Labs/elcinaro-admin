@@ -49,7 +49,7 @@
           </div>
           <div layout="row" layout-align="space-between center">
             <span flex="20">Age range</span>
-            <md-select ng-model="vm.form.options.range" placeholder="Age Range" class="md-no-underline" required>
+            <md-select ng-model="vm.form.options.range" placeholder="Age Range" class="md-no-underline" flex="20">
               <md-option ng-value="item" ng-repeat="item in vm.options.target.age track by item.id">{{item.range}}</md-option>
             </md-select>
             <div layout="row">
@@ -59,7 +59,7 @@
           </div>
           <div layout="row" layout-align="space-between center">
             <span flex="20">Gender</span>
-            <md-select ng-model="vm.form.options.gender" placeholder="Gender" class="md-no-underline" required>
+            <md-select ng-model="vm.form.options.gender" placeholder="Gender" class="md-no-underline" flex="20">
               <md-option ng-value="item" ng-repeat="item in vm.options.target.gender track by item.id">{{item.gender}}</md-option>
             </md-select>
             <div layout="row">
@@ -69,10 +69,15 @@
           </div>
           <div layout="row" layout-align="space-between center">
             <span flex="20">Target interest</span>
-            <md-select ng-model="form.options.interests" placeholder="Target Interest" class="md-no-underline">
-              <md-option value="water">Water</md-option>
+            <md-select ng-model="vm.form.options.interests" placeholder="Target Interest" class="md-no-underline" flex="20">
+              <md-option ng-value="item" ng-repeat="item in vm.options.target.interest track by item.id | orderBy:'quantity'">{{item.quantity}}</md-option>
             </md-select>
+            <div layout="row">
+              <span>$</span>
+              <span>{{vm.total}}</span>
+            </div>
           </div>
+
         </md-card-content>
       </md-card>
       <div class="md-separator"></div>
