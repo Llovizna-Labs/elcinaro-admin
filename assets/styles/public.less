@@ -5,7 +5,7 @@
 
 html,
 body {
-  height: 100%;
+  max-height: 100%;
 }
 
 .header {
@@ -22,18 +22,22 @@ body {
   }
 }
 
+.fill {
+  .wrapper, div[ui-view] {
+    height: 100%;
+  }
+}
+
 .wrapper {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -84px;
+  margin: 0 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .footer {
   text-align: center;
   md-toolbar {
     padding: 0;
-    margin-top: 20px;
   }
 }
 
