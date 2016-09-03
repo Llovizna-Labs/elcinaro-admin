@@ -4,8 +4,25 @@ body * {
   font-family: @ubuntu;
 }
 
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+* html .clearfix {
+  zoom: 1;
+}
+
+*:first-child+html .clearfix {
+  zoom: 1;
+}
+
 a {
-	margin: 5px auto;
+  margin: 5px auto;
   color: @primary-color;
   text-decoration: none;
   &:hover {

@@ -14,6 +14,7 @@
 
     vm.auth = function() {
     	console.log('LOGIN', vm.user);
+      vm.loading = true;
       Auth.login(vm.user).then(function(res) {
         console.log(res);
       }).catch(function(err) {

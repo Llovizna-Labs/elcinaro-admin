@@ -31,7 +31,18 @@
           'main': {
             controller: 'DashboardController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard.html'
+            templateUrl: 'assets/views/dashboard/index.html'
+          }
+        },
+        authenticate: false
+      })
+      .state('dashboard.content', {
+        url: '/content',
+        views: {
+          'dashboard': {
+            controller: 'DashboardController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/content.html'
           }
         },
         authenticate: false
