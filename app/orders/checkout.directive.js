@@ -71,6 +71,7 @@
 
     function doSomethingWithTheNonce(res) {
       console.log(res);
+      
     }
 
 

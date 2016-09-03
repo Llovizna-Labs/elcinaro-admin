@@ -9,13 +9,17 @@
 
   function LoginController(Auth) {
     var vm = this;
-
+    vm.loading = false;
     ////////////////
 
-    vm.login = function() {
+    vm.auth = function() {
     	console.log('LOGIN', vm.user);
-      Auth.login(vm.login).then(function(res) {
+      Auth.login(vm.user).then(function(res) {
         console.log(res);
+      }).catch(function(err) {
+        console.log(err);
+      }).finally(function() {
+        vm.loading = false;
       });
     };
 
