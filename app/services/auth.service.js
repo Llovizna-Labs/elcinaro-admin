@@ -10,13 +10,20 @@
       $httpProvider.defaults.withCredentials = true;
     });
 
-  Auth.$inject = ['BaseApiUrl', '$window', '$http', '$q', '$state', '$rootScope', 'LocalService'];
+  Auth.$inject = [
+    'baseApi',
+    '$window',
+    '$http',
+    '$q',
+    '$state',
+    '$rootScope',
+    '$localstorage'
+  ];
 
-  function Auth(BaseApiUrl, $window, $http, $q, $state, $rootScope, LocalService) {
+  function Auth(baseApi, $window, $http, $q, $state, $rootScope, $localstorage) {
 
     var Auth = {
       validate: validate,
-      authorize: authorize,
       isAuthenticated: isAuthenticated,
       login: login,
       logout: logout,
@@ -24,17 +31,13 @@
       forgot: forgot,
       reset: reset,
       setCredentials: setCredentials,
-      setOriginalUser: setOriginalUser,
-      restoreOriginal: restoreOriginal,
-      hasOriginal: hasOriginal,
-      credentialAvaliability: credentialAvaliability,
     };
 
     return Auth;
 
     function validate(token) {
       var deferred = $q.defer();
-      $http.post(BaseApiUrl + '/auth/validate/' + token)
+      $http.post(baseApi + '/auth/validate/' + token)
         .success(function(resp) {
           deferred.resolve(resp);
         })
@@ -52,18 +55,20 @@
     function login(credentials) {
       var deferred = $q.defer();
 
-      $http.post(BaseApiUrl + '/auth/login', credentials)
+      $http.post(baseApi + '/auth/login', credentials)
         .success(function(data, status, headers, config) {
           deferred.resolve(data);
+
           if (data.hasOwnProperty('token')) {
             angular.copy(data.user, $rootScope.user);
-            LocalService.set('access_token', data.token);
-            LocalService.set('user', JSON.stringify(data.user));
+            $localstorage.set('access_token', data.token);
+            $localstorage.setObject('user', data.user);
           }
         })
         .error(function(err) {
           deferred.reject(err);
         });
+
       return deferred.promise;
     }
 
@@ -76,7 +81,7 @@
 
       var deferred = $q.defer();
 
-      $http.post(BaseApiUrl + '/auth/register', payload)
+      $http.post(baseApi + '/auth/register', payload)
         .success(function(data, status, headers, config) {
           deferred.resolve(data);
         })
@@ -95,7 +100,7 @@
     function reset(token, params) {
       var deferred = $q.defer();
 
-      $http.post(BaseApiUrl + '/auth/resetpassword/' + token, params)
+      $http.post(baseApi + '/auth/resetpassword/' + token, params)
         .success(function(data, status, headers, config) {
           deferred.resolve(data);
         })
@@ -114,7 +119,7 @@
     function forgot(payload) {
       var deferred = $q.defer();
 
-      $http.post(BaseApiUrl + '/auth/resetPasswordRequest', payload)
+      $http.post(baseApi + '/auth/resetPasswordRequest', payload)
         .success(function(data, status, headers, config) {
           deferred.resolve(data);
         })
@@ -131,14 +136,14 @@
      * @return {[type]} [description]
      */
     function logout() {
-      LocalService.unset('access_token');
-      LocalService.unset('user');
-      LocalService.unset('original_user');
+      $localstorage.remove('user');
+      $localstorage.remove('access_token');
+      $localstorage.remove('original_user');
+
       $rootScope.isAuthenticated = false;
       $rootScope.user = null;
       $rootScope.view = 'auth';
       $rootScope.currentState = 'login';
-      //$state.go('login', {}, { reload: true });
       $window.location.reload();
     }
 
@@ -149,14 +154,12 @@
      * @return {[type]}          [description]
      */
     function setCredentials(data, force) {
-      if (force) setOriginalUser();
-
       if (data.hasOwnProperty('token')) {
-        if (force || !LocalService.get('access_token')) {
-          LocalService.set('access_token', data.token);
+        if (force || !$localstorage.get('access_token')) {
+          $localstorage.set('access_token', data.token);
         }
         $rootScope.user = data.user;
-        LocalService.set('user', JSON.stringify(data.user));
+        $localstorage.setObject('user', data.user);
       } else {
         console.log('Bad Date', data);
       }
@@ -169,41 +172,7 @@
      * @return {Boolean}       [description]
      */
     function isAuthenticated() {
-      if (LocalService.get('access_token')) {
-        var token = LocalService.get('access_token');
-        return true;
-      }
-      return false;
-    }
-
-    /**
-     * [authorize description]
-     * @method authorize
-     * @return {[type]}  [description]
-     */
-    function authorize() {
-
-    }
-
-    /** Signup Process **/
-    /**
-     * [credentialAvaliability description]
-     * @method credentialAvaliability
-     * @return {[type]}               [description]
-     */
-    function credentialAvaliability(payload) {
-      var deferred = $q.defer();
-
-      $http.get(BaseApiUrl + '/user/availability/', {
-          params: payload
-        })
-        .success(function(data, status, headers, config) {
-          deferred.resolve(data);
-        })
-        .error(function(err) {
-          deferred.reject(err);
-        });
-      return deferred.promise;
+      return $localstorage.get('access_token');
     }
   }
 
@@ -211,7 +180,7 @@
    * [AuthInterceptor description]
    * @method AuthInterceptor
    */
-  function AuthInterceptor($q, LocalService, $injector) {
+  function AuthInterceptor($q, $localstorage, $injector) {
 
     var AuthInterceptor = {
       request: request,
@@ -223,8 +192,8 @@
     function request(config) {
 
       var token;
-      if (LocalService.get('access_token')) {
-        token = LocalService.get('access_token');
+      if ($localstorage.get('access_token')) {
+        token = $localstorage.get('access_token');
       }
       if (token) {
         config.headers.Authorization = 'Bearer ' + token;
@@ -234,7 +203,7 @@
 
     function responseError(response) {
       if (response.status === 401 || response.status === 403) {
-        LocalService.unset('access_token');
+        $localstorage.remove('access_token');
         $injector.get('$state').go('login');
       }
       return $q.reject(response);

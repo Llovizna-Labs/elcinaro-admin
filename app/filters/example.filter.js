@@ -6,21 +6,21 @@
  * Filtro de ejemplo
  * 
  */
-(function() {
-    'use strict';
+// (function() {
+//     'use strict';
 
-    angular
-        .module('AnyDayBuddyAds')
-        .filter('filter', example);
+//     angular
+//         .module('AnyDayBuddyAds')
+//         .filter('filter', example);
 
-    function example() {
-        return exampleFilter;
+//     function example() {
+//         return exampleFilter;
 
-        ////////////////
+//         ////////////////
 
-        function exampleFilter(params) {
-            return params;
-        }
-    }
+//         function exampleFilter(params) {
+//             return params;
+//         }
+//     }
 
-})();
+// })();

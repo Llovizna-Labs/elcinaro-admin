@@ -5,15 +5,15 @@
     .config(config)
     .config(mapsProvider);
 
-    mapsProvider.$inject = ['uiGmapGoogleMapApiProvider'];
+  mapsProvider.$inject = ['uiGmapGoogleMapApiProvider'];
 
-    function mapsProvider(uiGmapGoogleMapApiProvider) {
-      uiGmapGoogleMapApiProvider.configure({
-        key: 'AIzaSyAonFuCDb7HjXUz0uocKbEGUJz91IL9EVs', //adb-site-0 key
-        // key: 'AIzaSyAlW6hun7VwpFPv0fx_KOUh52l08BRpjYM',
-        libraries: 'places'
-      });
-    }
+  function mapsProvider(uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+      key: 'AIzaSyAonFuCDb7HjXUz0uocKbEGUJz91IL9EVs', //adb-site-0 key
+      // key: 'AIzaSyAlW6hun7VwpFPv0fx_KOUh52l08BRpjYM',
+      libraries: 'places'
+    });
+  }
 
   config.$inject = ['$mdThemingProvider', '$locationProvider'];
 

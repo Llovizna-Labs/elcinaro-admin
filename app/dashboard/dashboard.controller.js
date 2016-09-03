@@ -1,20 +1,20 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('AnyDayBuddyAds')
-        .controller('DashboardController', Controller);
+  angular
+    .module('AnyDayBuddyAds')
+    .controller('DashboardController', Controller);
 
-    Controller.$inject = ['$http', '$q'];
+  Controller.$inject = ['$http', '$q'];
 
-    /* @ngInject */
-    function Controller($http, $q) {
-        var vm = this;
+  /* @ngInject */
+  function Controller($http, $q) {
+    var vm = this;
 
-        activate();
+    activate();
 
-        function activate() {
+    function activate() {
 
-        }
     }
+  }
 })();

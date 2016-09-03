@@ -21,6 +21,8 @@ var collect = require('gulp-rev-collector');
 var appScripts = [
   'app/*.module.js',
   'app/*.constants.js',
+  'app/*.config.js',
+  'app/*.run.js',
   'app/*.route.js',
   'app/**/*.js',
 ];

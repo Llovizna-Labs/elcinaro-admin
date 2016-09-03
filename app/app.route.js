@@ -46,6 +46,17 @@
           }
         },
         authenticate: false
+      })
+      .state('login', {
+        url: '/login',
+        views: {
+          'main': {
+            controller: 'LoginController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/login.html'
+          }
+        },
+        authenticate: false
       });
 
     $urlRouterProvider.otherwise('/');

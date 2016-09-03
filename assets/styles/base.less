@@ -4,6 +4,15 @@ body * {
   font-family: @ubuntu;
 }
 
+a {
+	margin: 5px auto;
+  color: @primary-color;
+  text-decoration: none;
+  &:hover {
+    color: lighten(@primary-color, 10%);
+  }
+}
+
 .images-responsive {
   max-width: 100%;
 }
@@ -14,5 +23,5 @@ body * {
 }
 
 .container-inside {
-	line-height: 1.7em;
+  line-height: 1.7em;
 }
