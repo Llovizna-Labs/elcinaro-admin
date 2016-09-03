@@ -1,33 +1,37 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular
-        .module('AnyDayBuddyAds')
-        .directive('headerDirective', headerDirective);
+  angular
+    .module('AnyDayBuddyAds')
+    .directive('headerDirective', headerDirective);
 
-    /* @ngInject */
-    function headerDirective() {
-        var directive = {
-            restrict: 'EA',
-            templateUrl: 'assets/views/header/header.html',
-            controller: headerController,
-            controllerAs: 'vm',
-            bindToController: true
-        };
+  /* @ngInject */
+  function headerDirective() {
+    var directive = {
+      restrict: 'EA',
+      templateUrl: 'assets/views/header/header.html',
+      controller: headerController,
+      controllerAs: 'vm',
+      bindToController: true,
+      scope: {}
+    };
 
-        return directive;
-    }
+    return directive;
+  }
 
-    headerController.$inject = [];
+  headerController.$inject = ['Auth'];
 
-    /* @ngInject */
-    function headerController() {
-        var vm = this;
+  /* @ngInject */
+  function headerController(Auth) {
+    console.log('PRUEBA');
+    var vm = this;
 
-        activate();
+    ////////////////
 
-        function activate() {
-          console.log('header Activated');
-        }
-    }
+    vm.logout = function() {
+        console.log('LOGOUT');
+        Auth.logout();
+    };
+
+  }
 })();

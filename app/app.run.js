@@ -8,26 +8,20 @@
   runProvider.$inject = ['$rootScope', '$state', 'Auth'];
 
   function runProvider($rootScope, $state, Auth) {
+    $rootScope.$state = $state;
+    $rootScope.user = Auth.getUser();
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
-      $rootScope.fill = toState.name === 'login' || toState.name === 'dashboard';
-      /**
-       * if the state does not requires authentication and the
-       * user is logged in, redirect to the dashboard page.
-       */
-      // if (!toState.authenticate && Auth.isAuthenticated()) {
-      //   event.preventDefault();
-      //   $state.transitionTo('dashboard');
-      // }
+      $rootScope.fill = ['login', 'dashboard', 'dashboard.campaigns'].indexOf(toState.name) !== -1;
 
       /**
        * if the state requires authentication and the
        * user is not logged in, redirect to the login page.
        */
-      // if (toState.authenticate && !Auth.isAuthenticated()) {
-      //   event.preventDefault();
-      //   $state.transitionTo('login');
-      // }
+      if (toState.authenticate && !Auth.isAuthenticated()) {
+        event.preventDefault();
+        $state.transitionTo('login');
+      }
 
     });
   }

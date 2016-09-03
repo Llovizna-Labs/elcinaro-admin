@@ -23,6 +23,7 @@
   function Auth(baseApi, $window, $http, $q, $state, $rootScope, $localstorage) {
 
     var Auth = {
+      getUser: getUser,
       validate: validate,
       isAuthenticated: isAuthenticated,
       login: login,
@@ -34,6 +35,12 @@
     };
 
     return Auth;
+
+    ////////////////
+
+    function getUser() {
+      return $localstorage.getObject('user', null);
+    }
 
     function validate(token) {
       var deferred = $q.defer();

@@ -5,17 +5,17 @@
     .module('AnyDayBuddyAds')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['Auth'];
+  LoginController.$inject = ['$state', 'Auth'];
 
-  function LoginController(Auth) {
+  function LoginController($state, Auth) {
     var vm = this;
 
     ////////////////
 
     vm.login = function() {
-    	console.log('LOGIN', vm.user);
       Auth.login(vm.user).then(function(res) {
         console.log(res);
+        $state.go('dashboard.campaigns');
       });
     };
 

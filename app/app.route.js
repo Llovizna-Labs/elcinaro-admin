@@ -34,18 +34,18 @@
             templateUrl: 'assets/views/dashboard/index.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
-      .state('dashboard.content', {
-        url: '/content',
+      .state('dashboard.campaigns', {
+        url: '/campaigns',
         views: {
           'dashboard': {
             controller: 'DashboardController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/content.html'
+            templateUrl: 'assets/views/dashboard/campaigns.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('orders', {
         url: '/orders',
