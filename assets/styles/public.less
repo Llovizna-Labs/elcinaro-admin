@@ -23,8 +23,14 @@ body {
 }
 
 .fill {
-  .wrapper, div[ui-view] {
+  .wrapper {
+    height: ~'calc(100% - 64px)';
+  }
+  div[ui-view] {
     height: 100%;
+  }
+  .footer {
+    display: none;
   }
 }
 
@@ -41,10 +47,23 @@ body {
   }
 }
 
-.text-center {
-  text-align: center;
-}
-
-.roboto {
-  font-family: Roboto;
+.md-sidenav-left {
+  background-color: @accent-color;
+  md-content {
+    background-color: @accent-color;
+  }
+  .sidenav-items {
+    padding: 0;
+    .sidenav-item {
+      padding: 12px;
+      color: lighten(@accent-color, 60%);
+      font-size: 1.2em;
+      transition: all .25s ease;
+      &:hover,
+      &.active {
+        cursor: pointer;
+        background-color: lighten(@primary-color, 5%);
+      }
+    }
+  }
 }
