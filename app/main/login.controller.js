@@ -14,7 +14,7 @@
 
     vm.login = function() {
     	console.log('LOGIN', vm.user);
-      Auth.login(vm.login).then(function(res) {
+      Auth.login(vm.user).then(function(res) {
         console.log(res);
       });
     };

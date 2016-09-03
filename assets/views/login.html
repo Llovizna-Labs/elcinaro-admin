@@ -3,11 +3,11 @@
   	<h2 class="title">Log In</h2>
     <md-input-container class="md-block">
       <label>Username</label>
-      <input type="text" name="username" ng-model="user.name" required>
+      <input type="text" name="username" ng-model="vm.user.email" required>
     </md-input-container>
     <md-input-container class="md-block">
       <label>Password</label>
-      <input type="password" name="password" ng-model="user.password" required>
+      <input type="password" name="password" ng-model="vm.user.password" required>
     </md-input-container>
     <div layout="column">
       <md-button class="md-raised md-accent md-hue-2" type="submit" md-autofocus>Login</md-button>

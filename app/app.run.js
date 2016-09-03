@@ -5,9 +5,9 @@
     .module('AnyDayBuddyAds')
     .run(runProvider);
 
-  runProvider.$inject = ['$rootScope', 'Auth'];
+  runProvider.$inject = ['$rootScope', '$state', 'Auth'];
 
-  function runProvider($rootScope, Auth) {
+  function runProvider($rootScope, $state, Auth) {
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
       /**
