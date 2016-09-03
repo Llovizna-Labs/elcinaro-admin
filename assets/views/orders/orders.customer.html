@@ -1,28 +1,46 @@
-<div layout="column">
-  <md-card>
+<div layout="row" flex layout-align="space-around  center">
+  <md-card flex="50">
     <md-card-title>
       <md-card-title-text>
-        <span class="md-headline">Commerce</span>
-        <span class="md-subhead">Lets talk about your commerce</span>
+        <span class="md-headline">Purchased with us before?</span>
+        <span class="md-subhead"> Please login:</span>
       </md-card-title-text>
     </md-card-title>
-    <md-card-content>
-      <div layout-gt-xs="row" flex="50">
+    <md-card-content >
+      <div layout="row">
         <md-input-container class="md-block" flex>
-          <label>Name</label>
-          <input ng-model="vm.payload.infoCompany.company">
+          <label>Email</label>
+          <input ng-model="vm.form.auth.email" type="email">
+        </md-input-container>
+        <md-input-container class="md-block" flex>
+          <label>Password</label>
+          <input ng-model="vm.form.auth.password" type="password">
         </md-input-container>
       </div>
-      <div layout-gt-xs="row">
-        <md-input-container class="md-block" flex>
-          <label>Address</label>
-          <input ng-model="vm.payload.infoCompany.address">
-        </md-input-container>
-      </div>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button>Login & Continue</md-button>
+      </md-card-actions>
+    </md-card-content>
+  </md-card>
+  <md-card flex="50">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">First time purchasing a campaign with us?</span>
+        <span class="md-subhead">Enter your email address</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content layout="column">
+      <md-input-container class="md-block" flex>
+        <label>Email</label>
+        <input ng-model="vm.form.customer.email">
+      </md-input-container>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button ng-click="vm.nextTab()">Continue</md-button>
+      </md-card-actions>
     </md-card-content>
   </md-card>
 
-  <md-card>
+  <!-- <md-card>
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Commerce Contact</span>
@@ -45,7 +63,11 @@
           <label>Email Address</label>
           <input ng-model="vm.payload.infoCompany.address">
         </md-input-container>
+        <md-input-container class="md-block" flex>
+          <label>Phone Number</label>
+          <input ng-model="vm.payload.infoCompany.phonenumber">
+        </md-input-container>
       </div>
     </md-card-content>
-  </md-card>
+  </md-card> -->
 </div>

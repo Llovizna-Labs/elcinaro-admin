@@ -13,7 +13,8 @@
       scope: {
         options: '=',
         form: '=',
-        total: '='
+        total: '=',
+        control: '='
       },
       link: linkFunc,
       controller: Controller,
@@ -38,6 +39,10 @@
 
     function activate() {
 
+    }
+
+    vm.nextTab = function() {
+      vm.control.selectedTab += 1;
     }
   }
 })();

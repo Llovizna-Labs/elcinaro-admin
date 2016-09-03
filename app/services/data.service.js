@@ -11,7 +11,8 @@
   function dataService($http, $q, baseApi) {
     var dataService = {
       getOptions: getOptions,
-      getClientToken : getClientToken
+      getClientToken : getClientToken,
+      createCampaign: createCampaign
     }
 
     return dataService;
@@ -36,7 +37,7 @@
 
       $http({
         method: 'GET',
-        url: baseApi + '/commerce/clientToken/'
+        url: 'http://localhost:1338/commerce/clientToken/'
       }).success(function(data, status, headers, config) {
         deferred.resolve(data);
       }).error(function (err) {
@@ -45,6 +46,22 @@
 
       return deferred.promise;
     }
+
+
+    function createCampaign(payload) {
+      var deferred = $q.defer();
+      $http.post('http://localhost:1338/campaign/create/', payload)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+
+
 
 
   }

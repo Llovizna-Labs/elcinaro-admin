@@ -1,8 +1,18 @@
 <div layout="column">
-  <p>
-    checkout with paypal
-  </p>
-  <div id="paypal-container">
-
-  </div>
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Review and Submit</span>
+        <span class="md-subhead">Please select a payment method and review your order.</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <div layout="row" layout-align="space-between center">
+        <div class="">
+          <span>A total of $<span ng-bind="vm.total"></span> will be charged to your paypal account</span>
+        </div>
+        <div id="paypal-container"></div>
+      </div>
+    </md-card-content>
+  </md-card>
 </div>

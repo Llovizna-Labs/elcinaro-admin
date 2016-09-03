@@ -25,6 +25,17 @@
         },
         authenticate: false
       })
+      .state('dashboard', {
+        url: '/dashboard',
+        views: {
+          'main': {
+            controller: 'DashboardController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard.html'
+          }
+        },
+        authenticate: false
+      })
       .state('orders', {
         url: '/orders',
         views: {

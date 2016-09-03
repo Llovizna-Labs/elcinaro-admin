@@ -51,10 +51,10 @@
         paypal: {
           container: 'paypal-container',
           singleUse: true,
-          amount: 10.00,
+          amount: '0',
           currency: 'USD',
           locale: 'en_us',
-          enableShippingAddress: true
+          enableShippingAddress: false
         },
         onPaymentMethodReceived: function(obj) {
           doSomethingWithTheNonce(obj.nonce);
@@ -65,9 +65,15 @@
       });
     }
 
+    vm.launch = function() {
+      console.log(vm.checkout, vm.form);
+    }
+
     function doSomethingWithTheNonce(res) {
       console.log(res);
     }
+
+
 
     // // When you are ready to tear down your integration
     // checkout.teardown(function() {

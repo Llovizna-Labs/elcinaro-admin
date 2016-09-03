@@ -14,6 +14,10 @@
     vm.add = add;
     vm.total = 0;
 
+    vm.control = {
+      selectedTab: 0
+    }
+
     vm.options = {
       target: {
         display: [],
@@ -33,8 +37,11 @@
         impressions: {},
         distance: {},
         age: {},
-        gender: {}
-      }
+        gender: {},
+        interests: {}
+      },
+      customer: {},
+      auth: {}
     }
 
     activate();
