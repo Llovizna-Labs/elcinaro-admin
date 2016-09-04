@@ -22,7 +22,20 @@
           maxFiles: 1,
           acceptedFiles: 'image/*',
           dictDefaultMessage: 'Drop file or click here to upload',
-          addRemoveLinks: true
+          addRemoveLinks: true,
+          init: function() {
+            this.on('thumbnail', function(file) {
+              if (file.width > 728 || file.height > 90) {
+                file.rejectDimensions()
+              } else {
+                file.acceptDimensions();
+              }
+            });
+          },
+          accept: function(file, done) {
+            file.acceptDimensions = done;
+            file.rejectDimensions = function() { done('Invalid dimension.'); };
+          }
         },
         eventHandlers: {
           sending: function(file, xhr, formData) {

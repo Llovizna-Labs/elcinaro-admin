@@ -23,7 +23,6 @@
 
   /* @ngInject */
   function headerController(Auth) {
-    console.log('PRUEBA');
     var vm = this;
 
     ////////////////
