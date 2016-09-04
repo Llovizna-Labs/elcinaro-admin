@@ -74,7 +74,7 @@
       show: false,
     }
 
-    vm.dropzone = DropzoneService.create(function(file, response) {
+    vm.desktopDropzone = DropzoneService.create('desktop', function(file, response) {
       $scope.$apply(function() {
         console.log(response.secure_url);
         vm.control.uploading = false;
@@ -83,9 +83,22 @@
       $scope.$apply(function() {
         vm.control.uploading = true;
       });
-    })
+    });
+
+    vm.mobileDropzone = DropzoneService.create('mobile', function(file, response) {
+      $scope.$apply(function() {
+        console.log(response.secure_url);
+        vm.control.uploading = false;
+      });
+    }, function() {
+      $scope.$apply(function() {
+        vm.control.uploading = true;
+      });
+    });
 
     activate();
+
+    ////////////////
 
     function activate() {
 

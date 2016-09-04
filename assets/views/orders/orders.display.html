@@ -28,7 +28,6 @@
     </div>
   </md-card-content>
 </md-card>
-
 <md-card ng-if="vm.form.options.display.display === 'banner'">
   <md-card-title>
     <md-card-title-text>
@@ -44,19 +43,28 @@
     <md-input-container class="md-block">
       <label>Destination Url</label>
       <input ng-model="vm.banner.url" type="url" ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/">
-      <div ng-messages="vm.banner.url.$error" >
+      <div ng-messages="vm.banner.url.$error">
         <div ng-message="pattern">Please enter a valid URL.</div>
       </div>
     </md-input-container>
-    <div layout="row" layout-margin>
-      <button type="button" class="dropzone" dropzone="vm.dropzone"></button>
-      <p class="margin-auto">
-        (Allowed: JPG, PNG, GIF, 728x90, max 150 KB)
-      </p>
+    <div layout="column" layout-margin>
+      <div class="dropzone-container" layout="column" ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'website'">
+        <h3>Website</h3>
+        <button type="button" class="dropzone" dropzone="vm.desktopDropzone"></button>
+        <p class="margin-auto text-help">
+          (Allowed: JPG, PNG, GIF, 728x90, max 150 KB)
+        </p>
+      </div>
+      <div class="dropzone-container" layout="column" ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'app'">
+        <h3>App</h3>
+        <button type="button" class="dropzone" dropzone="vm.mobileDropzone"></button>
+        <p class="margin-auto text-help">
+          (Allowed: JPG, PNG, GIF, 728x90, max 150 KB)
+        </p>
+      </div>
     </div>
   </md-content>
 </md-card>
-
 <md-card ng-if="vm.form.options.display.display === 'map'">
   <md-card-title>
     <md-card-title-text>
@@ -97,8 +105,7 @@
           </md-input-container>
         </div>
         <div flex="50">
-          <md-autocomplete md-search-text="vm.info.address" class="bold where" md-items="item in vm.autocompleteAddress(vm.info.address)" md-item-text="item.description" md-min-length="2" md-selected-item="vm.info.place" md-selected-item-change="vm.getPlace()"
-              ng-disabled="!vm.placesReady" md-floating-label="Where" required>
+          <md-autocomplete md-search-text="vm.info.address" class="bold where" md-items="item in vm.autocompleteAddress(vm.info.address)" md-item-text="item.description" md-min-length="2" md-selected-item="vm.info.place" md-selected-item-change="vm.getPlace()" ng-disabled="!vm.placesReady" md-floating-label="Where" required>
             <md-item-template>
               <span md-highlight-text="vm.info.address">{{item.description}}</span>
             </md-item-template>

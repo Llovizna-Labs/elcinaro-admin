@@ -33,7 +33,7 @@
     }
 
     function getObject(key, defaultValue) {
-      return JSON.parse($window.localStorage[key] || defaultValue || '{}');
+      return JSON.parse($window.localStorage[key] || (defaultValue !== undefined ? defaultValue : '{}'));
     }
 
     function remove(key) {

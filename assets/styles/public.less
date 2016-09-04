@@ -55,14 +55,16 @@ body {
   .sidenav-items {
     padding: 0;
     .sidenav-item {
-      padding: 12px;
+      padding: 12px 18px;
       color: lighten(@accent-color, 60%);
       font-size: 1.2em;
       transition: all .25s ease;
-      &:hover,
-      &.active {
+      &:hover, &.active:hover {
         cursor: pointer;
-        background-color: lighten(@primary-color, 5%);
+        background-color: darken(@accent-color, 5%);
+      }
+      &.active {
+        background-color: lighten(@accent-color, 5%);
       }
     }
   }

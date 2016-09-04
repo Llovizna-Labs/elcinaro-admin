@@ -1,4 +1,4 @@
-<section class="header">
+<section class="header" ng-cloak>
   <md-toolbar class="md-primary">
     <div class="md-toolbar-tools">
       <a class="logo" ui-sref="home">
@@ -6,12 +6,22 @@
         <img class="images-responsive" src="assets/images/logo.png">
       </a>
       <span flex></span>
-      <md-button>
-        Help
-      </md-button>
-      <md-button ui-sref="login">
-        Login
-      </md-button>
+      <div ng-hide="$root.$state.includes('dashboard')">
+        <md-button>
+          Help
+        </md-button>
+        <md-button ng-if="!$root.user" ui-sref="login">
+          Log In
+        </md-button>
+        <md-button ng-if="$root.user" ui-sref="dashboard.campaigns">
+          Dashboard
+        </md-button>
+      </div>
+      <div ng-show="$root.$state.includes('dashboard')">
+        <md-button ng-click="vm.logout()">
+          Log Out
+        </md-button>
+      </div>
     </div>
   </md-toolbar>
 </section>
