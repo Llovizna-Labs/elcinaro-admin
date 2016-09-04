@@ -5,6 +5,16 @@
     .module('AnyDayBuddyAds')
     .service('DropzoneService', DropzoneService);
 
+  var TYPES = {
+    mobile: {
+      width: 750,
+      height: 100
+    },
+    desktop: {
+      width: 880,
+      height: 1156
+    }
+  };
 
   function DropzoneService() {
     var service = {
@@ -14,7 +24,7 @@
 
     return service;
 
-    function create(success, sending, removedfile) {
+    function create(type, success, sending, removedfile) {
       return {
         options: {
           url: 'https://api.cloudinary.com/v1_1/cloud9/image/upload',
@@ -25,7 +35,7 @@
           addRemoveLinks: true,
           init: function() {
             this.on('thumbnail', function(file) {
-              if (file.width > 728 || file.height > 90) {
+              if (file.width !== TYPES[type].width || file.height !== TYPES[type].height) {
                 file.rejectDimensions()
               } else {
                 file.acceptDimensions();
