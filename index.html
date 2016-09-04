@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="assets/styles/app.css" type="text/css">
 </head>
 
-<body>
+<body ng-class="{'fill': $root.fill}">
   <header-directive></header-directive>
-  <div ui-view="main" class="wrapper"></div>
-  <footer-directive></footer-directive>
+  <div class="wrapper">
+    <div ui-view="main"></div>
+    <footer-directive></footer-directive>
+  </div>
   <script src="https://js.braintreegateway.com/js/braintree-2.27.0.min.js"></script>
   <script src="scripts/vendor.js"></script>
   <script src="scripts/app.js"></script>

@@ -10,6 +10,7 @@
   function runProvider($rootScope,$state, Auth) {
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
+      $rootScope.fill = toState.name === 'login' || toState.name === 'dashboard';
       /**
        * if the state does not requires authentication and the
        * user is logged in, redirect to the dashboard page.
