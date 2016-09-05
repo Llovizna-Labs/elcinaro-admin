@@ -37,7 +37,7 @@
 
       $http({
         method: 'GET',
-        url: baseApi + 'commerce/clientToken/'
+        url: baseApi + '/commerce/clientToken/'
       }).success(function(data, status, headers, config) {
         deferred.resolve(data);
       }).error(function (err) {
@@ -50,7 +50,7 @@
 
     function createCampaign(payload) {
       var deferred = $q.defer();
-      $http.post(baseApi + 'campaign/create/', payload)
+      $http.post(baseApi + '/campaign/create/', payload)
         .success(function(data) {
           deferred.resolve(data);
         })
