@@ -29,20 +29,34 @@
     }
   }
 
-  Controller.$inject = ['$http', '$q'];
+  Controller.$inject = ['$http', '$q', '$rootScope', 'Auth'];
 
   /* @ngInject */
-  function Controller($http, $q) {
+  function Controller($http, $q, $rootScope, Auth) {
     var vm = this;
-
+    vm.nextTab =  nextTab;
     activate();
 
     function activate() {
 
     }
 
-    vm.nextTab = function() {
+     function nextTab() {
+      vm.control.tabs[3].valid = true;   
       vm.control.selectedTab += 1;
     }
+
+    vm.auth = function() {
+      console.log('LOGIN', vm.form.auth);
+      vm.loading = true;
+      Auth.login(vm.form.auth).then(function(res) {
+        console.log(res);
+        nextTab();
+      }).catch(function(err) {
+        console.log(err);
+      }).finally(function() {
+        vm.loading = false;
+      });
+    };
   }
 })();

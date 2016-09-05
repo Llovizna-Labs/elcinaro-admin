@@ -28,13 +28,14 @@
     }
   }
 
-  Controller.$inject = ['_', 'braintree', '$scope','$http', '$q', 'DataService'];
+  Controller.$inject = ['_', 'braintree', '$scope', '$http', '$q', 'DataService'];
 
   /* @ngInject */
   function Controller(_, braintree, $scope, $http, $q, DataService) {
     var vm = this;
     vm.checkout = {};
-
+    vm.loading = false;
+    vm.authorization = false;
     activate();
 
     function activate() {
@@ -66,14 +67,26 @@
     }
 
     vm.launch = function() {
-      console.log(vm.checkout, vm.form);
+      vm.loading = true;
+      vm.form.amount = vm.total;
+      DataService.createCampaign(vm.form).then(function(resp) {
+        console.log(resp);
+      }).catch(function(err) {
+        console.log(err);
+      }).finally(function() {
+        vm.loading = false;
+      })
     }
 
     function doSomethingWithTheNonce(res) {
       console.log(res);
-      
-    }
 
+      $scope.$apply(function() {
+        vm.form.nonce = res;
+        vm.authorization = true;
+      })
+
+    }
 
 
     // // When you are ready to tear down your integration
@@ -81,6 +94,12 @@
     //   checkout = null;
     //   // braintree.setup can safely be run again!
     // });
+
+    $scope.$watch('vm.form', function(c, o) {
+      if (!c) return;
+
+      console.log(c);
+    });
 
     $scope.$watch('vm.checkout', function(c, o) {
       if (!c) return;

@@ -19,18 +19,25 @@
     return directive;
   }
 
-  headerController.$inject = ['Auth'];
+  headerController.$inject = ['Auth', '$scope','$rootScope'];
 
   /* @ngInject */
-  function headerController(Auth) {
+  function headerController(Auth, $scope, $rootScope) {
     var vm = this;
 
     ////////////////
 
     vm.logout = function() {
-        console.log('LOGOUT');
-        Auth.logout();
+      console.log('LOGOUT');
+      Auth.logout();
     };
 
+
+    $rootScope.$on('login', function(event, user) {
+      if(!$rootScope.user) {
+        angular.copy(user, $rootScope.user)
+      }
+      console.log('login', $rootScope.user);
+    });
   }
 })();

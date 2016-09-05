@@ -67,7 +67,9 @@
           deferred.resolve(data);
 
           if (data.hasOwnProperty('token')) {
-            angular.copy(data.user, $rootScope.user);
+
+            $rootScope.user = angular.copy(data.user);
+            $rootScope.$emit('login', data.user);
             $localstorage.set('access_token', data.token);
             $localstorage.setObject('user', data.user);
           }

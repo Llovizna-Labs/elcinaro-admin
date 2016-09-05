@@ -37,6 +37,8 @@
     var DirectionRenderer = null;
     var DirectionsService = null;
     var PlacesAutocomplete = null;
+    vm.markerConfirmed = false;
+    vm.placesReady = false;
 
     vm.control = {
       uploading: false
@@ -60,7 +62,7 @@
     };
 
     vm.info = {
-      name: 'Venue name',
+      name: '',
       address: '',
       icon: '',
     }
@@ -77,6 +79,7 @@
     vm.desktopDropzone = DropzoneService.create('desktop', function(file, response) {
       $scope.$apply(function() {
         console.log(response.secure_url);
+        vm.form.banner.website = response.secure_url;
         vm.control.uploading = false;
       });
     }, function() {
@@ -88,6 +91,7 @@
     vm.mobileDropzone = DropzoneService.create('mobile', function(file, response) {
       $scope.$apply(function() {
         console.log(response.secure_url);
+        vm.form.banner.app = response.secure_url;
         vm.control.uploading = false;
       });
     }, function() {
@@ -101,29 +105,8 @@
     ////////////////
 
     function activate() {
-
-      $q.all([uiGmapGoogleMapApi, uiGmapIsReady.promise(1)]).then(function(response) {
-        var map = response[0];
-        var instance = response[1][0].map;
-
-        vm.window = {
-          pixelOffset: new map.Size(0, -40),
-          closeClick: function() {
-            vm.marker.show = false;
-          }
-        };
-
-        PlacesAutocomplete = new map.places.AutocompleteService();
-        DirectionsService = new map.DirectionsService();
-        DirectionRenderer = new map.DirectionsRenderer();
-        vm.map.instance = instance;
-        DirectionRenderer.setMap(vm.map.instance);
-        Places = new map.places.PlacesService(vm.map.instance);
-        vm.placesReady = true;
-        console.log('ready');
-        //getLocation();
-
-      });
+      console.log('activate');
+      prepareMap();
     }
 
     vm.clickMarker = function() {
@@ -134,6 +117,9 @@
     }
 
     vm.autocompleteAddress = function(address) {
+
+      vm.markerConfirmed = false;
+
       var deferred = $q.defer();
 
       PlacesAutocomplete.getQueryPredictions({
@@ -158,18 +144,22 @@
         vm.marker = {
           id: Date.now(),
           name: place.name,
+          address: place.formatted_address,
           location: {
             latitude: parseFloat(place.geometry.location.lat()),
             longitude: parseFloat(place.geometry.location.lng()),
           },
           show: true
         };
-
-
         centerMap(vm.map.instance, vm.marker.location, null, true);
         $scope.$apply();
       });
     };
+
+    vm.confirmMarker = function() {
+      angular.copy(vm.marker, vm.form.marker);
+      vm.markerConfirmed = true;
+    }
 
     function centerMap(map, location, offset, scroll) {
       console.log(location);
@@ -196,7 +186,37 @@
 
     function boundsChanged() {
       console.log('bounds changed');
-      if (!vm.map.instance) return;
+      console.log(vm.placesReady);
+
+      if(!vm.map.instance) {
+        prepareMap();
+      }
+      return;
+    }
+
+    function prepareMap() {
+      $q.all([uiGmapGoogleMapApi, uiGmapIsReady.promise(1)]).then(function(response) {
+        var map = response[0];
+        var instance = response[1][0].map;
+
+        vm.window = {
+          pixelOffset: new map.Size(0, -40),
+          closeClick: function() {
+            vm.marker.show = false;
+          }
+        };
+
+        PlacesAutocomplete = new map.places.AutocompleteService();
+        DirectionsService = new map.DirectionsService();
+        DirectionRenderer = new map.DirectionsRenderer();
+        vm.map.instance = instance;
+        DirectionRenderer.setMap(vm.map.instance);
+        Places = new map.places.PlacesService(vm.map.instance);
+        vm.placesReady = true;
+        console.log('ready');
+        //getLocation();
+
+      });
     }
 
     function getLocation() {

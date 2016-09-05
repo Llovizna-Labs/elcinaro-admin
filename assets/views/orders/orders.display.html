@@ -28,23 +28,23 @@
     </div>
   </md-card-content>
 </md-card>
-<md-card ng-if="vm.form.options.display.display === 'banner'">
+<md-card ng-show="vm.form.options.display.display === 'banner'">
   <md-card-title>
     <md-card-title-text>
-      <span class="md-headline">Upload a banner image for your ad</span>
+      <span class="md-headline">Upload a banner image for your campaign</span>
       <span class="md-subhead"></span>
     </md-card-title-text>
   </md-card-title>
   <md-content layout-padding layout="column" flex="" layout-margin>
     <md-input-container class="md-block">
       <label>Alternate Text</label>
-      <input ng-model="vm.banner.name">
+      <input ng-model="vm.form.banner.description">
     </md-input-container>
     <md-input-container class="md-block">
-      <label>Destination Url</label>
-      <input ng-model="vm.banner.url" type="url" ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/">
-      <div ng-messages="vm.banner.url.$error">
-        <div ng-message="pattern">Please enter a valid URL.</div>
+      <label>Destination URL</label>
+      <input ng-model="vm.form.banner.url" type="url" ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/">
+      <div ng-messages="vm.form.banner.url.$error">
+        <div ng-message="pattern">Please enter a valid URL. (http://example.com, https://example.com)</div>
       </div>
     </md-input-container>
     <div layout="column" layout-margin>
@@ -52,14 +52,14 @@
         <h3>Website</h3>
         <button type="button" class="dropzone" dropzone="vm.desktopDropzone"></button>
         <p class="margin-auto text-help">
-          (Allowed: JPG, PNG, GIF, 728x90, max 150 KB)
+          (Allowed: JPG, PNG, GIF, 880x1156, max 150 KB)
         </p>
       </div>
       <div class="dropzone-container" layout="column" ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'app'">
         <h3>App</h3>
         <button type="button" class="dropzone" dropzone="vm.mobileDropzone"></button>
         <p class="margin-auto text-help">
-          (Allowed: JPG, PNG, GIF, 728x90, max 150 KB)
+          (Allowed: JPG, PNG, GIF, 750x100, max 150 KB)
         </p>
       </div>
     </div>
@@ -72,8 +72,7 @@
       <span class="md-subhead">Your venue info will be seen in the following location</span>
     </md-card-title-text>
   </md-card-title>
-  <md-content>
-    <div layout="column">
+  <md-card-content layout="column">
       <div flex="70">
         <ui-gmap-google-map id="map" center="vm.map.center" zoom="vm.map.zoom" options="vm.map.options" control="vm.map.control" events="vm.map.events">
           <div class="marker-window-wrapper">
@@ -101,11 +100,12 @@
         <div flex="30">
           <md-input-container>
             <label>Venue name</label>
-            <input ng-model="vm.info.name">
+            <input ng-model="vm.info.name" required>
           </md-input-container>
         </div>
         <div flex="50">
-          <md-autocomplete md-search-text="vm.info.address" class="bold where" md-items="item in vm.autocompleteAddress(vm.info.address)" md-item-text="item.description" md-min-length="2" md-selected-item="vm.info.place" md-selected-item-change="vm.getPlace()" ng-disabled="!vm.placesReady" md-floating-label="Where" required>
+          <md-autocomplete md-search-text="vm.info.address" class="bold where" md-items="item in vm.autocompleteAddress(vm.info.address)" md-item-text="item.description" md-min-length="2" md-selected-item="vm.info.place" md-selected-item-change="vm.getPlace()"
+              ng-disabled="!vm.placesReady" md-floating-label="Where" required>
             <md-item-template>
               <span md-highlight-text="vm.info.address">{{item.description}}</span>
             </md-item-template>
@@ -115,6 +115,8 @@
           </md-autocomplete>
         </div>
       </md-content>
-    </div>
-  </md-content>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="end center">
+  <md-button ng-click="vm.confirmMarker()" class="md-raised md-primary" ng-disabled="vm.markerConfirmed">Confirm Marker</md-button>
+</md-card-actions>
 </md-card>

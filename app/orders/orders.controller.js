@@ -5,9 +5,9 @@
     .module('AnyDayBuddyAds')
     .controller('OrdersController', Controller);
 
-  Controller.$inject = ['_', '$scope', '$mdDialog', 'DataService'];
+  Controller.$inject = ['_', '$scope', '$rootScope', '$mdDialog',  '$mdToast', 'DataService'];
 
-  function Controller(_, $scope, $mdDialog, DataService) {
+  function Controller(_, $scope,$rootScope,  $mdDialog, $mdToast, DataService) {
     var vm = this;
 
     vm.openImage = openImage;
@@ -15,7 +15,21 @@
     vm.total = 0;
 
     vm.control = {
-      selectedTab: 0
+      selectedTab: 0,
+      tabs: [{
+        valid: true,
+        show: true
+      }, {
+        valid: false,
+        show: true,
+      }, {
+        valid: false,
+        show: true
+      }, {
+        valid: false,
+        show: true
+      }]
+
     }
 
     vm.options = {
@@ -32,6 +46,13 @@
 
     vm.form = {
       media: {},
+      banner: {
+        description: null,
+        url: null,
+        website: null,
+        app: null,
+      },
+      marker: {},
       options: {
         display: {},
         impressions: {},
@@ -99,18 +120,92 @@
       });
     }
 
+    function showValidNotification() {
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent('Awesome, you can now go to next step!')
+        .position('bottom right')
+        .hideDelay(3000)
+      );
+    }
+
+    function validateBanner(display) {
+      var check = false;
+      if (display === 'both') {
+        check = _.isEmpty(_.pickBy(vm.form.banner, _.isNull)) ? true : false;
+        return check;
+      }
+
+      check = (vm.form.banner.description && vm.form.banner.url && vm.form.banner[display]) ? true : false;
+      return check;
+    }
+
+    function validateMap() {
+      return !_.isEmpty(vm.form.marker);
+    }
+
+    function validateStepZero() {
+      var media = vm.form.media.display
+      var display = vm.form.options.display.display;
+
+      switch (display) {
+        case 'banner':
+          return validateBanner(media)
+          break;
+        case 'map':
+          return validateMap()
+          break;
+        default:
+
+      }
+      return false;
+    }
+
+    function validateForm() {
+      switch (vm.control.selectedTab) {
+        case 0:
+          {
+            if (vm.form.media.hasOwnProperty('id') && vm.form.options.display.hasOwnProperty('id') && validateStepZero()) {
+              vm.control.tabs[1].valid = true;
+              showValidNotification();
+            } else {
+              vm.control.tabs[1].valid = false;
+            }
+            break;
+          }
+        case 1:
+          {
+            if (vm.form.options.impressions.hasOwnProperty('id')) {
+              vm.control.tabs[2].valid = true;
+
+              if($rootScope.user) {
+                  vm.control.tabs[3].valid = true;
+              }
+              showValidNotification();
+            } else {
+              vm.control.tabs[2].valid = false;
+            }
+            break;
+          }
+        default:
+          console.log(vm.control.selectedTab);
+      }
+    }
+
     $scope.$watch('vm.form', function(c, o) {
       console.log(c);
 
-      vm.total = c.media.hasOwnProperty('fee')?c.media.fee:0;
+      validateForm();
+
+      vm.total = c.media.hasOwnProperty('fee') ? c.media.fee : 0;
 
       _.map(c.options, function(item) {
-        if (item.hasOwnProperty('fee')){
-            vm.total +=  vm.total * item.fee;
+        if (item.hasOwnProperty('fee')) {
+          vm.total += vm.total * item.fee;
         }
 
-        if (item.hasOwnProperty('discount')){
-            vm.total -= vm.total * item.discount;
+        if (item.hasOwnProperty('discount')) {
+          vm.total -= vm.total * item.discount;
         }
 
       })
