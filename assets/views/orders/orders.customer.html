@@ -6,7 +6,7 @@
         <span class="md-subhead"> Please login:</span>
       </md-card-title-text>
     </md-card-title>
-    <md-card-content >
+    <md-card-content>
       <div layout="row">
         <md-input-container class="md-block" flex>
           <label>Email</label>
@@ -26,20 +26,16 @@
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">First time purchasing a campaign with us?</span>
-        <span class="md-subhead">Enter your email address</span>
+        <span class="md-subhead">Create a new account with us</span>
       </md-card-title-text>
     </md-card-title>
     <md-card-content layout="column">
-      <md-input-container class="md-block" flex>
-        <label>Email</label>
-        <input ng-model="vm.form.customer.email" type="email" required>
-      </md-input-container>
+      <p></p>
       <md-card-actions layout="row" layout-align="end center">
-        <md-button ng-click="vm.nextTab()" ng-disabled="!vm.form.customer.email">Continue</md-button>
+        <md-button ng-click="vm.signup()">Sign Up & Continue</md-button>
       </md-card-actions>
     </md-card-content>
   </md-card>
-
   <!-- <md-card>
     <md-card-title>
       <md-card-title-text>

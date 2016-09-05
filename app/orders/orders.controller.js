@@ -29,8 +29,7 @@
         valid: false,
         show: true
       }]
-
-    }
+    };
 
     vm.options = {
       target: {
@@ -63,7 +62,7 @@
       },
       customer: {},
       auth: {}
-    }
+    };
 
     activate();
 

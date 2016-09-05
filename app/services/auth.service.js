@@ -32,6 +32,7 @@
       forgot: forgot,
       reset: reset,
       setCredentials: setCredentials,
+      credentialAvaliability: credentialAvaliability
     };
 
     return Auth;
@@ -183,7 +184,29 @@
     function isAuthenticated() {
       return $localstorage.get('access_token');
     }
+
+
+    /**
+     * [credentialAvaliability description]
+     * @method credentialAvaliability
+     * @return {[type]}               [description]
+     */
+    function credentialAvaliability(payload) {
+      var deferred = $q.defer();
+
+      $http.get(baseApi + '/user/availability/', {
+          params: payload
+        })
+        .success(function(data, status, headers, config) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
   }
+
 
   /**
    * [AuthInterceptor description]

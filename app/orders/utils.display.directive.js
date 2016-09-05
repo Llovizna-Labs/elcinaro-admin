@@ -15,20 +15,21 @@
         form: '=',
         total: '='
       },
-      link: linkFunc,
       controller: Controller,
       controllerAs: 'vm',
       bindToController: true
     };
 
     return directive;
-
-    function linkFunc(scope, el, attr, ctrl) {
-
-    }
   }
 
-  Controller.$inject = ['uiGmapGoogleMapApi', 'uiGmapIsReady', '$q', '$scope', '$timeout', 'DropzoneService'];
+  Controller.$inject = ['uiGmapGoogleMapApi',
+    'uiGmapIsReady',
+    '$q',
+    '$scope',
+    '$timeout',
+    'DropzoneService'
+  ];
 
   /* @ngInject */
   function Controller(uiGmapGoogleMapApi, uiGmapIsReady, $q, $scope, $timeout, DropzoneService) {
@@ -188,7 +189,7 @@
       console.log('bounds changed');
       console.log(vm.placesReady);
 
-      if(!vm.map.instance) {
+      if (!vm.map.instance) {
         prepareMap();
       }
       return;

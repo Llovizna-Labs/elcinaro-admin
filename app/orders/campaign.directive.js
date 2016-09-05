@@ -15,17 +15,12 @@
         form: '=',
         total: '='
       },
-      link: linkFunc,
       controller: Controller,
       controllerAs: 'vm',
       bindToController: true
     };
 
     return directive;
-
-    function linkFunc(scope, el, attr, ctrl) {
-
-    }
   }
 
   Controller.$inject = ['$http', '$q'];

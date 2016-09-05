@@ -16,38 +16,27 @@
         total: '=',
         control: '='
       },
-      link: linkFunc,
       controller: Controller,
       controllerAs: 'vm',
       bindToController: true
     };
 
     return directive;
-
-    function linkFunc(scope, el, attr, ctrl) {
-
-    }
   }
 
-  Controller.$inject = ['$http', '$q', '$rootScope', 'Auth'];
+  Controller.$inject = ['$http', '$q', '$rootScope', '$mdDialog', 'Auth'];
 
   /* @ngInject */
-  function Controller($http, $q, $rootScope, Auth) {
+  function Controller($http, $q, $rootScope, $mdDialog, Auth) {
     var vm = this;
-    vm.nextTab =  nextTab;
-    activate();
+    vm.nextTab = nextTab;
 
-    function activate() {
-
-    }
-
-     function nextTab() {
-      vm.control.tabs[3].valid = true;   
+    function nextTab() {
+      vm.control.tabs[3].valid = true;
       vm.control.selectedTab += 1;
     }
 
     vm.auth = function() {
-      console.log('LOGIN', vm.form.auth);
       vm.loading = true;
       Auth.login(vm.form.auth).then(function(res) {
         console.log(res);
@@ -58,5 +47,17 @@
         vm.loading = false;
       });
     };
+
+    vm.signup = function() {
+      $mdDialog.show({
+        fullscreen: true,
+        controllerAs: 'vm',
+        controller: 'SignupController',
+        templateUrl: 'assets/views/modal/signup.html',
+      }).then(function () {
+        nextTab();
+      });
+    };
+
   }
 })();
