@@ -3,10 +3,12 @@
     <h1 class="title">Book a Campaign</h1>
     <h2 class="subtitle"> Once approved, your campaign will go live as scheduled.</h2>
   </div>
-    <div layout="column" class="text-center" ng-show="vm.success" layout-padding layout-margin>
+  <div layout="column" class="text-center" ng-show="vm.success" layout-padding layout-margin>
     <h1 class="title">Campaign created successfully!</h1>
     <h2 class="subtitle">Once approved, your campaign will go live as scheduled.</h2>
-    <md-button class="md-accent md-hue-2" ui-sref="dashboard.campaigns">Go to Dashboard</md-button>
+    <div class="row">
+      <md-button class="md-accent md-hue-2" ui-sref="dashboard.campaigns">Go to Dashboard</md-button>
+    </div>
   </div>
   <md-content ng-show="!vm.success">
     <md-tabs md-dynamic-height md-border-bottom md-center-tabs="true" md-selected="vm.control.selectedTab">

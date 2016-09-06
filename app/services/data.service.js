@@ -59,10 +59,6 @@
         });
       return deferred.promise;
     }
-
-
-
-
-
   }
+  
 })();

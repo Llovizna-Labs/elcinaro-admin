@@ -51,6 +51,7 @@ var vendorScripts = [
   'bower_components/markerclustererplus/src/markerclusterer.js',
   'bower_components/angular-google-maps/dist/angular-google-maps.js',
   'bower_components/dropzone/dist/min/dropzone.min.js',
+  'bower_components/moment/min/moment.min.js'
   // 'bower_components/braintree-web/client.js',
   // 'bower_components/braintree-web/paypal.js',
 
