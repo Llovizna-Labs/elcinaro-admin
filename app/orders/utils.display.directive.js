@@ -144,8 +144,8 @@
 
         vm.marker = {
           id: Date.now(),
-          name: place.name,
           address: place.formatted_address,
+          name: vm.info.name,
           location: {
             latitude: parseFloat(place.geometry.location.lat()),
             longitude: parseFloat(place.geometry.location.lng()),
@@ -158,8 +158,17 @@
     };
 
     vm.confirmMarker = function() {
-      angular.copy(vm.marker, vm.form.marker);
+      if(!vm.info.name) return;
+
+      vm.form.marker = {
+        id: vm.marker.id,
+        address: vm.marker.address,
+        name: vm.info.name,
+        location: vm.marker.location,
+        show: true
+      }
       vm.markerConfirmed = true;
+      console.log(vm.form.marker);
     }
 
     function centerMap(map, location, offset, scroll) {
