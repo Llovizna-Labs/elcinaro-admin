@@ -36,6 +36,17 @@
         },
         authenticate: true
       })
+      .state('dashboard.profile', {
+        url: '/profile',
+        views: {
+          'dashboard': {
+            controller: 'ProfileController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/profile.html'
+          }
+        },
+        authenticate: true
+      })
       .state('dashboard.campaigns', {
         url: '/campaigns',
         views: {

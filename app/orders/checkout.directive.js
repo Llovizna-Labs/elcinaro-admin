@@ -13,25 +13,29 @@
       scope: {
         options: '=',
         form: '=',
-        total: '='
+        total: '=',
+        success: '='
       },
-      link: linkFunc,
       controller: Controller,
       controllerAs: 'vm',
       bindToController: true
     };
 
     return directive;
-
-    function linkFunc(scope, el, attr, ctrl) {
-
-    }
   }
 
-  Controller.$inject = ['_', 'braintree', '$scope', '$http', '$q', 'DataService'];
+  Controller.$inject = [
+    '_',
+    'braintree',
+    '$scope',
+    '$rootScope',
+    '$http',
+    '$q',
+    'DataService'
+  ];
 
   /* @ngInject */
-  function Controller(_, braintree, $scope, $http, $q, DataService) {
+  function Controller(_, braintree, $scope, $rootScope, $http, $q, DataService) {
     var vm = this;
     vm.checkout = {};
     vm.loading = false;
@@ -69,13 +73,16 @@
     vm.launch = function() {
       vm.loading = true;
       vm.form.amount = vm.total;
-      DataService.createCampaign(vm.form).then(function(resp) {
-        console.log(resp);
+      DataService.createCampaign(vm.form).then(function(res) {
+        console.log(res);
+        vm.success = true;
+        $rootScope.fill = true;
       }).catch(function(err) {
         console.log(err);
+        vm.success = false;
       }).finally(function() {
         vm.loading = false;
-      })
+      });
     }
 
     function doSomethingWithTheNonce(res) {

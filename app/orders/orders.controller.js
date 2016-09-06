@@ -5,14 +5,22 @@
     .module('AnyDayBuddyAds')
     .controller('OrdersController', Controller);
 
-  Controller.$inject = ['_', '$scope', '$rootScope', '$mdDialog',  '$mdToast', 'DataService'];
+  Controller.$inject = [
+    '_',
+    '$scope',
+    '$rootScope',
+    '$mdDialog',
+    '$mdToast',
+    'DataService'
+  ];
 
-  function Controller(_, $scope,$rootScope,  $mdDialog, $mdToast, DataService) {
+  function Controller(_, $scope, $rootScope, $mdDialog, $mdToast, DataService) {
     var vm = this;
 
     vm.openImage = openImage;
     vm.add = add;
     vm.total = 0;
+    vm.success = false;
 
     vm.control = {
       selectedTab: 0,
@@ -177,8 +185,8 @@
             if (vm.form.options.impressions.hasOwnProperty('id')) {
               vm.control.tabs[2].valid = true;
 
-              if($rootScope.user) {
-                  vm.control.tabs[3].valid = true;
+              if ($rootScope.user) {
+                vm.control.tabs[3].valid = true;
               }
               showValidNotification();
             } else {
