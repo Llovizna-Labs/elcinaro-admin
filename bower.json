@@ -12,7 +12,8 @@
     "lodash": "~4.15.0",
     "braintree-web": "~3.0.2",
     "dropzone": "~4.3.0",
-    "jquery": "~3.1.0"
+    "jquery": "~3.1.0",
+    "moment": "^2.14.1"
   },
   "name": "devion-stack-angular",
   "version": "1.0.0",
