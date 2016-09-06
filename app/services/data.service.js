@@ -11,8 +11,9 @@
   function dataService($http, $q, baseApi) {
     var dataService = {
       getOptions: getOptions,
-      getClientToken : getClientToken,
-      createCampaign: createCampaign
+      getClientToken: getClientToken,
+      createCampaign: createCampaign,
+      getCampaigns: getCampaigns
     }
 
     return dataService;
@@ -25,7 +26,7 @@
         url: baseApi + '/campaign/options/'
       }).success(function(data, status, headers, config) {
         deferred.resolve(data);
-      }).error(function (err) {
+      }).error(function(err) {
         deferred.reject(err);
       });
 
@@ -40,7 +41,7 @@
         url: baseApi + '/commerce/clientToken/'
       }).success(function(data, status, headers, config) {
         deferred.resolve(data);
-      }).error(function (err) {
+      }).error(function(err) {
         deferred.reject(err);
       });
 
@@ -59,6 +60,19 @@
         });
       return deferred.promise;
     }
+
+
+    function getCampaigns() {
+      var deferred = $q.defer();
+      $http.get(baseApi + '/campaign/all/')
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
   }
-  
+
 })();
