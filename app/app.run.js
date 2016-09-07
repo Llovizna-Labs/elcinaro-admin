@@ -12,7 +12,8 @@
     $rootScope.user = Auth.getUser();
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
-      $rootScope.fill = ['login', 'dashboard', 'dashboard.campaigns'].indexOf(toState.name) !== -1;
+      $rootScope.fill = ['login'].indexOf(toState.name) !== -1;
+      $rootScope.fixed = ['dashboard', 'dashboard.campaigns', 'dashboard.profile'].indexOf(toState.name) !== -1;
 
       /**
        * if the state requires authentication and the
