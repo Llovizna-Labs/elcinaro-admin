@@ -51,7 +51,7 @@
         url: '/campaigns',
         views: {
           'dashboard': {
-            controller: 'DashboardController',
+            controller: 'CampaignController',
             controllerAs: 'vm',
             templateUrl: 'assets/views/dashboard/campaigns.html'
           }
