@@ -5,14 +5,14 @@
     .module('AnyDayBuddyAds')
     .service('UserService', factory);
 
-  factory.$inject = ['$http', '$q', '$localstorage', 'baseApi'];
+  factory.$inject = ['$http', '$q', '$localstorage', '$rootScope', 'baseApi'];
 
   /* @ngInject */
-  function factory($http, $q, $localstorage, baseApi) {
+  function factory($http, $q, $localstorage, $rootScope, baseApi) {
     var service = {
       getOptions: getOptions,
       getClientToken: getClientToken,
-      createCampaign: createCampaign
+      update: update
     }
 
     return service;
@@ -46,6 +46,10 @@
         });
       return deferred.promise;
     }
+  }
+
+  function getClientToken() {
+    return {};
   }
 
 })();

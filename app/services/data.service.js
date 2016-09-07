@@ -62,9 +62,9 @@
     }
 
 
-    function getCampaigns() {
+    function getCampaigns(id) {
       var deferred = $q.defer();
-      $http.get(baseApi + '/campaign/all/')
+      $http.get(baseApi + '/campaign/' + id + '/')
         .success(function(data) {
           deferred.resolve(data);
         })

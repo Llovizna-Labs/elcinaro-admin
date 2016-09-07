@@ -15,14 +15,15 @@
         <img ng-src="https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=220x289&maptype=roadmap&markers=color:red%7Clabel:A%7C{{ad.marker.location.latitude}},{{ad.marker.location.longitude}}&key=AIzaSyAonFuCDb7HjXUz0uocKbEGUJz91IL9EVs" class="md-card-image">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline" ng-bind="ad.marker.name"></span>
+            <a href="javascript:void(0)" ui-sref="dashboard.campaigns({id: ad.id})"> <span class="md-headline" ng-bind="ad.marker.name"></span></a>
           </md-card-title-text>
         </md-card-title>
         <md-card-content>
           <p>
             <span class="capitalize">{{ad.display.display}}</span> for <span class="capitalize">{{ad.media.display}}</span>
           </p>
-          <small>1000</small>
+          <small ng-if="ad.impressions.type === 'units'">Impressions: <span ng-bind="ad.impressions.quantity "></span></small>
+          <small ng-if="ad.impressions.type === 'time'">Impressions: <span ng-bind="ad.impressions.time + ' ' + ad.impressions.period"></span></small>
         </md-card-content>
       </md-card>
       <!-- Banner -->
@@ -30,7 +31,7 @@
         <img ng-src="{{ad.banner.website}}" class="md-card-image">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline" ng-bind="ad.banner.description"></span>
+            <a href="javascript:void(0)" ui-sref="dashboard.campaigns({id: ad.id})"> <span class="md-headline" ng-bind="ad.banner.description"></span></a>
           </md-card-title-text>
         </md-card-title>
         <md-card-content>
@@ -41,5 +42,35 @@
         </md-card-content>
       </md-card>
     </div>
-  </div>
+    <!-- Detail -->
+    <div ng-if="vm.detail" flex="70" ng-hide="vm.loading">
+      <div ng-repeat="ad in vm.ads">
+        <md-card class="campaign-detail">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline"> Campaign Overview</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content>
+            <md-list>
+              <md-divider></md-divider>
+              <md-list-item class="secondary-button-padding">
+                <p>Display: <span ng-bind="ad.display.display"></span></p>
+                <md-button class="md-secondary" ng-click="doSecondaryAction($event)">More Info</md-button>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Media:  <span ng-bind="ad.media.display"></p>
+                <md-button class="md-secondary">More Info</md-button>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Impressions: <span ng-if="ad.impressions.type === 'units'" ng-bind="ad.impressions.quantity"></span>
+                  <span ng-if="ad.impressions.type === 'time'" ng-bind="ad.impressions.time + ' ' + ad.impressions.period"></span>
+                </p>
+                <md-button class="md-secondary">More Info</md-button>
+              </md-list-item>
+            </md-list>
+          </md-card-content>
+        </md-card>
+      </div>
+    </div>
 </section>

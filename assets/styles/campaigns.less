@@ -1,17 +1,26 @@
 .campaigns {
-  hr {
-    margin-top: 5px;
-  }
-  .list {
-    .campaign {
-      color: #555;
-      max-width: 220px;
-      img {
-        max-height: 289px;
-      }
-      small {
-        color: #777;
-      }
+    hr {
+        margin-top: 5px;
     }
-  }
+    .list {
+        .campaign {
+            color: #555;
+            md-card-title-text {
+                width: 250px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            max-width: 220px;
+            a {
+              margin: 0px;
+            }
+            img {
+                max-height: 289px;
+            }
+            small {
+                color: #777;
+            }
+        }
+    }
 }

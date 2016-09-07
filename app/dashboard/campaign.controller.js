@@ -5,31 +5,30 @@
     .module('AnyDayBuddyAds')
     .controller('CampaignController', Controller);
 
-  Controller.$inject = ['DataService'];
+  Controller.$inject = ['_', '$state', '$stateParams', 'DataService'];
 
-  function Controller(DataService) {
+  function Controller(_, $state, $stateParams, DataService) {
     var vm = this;
     vm.ads = [];
     vm.loading = false;
-
+    vm.detail = $stateParams.id ? true : false;
     activate()
 
     ////////////////
 
     function activate() {
+      console.log();
       vm.loading = true;
-
-      DataService.getOptions().then(function(res) {
-        console.log(res);
-        getCampaigns();
-      });
+      getCampaigns($stateParams.id || 'all');
     }
 
-
-    function getCampaigns() {
-      DataService.getCampaigns().then(function(res) {
-        vm.ads = res;
+    function getCampaigns(params) {
+      DataService.getCampaigns(params).then(function(res) {
+        vm.ads = vm.detail?[res]: res;
         console.log(res);
+      }).catch(function(err) {
+        console.log(err);
+      }).finally(function() {
         vm.loading = false;
       });
     }

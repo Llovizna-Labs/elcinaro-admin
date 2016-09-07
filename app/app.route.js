@@ -48,7 +48,7 @@
         authenticate: true
       })
       .state('dashboard.campaigns', {
-        url: '/campaigns',
+        url: '/campaigns/:id',
         views: {
           'dashboard': {
             controller: 'CampaignController',

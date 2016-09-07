@@ -5,9 +5,9 @@
     .module('AnyDayBuddyAds')
     .controller('ProfileController', Controller);
 
-  Controller.$inject = ['$rootScope', '$q', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'UtilService'];
+  Controller.$inject = ['$rootScope', '$q', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'UserService', 'UtilService'];
 
-  function Controller($rootScope, $q, uiGmapGoogleMapApi, uiGmapIsReady, UtilService) {
+  function Controller($rootScope, $q, uiGmapGoogleMapApi, uiGmapIsReady, UserService, UtilService) {
     var vm = this;
     var PlacesAutocomplete = null;
 
@@ -19,6 +19,8 @@
 
     ////////////////
     function activate() {
+      console.log($rootScope.user);
+      
       var indexImage = $rootScope.user.imageGallery.indexOf($rootScope.user.profileImage);
 
       uiGmapGoogleMapApi.then(function(maps) {
@@ -27,7 +29,8 @@
       });
 
       angular.copy($rootScope.user, vm.data);
-      vm.data.birth = moment($rootScope.user.birth).toDate();
+
+      vm.data.birth = moment($rootScope.user.birth || {}).toDate();
     }
 
     vm.autocompleteAddress = function(address) {
@@ -49,7 +52,7 @@
       vm.loading = true;
       vm.data.country = angular.isObject(vm.data.country) ? vm.data.country.name : vm.data.country;
 
-      UserService.update(userId, vm.data).then(function(resp) {
+      UserService.update($rootScope.user.id, vm.data).then(function(resp) {
         vm.data = resp;
         vm.error = false;
         vm.data.birth = moment(vm.data.birth).toDate();
@@ -58,7 +61,7 @@
       }).finally(function() {
         vm.loading = false;
       });
-      
+
     };
   }
 

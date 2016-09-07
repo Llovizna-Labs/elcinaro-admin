@@ -9,7 +9,13 @@
     var vm = this;
 
     ////////////////
+    ///
+    activate();
+
+    function activate() {
+      console.log('DashboardController');
+    }
 
   }
-  
+
 })();
