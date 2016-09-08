@@ -10,6 +10,7 @@
   function LoginController($state, Auth) {
     var vm = this;
     vm.loading = false;
+    
     ////////////////
 
     vm.auth = function() {
