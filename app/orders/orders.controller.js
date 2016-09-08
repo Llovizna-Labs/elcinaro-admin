@@ -66,7 +66,8 @@
         distance: {},
         age: {},
         gender: {},
-        interests: {}
+        interests: {},
+        activities: []
       },
       customer: {},
       auth: {}
