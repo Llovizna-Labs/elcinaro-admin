@@ -80,7 +80,15 @@
           <span>{{vm.total}}</span>
         </div>
       </div>
-      <div adb-chips adb-id="interests" editable="true" placeholder="Select {{vm.form.options.interests.quantity}} interests" ng-show="vm.form.options.interests" ng-model="vm.interests" list="vm.categories" show-count="true" max="{{vm.form.options.interests.quantity}}"></div>
+      <div class="md-block checkbox-group" layout="row">
+        <md-checkbox ng-model="vm.form.options.exclusive">
+          <md-tooltip>
+            You reserve the right to advertise in the selected categories
+          </md-tooltip>
+          Exclusive
+        </md-checkbox>
+      </div>
+      <div adb-chips ng-show="vm.form.options.interests.quantity" adb-id="interests" editable="true" placeholder="Select {{vm.form.options.interests.quantity}} interests" ng-show="vm.form.options.interests" ng-model="vm.interests" list="vm.categories" show-count="true" max="{{vm.form.options.interests.quantity}}"></div>
     </md-card-content>
   </md-card>
   <div class="md-separator"></div>
