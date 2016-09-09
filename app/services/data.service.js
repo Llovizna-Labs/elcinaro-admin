@@ -51,7 +51,7 @@
 
     function createCampaign(payload) {
       var deferred = $q.defer();
-      $http.post(baseApi + 'campaign/create/', payload)
+      $http.post(baseApi + '/campaign/create/', payload)
         .success(function(data) {
           deferred.resolve(data);
         })
