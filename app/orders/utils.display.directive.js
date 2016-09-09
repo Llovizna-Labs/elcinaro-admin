@@ -135,7 +135,10 @@
     vm.getPlace = function() {
       console.log(vm.info.place);
 
-      if (!vm.info.place) return;
+      if (!vm.info.place) {
+        vm.markerConfirmed = false;
+        return;
+      };
 
       Places.getDetails({
         placeId: vm.info.place.place_id
@@ -150,7 +153,11 @@
             latitude: parseFloat(place.geometry.location.lat()),
             longitude: parseFloat(place.geometry.location.lng()),
           },
-          show: true
+          show: true,
+          country: _.filter(place.address_components, function (item) {
+            return _.includes(item.types, 'country');
+          })[0].long_name,
+          address_components: place.address_components
         };
         centerMap(vm.map.instance, vm.marker.location, null, true);
         $scope.$apply();
@@ -158,14 +165,16 @@
     };
 
     vm.confirmMarker = function() {
-      if(!vm.info.name) return;
+      if (!vm.info.name) return;
 
       vm.form.marker = {
         id: vm.marker.id,
         address: vm.marker.address,
         name: vm.info.name,
         location: vm.marker.location,
-        show: true
+        show: true,
+        country: vm.marker.country,
+        address_components: vm.marker.address_components
       }
       vm.markerConfirmed = true;
       console.log(vm.form.marker);
@@ -251,7 +260,8 @@
       //     //vm.activities.push(locationMarker());
       //     console.log('location');
       //   });
-
+      //
+    
     }
   }
 })();

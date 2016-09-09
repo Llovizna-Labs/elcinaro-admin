@@ -11,9 +11,7 @@
       restrict: 'EA',
       templateUrl: 'assets/views/orders/orders.customer.html',
       scope: {
-        options: '=',
         form: '=',
-        total: '=',
         control: '='
       },
       controller: Controller,
@@ -32,7 +30,8 @@
     vm.nextTab = nextTab;
 
     function nextTab() {
-      vm.control.tabs[3].valid = true;
+      vm.control.tabs[0].valid = false;
+      vm.control.tabs[1].valid = true;
       vm.control.selectedTab += 1;
     }
 

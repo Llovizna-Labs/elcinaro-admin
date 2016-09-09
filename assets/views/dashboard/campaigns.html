@@ -22,7 +22,7 @@
           <p>
             <span class="capitalize">{{ad.display.display}}</span> for <span class="capitalize">{{ad.media.display}}</span>
           </p>
-          <small ng-if="ad.impressions.type === 'units'">Impressions: <span ng-bind="ad.impressions.quantity "></span></small>
+          <small ng-if="ad.impressions.type === 'units'">Impressions: <span ng-bind="ad.impressions.quantity + ' units'"></span></small>
           <small ng-if="ad.impressions.type === 'time'">Impressions: <span ng-bind="ad.impressions.time + ' ' + ad.impressions.period"></span></small>
         </md-card-content>
       </md-card>
@@ -38,7 +38,8 @@
           <p>
             <span class="capitalize">{{ad.display.display}}</span> for <span class="capitalize">{{ad.media.display}}</span>
           </p>
-          <small>1000</small>
+          <small ng-if="ad.impressions.type === 'units'">Impressions: <span ng-bind="ad.impressions.quantity + ' units'"></span></small>
+          <small ng-if="ad.impressions.type === 'time'">Impressions: <span ng-bind="ad.impressions.time + ' ' + ad.impressions.period"></span></small>
         </md-card-content>
       </md-card>
     </div>
@@ -56,17 +57,33 @@
               <md-divider></md-divider>
               <md-list-item class="secondary-button-padding">
                 <p>Display: <span ng-bind="ad.display.display"></span></p>
-                <md-button class="md-secondary" ng-click="doSecondaryAction($event)">More Info</md-button>
               </md-list-item>
               <md-list-item class="secondary-button-padding">
-                <p>Media:  <span ng-bind="ad.media.display"></p>
-                <md-button class="md-secondary">More Info</md-button>
+                <p>Media: <span ng-bind="ad.media.display"></p>
               </md-list-item>
               <md-list-item class="secondary-button-padding">
-                <p>Impressions: <span ng-if="ad.impressions.type === 'units'" ng-bind="ad.impressions.quantity"></span>
-                  <span ng-if="ad.impressions.type === 'time'" ng-bind="ad.impressions.time + ' ' + ad.impressions.period"></span>
+                <p>Impressions: <span ng-bind="vm.getImpressions(ad.impressions)"></span>
                 </p>
-                <md-button class="md-secondary">More Info</md-button>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Country: <span ng-bind="ad.country"></span>
+                </p>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Distance: <span ng-bind="vm.getDistance(ad.distance)"></span>
+                </p>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Age range: <span ng-bind="ad.age.range"></span>
+                </p>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Gender: <span ng-bind="ad.gender.gender"></span>
+                </p>
+              </md-list-item>
+              <md-list-item class="secondary-button-padding">
+                <p>Interests: <span ng-bind="ad.interests.quantity"></span>
+                </p>
               </md-list-item>
             </md-list>
           </md-card-content>

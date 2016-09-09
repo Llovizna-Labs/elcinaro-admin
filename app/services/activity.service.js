@@ -8,7 +8,7 @@
 
   function CategoryService($http, $q, baseApi) {
     var service = {
-    	categories: [],
+      categories: [],
       getCategories: getCategories
     };
 
@@ -17,15 +17,15 @@
     function getCategories(parent, options) {
       var deferred = $q.defer();
 
-      $http.get(baseApi + '/category/' + parent, {
+      $http.get(baseApi + '/campaign/categories/', {
           params: {
-            all: options.all || true,
-            official: options.official || true
+            country: options.country
           }
         })
         .success(function(res) {
           deferred.resolve(res);
-          angular.copy(res.subcategories, service.categories);
+          console.log(res.length);
+          angular.copy(res, service.categories);
         })
         .error(function(err) {
           deferred.reject(err);

@@ -12,22 +12,21 @@
   </div>
   <md-content ng-show="!vm.success">
     <md-tabs md-dynamic-height md-border-bottom md-center-tabs="true" md-selected="vm.control.selectedTab">
-      <md-tab label="Campaign - Media & Display" ng-disabled="!vm.control.tabs[0].valid">
+      <md-tab label="Customer info" ng-disabled="!vm.control.tabs[0].valid">
+        <md-content class="md-padding">
+          <adb-orders-customer form="vm.form" control="vm.control"></adb-orders-customer>
+        </md-content>
+      </md-tab>
+      <md-tab label="Campaign - Media & Display" ng-disabled="!vm.control.tabs[1].valid">
         <md-content class="md-padding">
           <adb-orders-resume total="vm.total" options="vm.options" form="vm.form"> </adb-orders-resume>
           <adb-display-chooser total="vm.total" options="vm.options" form="vm.form" control="vm.control"></adb-display-chooser>
         </md-content>
       </md-tab>
-      <md-tab label="Campaign - Impressions" ng-disabled="!vm.control.tabs[1].valid">
+      <md-tab label="Campaign - Details" ng-disabled="!vm.control.tabs[2].valid">
         <md-content class="md-padding">
           <adb-orders-resume total="vm.total" options="vm.options" form="vm.form"> </adb-orders-resume>
           <adb-orders-campaign total="vm.total" options="vm.options" form="vm.form" control="vm.control"></adb-orders-campaign>
-        </md-content>
-      </md-tab>
-      <md-tab label="Customer info" ng-disabled="!vm.control.tabs[2].valid" ng-if="!$root.user">
-        <md-content class="md-padding">
-          <adb-orders-resume total="vm.total" options="vm.options" form="vm.form"> </adb-orders-resume>
-          <adb-orders-customer total="vm.total" options="vm.options" form="vm.form" control="vm.control"></adb-orders-customer>
         </md-content>
       </md-tab>
       <md-tab label="Checkout" ng-disabled="!vm.control.tabs[3].valid">

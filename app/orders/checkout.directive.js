@@ -14,7 +14,8 @@
         options: '=',
         form: '=',
         total: '=',
-        success: '='
+        success: '=',
+        control:'='
       },
       controller: Controller,
       controllerAs: 'vm',
@@ -40,7 +41,7 @@
     vm.checkout = {};
     vm.loading = false;
     vm.authorization = false;
-    activate();
+
 
     function activate() {
       DataService.getClientToken().then(function(res) {
@@ -107,6 +108,11 @@
 
       console.log(c);
     });
+
+    $scope.$watch('vm.control.selectedTab', function(c, o) {
+      console.log('current tab ', c);
+      if(c == 3) activate();
+    }, true)
 
     $scope.$watch('vm.checkout', function(c, o) {
       if (!c) return;

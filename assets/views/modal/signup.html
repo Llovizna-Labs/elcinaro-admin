@@ -41,6 +41,14 @@
         </div>
         <small class="err-msg-input" ng-show="!vm.isConfirm">Passwords do not match.</small>
       </md-input-container>
+      <md-autocomplete md-input-name="userCountry" md-input-minlength="2" md-input-maxlength="18" md-selected-item="vm.data.country" md-search-text="vm.query" md-item-text="item.name" md-items="item in vm.autocompleteCountry(vm.query)" md-min-length="0" md-floating-label="Country" required>
+        <md-item-template>
+          <span md-highlight-text="vm.query">{{item.name}}</span>
+        </md-item-template>
+        <md-not-found>
+          No countries matching "{{vm.query}}" were found.
+        </md-not-found>
+      </md-autocomplete>
       </div>
       <div class="terms" layout-xs="column" layout-gt-xs="row" layout-align="start center">
         <md-checkbox ng-model="vm.signupForm.terms" aria-label="Accept Terms & Conditions">

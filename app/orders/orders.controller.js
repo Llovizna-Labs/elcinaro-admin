@@ -11,10 +11,11 @@
     '$rootScope',
     '$mdDialog',
     '$mdToast',
-    'DataService'
+    'DataService',
+    'UtilService'
   ];
 
-  function Controller(_, $scope, $rootScope, $mdDialog, $mdToast, DataService) {
+  function Controller(_, $scope, $rootScope, $mdDialog, $mdToast, DataService, UtilService) {
     var vm = this;
 
     vm.openImage = openImage;
@@ -23,9 +24,9 @@
     vm.success = false;
 
     vm.control = {
-      selectedTab: 0,
+      selectedTab: $rootScope.user ? 1 : 0,
       tabs: [{
-        valid: true,
+        valid: $rootScope.user ? false : true,
         show: true
       }, {
         valid: false,
@@ -53,12 +54,7 @@
 
     vm.form = {
       media: {},
-      banner: {
-        description: null,
-        url: null,
-        website: null,
-        app: null,
-      },
+      banner: {},
       marker: {},
       options: {
         display: {},
@@ -70,12 +66,16 @@
         activities: []
       },
       customer: {},
-      auth: {}
+      country: $rootScope.user ? (_.find(UtilService.getCountries(), function(i) {
+        return i.name === $rootScope.user.country || i.id === $rootScope.user.country;
+      }) || 'CA') : 'CA',
+      categories: []
     };
 
     activate();
 
     function activate() {
+
       DataService.getOptions().then(function(resp) {
         console.log(resp);
         vm.options.target = do_merge(resp);
@@ -85,6 +85,9 @@
       })
     }
 
+    vm.selectedTab = function() {
+      return $rootScope.user ? vm.control.selectedTab : 0;
+    }
 
     function do_merge(roles) {
 
@@ -171,27 +174,24 @@
 
     function validateForm() {
       switch (vm.control.selectedTab) {
-        case 0:
-          {
-            if (vm.form.media.hasOwnProperty('id') && vm.form.options.display.hasOwnProperty('id') && validateStepZero()) {
-              vm.control.tabs[1].valid = true;
-              showValidNotification();
-            } else {
-              vm.control.tabs[1].valid = false;
-            }
-            break;
-          }
         case 1:
           {
-            if (vm.form.options.impressions.hasOwnProperty('id')) {
+            if (vm.form.media.hasOwnProperty('id') && vm.form.options.display.hasOwnProperty('id') && validateStepZero()) {
               vm.control.tabs[2].valid = true;
-
-              if ($rootScope.user) {
-                vm.control.tabs[3].valid = true;
-              }
               showValidNotification();
             } else {
               vm.control.tabs[2].valid = false;
+            }
+            break;
+          }
+        case 2:
+          {
+            if (vm.form.options.impressions.hasOwnProperty('id')) {
+              vm.control.tabs[3].valid = true;
+
+              showValidNotification();
+            } else {
+              vm.control.tabs[3].valid = false;
             }
             break;
           }
@@ -199,6 +199,16 @@
           console.log(vm.control.selectedTab);
       }
     }
+
+    $scope.$watch(function() {
+      return $rootScope.user;
+    }, function() {
+      if (!$rootScope.user) return;
+
+      vm.form.country = _.find(UtilService.getCountries(), function(i) {
+        return i.name === $rootScope.user.country || i.id === $rootScope.user.country;
+      }).id;
+    }, true);
 
     $scope.$watch('vm.form', function(c, o) {
       console.log(c);

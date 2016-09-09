@@ -13,7 +13,8 @@
       scope: {
         options: '=',
         form: '=',
-        total: '='
+        total: '=',
+        control: '='
       },
       controller: Controller,
       controllerAs: 'vm',
@@ -23,20 +24,19 @@
     return directive;
   }
 
-  Controller.$inject = ['CategoryService'];
+  Controller.$inject = ['CategoryService', '$scope'];
 
   /* @ngInject */
-  function Controller(CategoryService) {
+  function Controller(CategoryService, $scope) {
     var vm = this;
     vm.interests = [];
     vm.categories = [];
-
     activate();
 
     ////////////////
 
     function activate() {
-      getCategories();
+      console.log('campaign directive');
     }
 
 
@@ -44,17 +44,20 @@
       vm.loading = true;
       CategoryService.getCategories('all', {
         all: true,
-        official: true
+        official: true,
+        country: vm.form.country
       }).then(function(res) {
-        vm.categories = [].concat.apply([], _.map(res.res, function(i, key) {
-          return !_.isUndefined(key) ? i : [];
-        }));
-
-        console.log('Categories', vm.categories);
+        vm.categories = res;
       }).finally(function() {
         vm.loading = false;
       });
     }
+
+    $scope.$watch('vm.control.selectedTab', function(c, o) {
+      console.log('current tab ', c);
+      if(c == 2) getCategories();
+    }, true)
+
 
   }
 })();
