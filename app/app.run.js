@@ -9,7 +9,7 @@
 
   function runProvider($rootScope, $state, Auth) {
     $rootScope.$state = $state;
-    $rootScope.user = Auth.getUser();
+    if (Auth.isAuthenticated()) $rootScope.user = Auth.getUser();
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
       $rootScope.fill = ['login'].indexOf(toState.name) !== -1;
