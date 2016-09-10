@@ -53,9 +53,38 @@
           <span><span>$</span> {{vm.total}}</span>
         </div>
       </div>
+      <div layout="row" ng-if="vm.form.options.distance.isCity">
+        <md-autocomplete md-selected-item="vm.addressPlace" md-select-on-match="true" md-input-name="cities" ng-disabled="!vm.placesReady" md-search-text="vm.city" md-items="item in vm.autocompleteCities(vm.city)" md-item-text="item.description" md-min-length="2" md-floating-label="City" flex="90" required>
+          <md-item-template>
+            <span md-highlight-text="vm.city">{{item.description}}</span>
+          </md-item-template>
+          <md-not-found>
+            No matches found for "<span ng-bind="vm.city"></span>".
+          </md-not-found>
+        </md-autocomplete>
+      </div>
+      <div layout="row" ng-if="vm.form.options.distance.isState">
+        <md-autocomplete md-selected-item="vm.addressPlace" md-select-on-match="true" md-input-name="states" ng-disabled="!vm.placesReady" md-search-text="vm.state" md-items="item in vm.autocompleteStates(vm.state)" md-item-text="item.description" md-min-length="2" md-floating-label="State" flex="90" required>
+          <md-item-template>
+            <span md-highlight-text="vm.state">{{item.description}}</span>
+          </md-item-template>
+          <md-not-found>
+            No matches found for "<span ng-bind="vm.state"></span>".
+          </md-not-found>
+        </md-autocomplete>
+      </div>
+      <div layout="row" ng-if="vm.form.options.distance.isCountry">
+        <md-autocomplete md-selected-item="vm.addressPlace" md-select-on-match="true" md-input-name="countries" ng-disabled="!vm.placesReady" md-search-text="vm.country" md-items="item in vm.autocompleteCountries(vm.country)" md-item-text="item.description" md-min-length="2" md-floating-label="Country" flex="90" required>
+          <md-item-template>
+            <span md-highlight-text="vm.country">{{item.description}}</span>
+          </md-item-template>
+          <md-not-found>
+            No matches found for "<span ng-bind="vm.country"></span>".
+          </md-not-found>
+        </md-autocomplete>
+      </div>
     </md-card-content>
   </md-card>
-
   <md-card>
     <md-card-title>
       <md-card-title-text>
@@ -105,8 +134,7 @@
           Exclusive
         </md-checkbox>
       </div>
-      <div adb-chips ng-show="vm.form.options.interests.quantity" adb-id="interests" editable="true" placeholder="Select {{vm.form.options.interests.quantity}} interests" ng-show="vm.form.options.interests" ng-model="vm.form.categories" list="vm.categories" show-count="true"
-          max="{{vm.form.options.interests.quantity}}"></div>
+      <div adb-chips ng-show="vm.form.options.interests.quantity" adb-id="interests" editable="true" placeholder="Select {{vm.form.options.interests.quantity}} interests" ng-show="vm.form.options.interests" ng-model="vm.form.categories" list="vm.categories" hide-list="true" show-count="true" max="{{vm.form.options.interests.quantity}}"></div>
     </md-card-content>
   </md-card>
   <div class="md-separator"></div>

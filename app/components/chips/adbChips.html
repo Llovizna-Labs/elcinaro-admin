@@ -15,7 +15,7 @@
     <label>Type here to filter</label>
     <input ng-model="vm.filter[vm.map.name]">
   </md-input-container>
-  <md-list class="{{vm.listClass}} animated fadeIn" ng-hide="vm.hideList || vm.disabled || vm.model.length == vm.max">
+  <md-list ng-if="!vm.hideList && !vm.disabled" class="{{vm.listClass}} animated fadeIn" ng-hide="vm.model.length == vm.max">
     <md-subheader class="md-no-sticky" ng-bind="vm.label"></md-subheader>
     <md-list-item class="md-2-line contact-item"
       ng-repeat="(index, item) in vm.list | orderBy: 'name' track by $index"
