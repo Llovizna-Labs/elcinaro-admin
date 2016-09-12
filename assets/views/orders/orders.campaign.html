@@ -24,7 +24,7 @@
         </div>
         <div layout="row">
           <span>$</span>
-          <span>{{vm.total}}</span>
+          <span>{{vm.total | number: 2}}</span>
         </div>
       </div>
     </md-card-content>
@@ -50,7 +50,7 @@
             <span class="fee"> x({{item.fee}})</span></md-option>
         </md-select>
         <div layout="row">
-          <span><span>$</span> {{vm.total}}</span>
+          <span><span>$</span> {{vm.total | number: 2}}</span>
         </div>
       </div>
       <div layout="row" ng-if="vm.form.options.distance.isCity">
@@ -101,7 +101,7 @@
         </md-select>
         <div layout="row">
           <span>$</span>
-          <span>{{vm.total}}</span>
+          <span>{{vm.total | number: 2}}</span>
         </div>
       </div>
       <div layout="row" layout-align="space-between center">
@@ -112,7 +112,7 @@
         </md-select>
         <div layout="row">
           <span>$</span>
-          <span>{{vm.total}}</span>
+          <span>{{vm.total | number: 2}}</span>
         </div>
       </div>
       <div layout="row" layout-align="space-between center">
@@ -123,7 +123,7 @@
         </md-select>
         <div layout="row">
           <span>$</span>
-          <span>{{vm.total}}</span>
+          <span>{{vm.total | number: 2}}</span>
         </div>
       </div>
       <div class="md-block checkbox-group" layout="row">

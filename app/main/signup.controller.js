@@ -10,7 +10,7 @@
   function SignupController($rootScope, $mdDialog, $scope, Auth, UtilService) {
     var vm = this;
     vm.data = {
-      country: {}
+      country: null
     };
 
     vm.loading = false;

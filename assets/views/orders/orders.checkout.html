@@ -9,7 +9,7 @@
     <md-card-content>
       <div layout="row" layout-align="space-between center">
         <div class="">
-          <span>A total of $<span ng-bind="vm.total"></span> will be charged to your paypal account</span>
+          <span>A total of $<span ng-bind="vm.total | number: 2"></span> will be charged to your paypal account</span>
         </div>
         <div id="paypal-container"></div>
       </div>
