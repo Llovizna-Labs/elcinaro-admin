@@ -73,7 +73,7 @@
 
     vm.launch = function() {
       vm.loading = true;
-      vm.form.amount = vm.total;
+      vm.form.amount = parseFloat(vm.total).toFixed(2);
       DataService.createCampaign(vm.form).then(function(res) {
         console.log(res);
         vm.success = true;
@@ -84,7 +84,7 @@
       }).finally(function() {
         vm.loading = false;
       });
-    }
+    };
 
     function doSomethingWithTheNonce(res) {
       console.log(res);
@@ -93,7 +93,6 @@
         vm.form.nonce = res;
         vm.authorization = true;
       })
-
     }
 
 
