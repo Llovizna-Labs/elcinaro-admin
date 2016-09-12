@@ -69,6 +69,8 @@
       country: $rootScope.user ? (_.find(UtilService.getCountries(), function(i) {
         return i.name === $rootScope.user.country || i.id === $rootScope.user.country;
       }) || 'CA') : 'CA',
+      state: null,
+      city:null,
       categories: []
     };
 
