@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .factory('Auth', Auth)
     .factory('AuthInterceptor', AuthInterceptor)
     .config(function($httpProvider) {
       $httpProvider.interceptors.push('AuthInterceptor');
-      $httpProvider.defaults.withCredentials = true;
+      $httpProvider.defaults.withCredentials = false;
     });
 
   Auth.$inject = [

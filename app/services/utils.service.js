@@ -2,15 +2,68 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
-    .factory('UtilService', factory);
+    .module('ElCinaroAdmin')
+    .factory('$util', factory);
 
   function factory() {
     var service = {
-      getCountries: getCountries
+      getCountries: getCountries,
+      getActions: getActions,
+      getMedidas: getMedidas,
+      item: {}
     };
 
     return service;
+
+    function getMedidas() {
+      return [{
+        id: 1,
+        nombre: 'L.'
+      },
+      {
+        id: 2,
+        nombre: 'mL.'
+      },
+      {
+        id: 3,
+        nombre: 'g.'
+      },
+      {
+        id: 4,
+        nombre: 'Kg.'
+      }]
+    }
+    function getActions() {
+      return [{
+        name: 'Desmalezamiento',
+        _lowername: 'desmalezamiento',
+        id: 1
+      }, {
+        template: 'riego.tmpl.html',
+        name: 'Riego',
+        _lowername: 'riego',
+        id: 2
+      }, {
+        name: 'Fertilizacion',
+        _lowername: 'fertilizacion',
+        id: 3,
+        template: 'fertilizacion.tmpl.html'
+      }, {
+        name: 'Plaguicida',
+        _lowername: 'plagicida',
+        id: 4,
+        template: 'plaguicida.tmpl.html'
+      }, {
+        name: 'Limpieza',
+        _lowername: 'limpieza',
+        id: 5
+      }, {
+        name: 'Observaciones',
+        _lowername: 'observaciones',
+        id: 6,
+        template: 'observaciones.tmpl.html'
+      }];
+    }
 
     function getCountries() {
       return [{

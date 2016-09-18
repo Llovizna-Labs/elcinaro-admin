@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .controller('DashboardController', Controller);
 
   function Controller($http, $q) {

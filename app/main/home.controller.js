@@ -12,21 +12,26 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['$rootScope', 'jQuery'];
+  HomeController.$inject = ['$rootScope', 'jQuery', ];
 
   /* @ngInject */
   function HomeController($rootScope, jQuery) {
     var vm = this;
     vm.title = 'Home Controller';
     vm.scrollTo = scrollTo;
+    vm.actividades = [];
+
     activate();
 
     ////////////////
 
-    function activate() {}
+    function activate() {
+      console.log('HomeController');
+    }
+
 
     function scrollTo(element) {
       jQuery('html, body').animate({

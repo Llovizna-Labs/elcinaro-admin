@@ -1,0 +1,63 @@
+<section class="dashboard">
+  <md-content>
+  <md-nav-bar md-selected-nav-item="semillas" nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-sref="dashboard.rubros" name="rubros">Rubros</md-nav-item>
+    <md-nav-item md-nav-sref="dashboard.semillas" name="semillas">Semillas</md-nav-item>
+    <md-nav-item md-nav-sref="dashboard.lotes" name="lotes">Lotes de Siembras</md-nav-item>
+  </md-nav-bar>
+</md-content>
+  <md-divider></md-divider>
+  <md-card>
+    <md-card-title>
+      <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.toggleSearch">
+        <div class="md-toolbar-tools">
+          <span ng-bind="vm.table.title"></span>
+          <div flex></div>
+          <md-button class="md-icon-button" ng-click="vm.toggleSearch = true">
+            <md-icon>search</md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-toolbar class="md-table-toolbar md-default" ng-show="vm.toggleSearch" aria-hidden="false">
+        <div class="md-toolbar-tools">
+          <form flex name="vm.filter.form">
+            <md-input-container md-no-float class="md-block">
+              <md-icon class="material-icons">search</md-icon>
+              <input type="text" ng-model="vm.query.filter" placeholder="{{vm.table.search.placeholder}}">
+            </md-input-container>
+          </form>
+          <md-button class="md-icon-button" ng-click="vm.resetTable()">
+            <md-icon>close</md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+    </md-card-title>
+    <md-card-content>
+      <div layout="column">
+        <md-table-container>
+          <table md-table md-row-select multiple ng-model="vm.selected" md-progress="vm.promise">
+            <thead md-head md-order="vm.query.order" md-on-reorder="vm.getData">
+              <tr md-row>
+                <th md-column md-order-by="familia__nombre"><span>Rubro</span></th>
+                <th md-column md-numeric>Descripcion</th>
+                <th md-column md-numeric md-order-by="proovedor__nombre"><span>Proovedor</span></th>
+                <th md-column md-numeric md-order-by="cantidad">Cantidad (u/g)</th>
+                <th md-column md-numeric md-order-by="nivel_germinacion">n/g (%)</th>
+              </tr>
+            </thead>
+            <tbody md-body>
+              <tr md-row md-select="dessert" md-select-id="nombre" md-auto-select ng-repeat="data in vm.data.results">
+                <td md-cell>{{data.familia.nombre}}</td>
+                <td md-cell>{{data.descripcion}}</td>
+                <td md-cell>{{data.proovedor.nombre}}</td>
+                <td md-cell>{{data.cantidad | number: 1 + dessert.unidad}}</td>
+                <td md-cell>{{data.nivel_germinacion}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+        <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page="vm.query.page" md-total="{{vm.data.count}}" md-on-paginate="vm.getData" md-page-select></md-table-pagination>
+      </div>
+    </md-card-content>
+  </md-card>
+</section>

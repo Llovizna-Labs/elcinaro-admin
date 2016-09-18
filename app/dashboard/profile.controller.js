@@ -2,19 +2,21 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .controller('ProfileController', Controller);
 
-  Controller.$inject = ['_', '$rootScope', '$q', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'UserService', 'UtilService'];
+  Controller.$inject = ['_', '$rootScope', '$q', 'uiGmapGoogleMapApi', 'uiGmapIsReady', 'UserService', '$util'];
 
-  function Controller(_, $rootScope, $q, uiGmapGoogleMapApi, uiGmapIsReady, UserService, UtilService) {
+  function Controller(_, $rootScope, $q, uiGmapGoogleMapApi, uiGmapIsReady, UserService, $util) {
     var vm = this;
     var PlacesAutocomplete = null;
 
-    vm.countries = UtilService.getCountries();
+    vm.countries = $util.getCountries();
 
     vm.data = {
-      country: 'CA'
+      country: 'CA',
+      username: '',
+      birth: new Date()
     };
     vm.placesReady = false;
 
@@ -23,21 +25,6 @@
     ////////////////
     function activate() {
       console.log('Profile Controller');
-      console.log($rootScope.user);
-      angular.copy($rootScope.user, vm.data);
-      vm.data.country = _.find(vm.countries, function(item) {
-        return item.name === $rootScope.user.country || item.id === $rootScope.user.country;
-      });
-
-      var indexImage = $rootScope.user.imageGallery.indexOf($rootScope.user.profileImage);
-
-      uiGmapGoogleMapApi.then(function(maps) {
-        PlacesAutocomplete = new maps.places.AutocompleteService();
-        vm.placesReady = true;
-      });
-
-
-      vm.data.birth = moment($rootScope.user.birth || {}).toDate();
     }
 
     vm.autocompleteCountry = function(query) {

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es" ng-app="AnyDayBuddyAds">
+<html lang="es" ng-app="ElCinaroAdmin">
 
 <head>
   <meta charset="UTF-8">
-  <title>AnyDayBuddy Campaigns</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <title>El Cinaro</title>
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet"> -->
   <link rel="stylesheet" href="assets/styles/vendor.css" type="text/css">
   <link rel="stylesheet" href="assets/styles/app.css" type="text/css">
 </head>
@@ -13,10 +13,9 @@
 <body ng-class="{'fill': $root.fill, 'fixed': $root.fixed}">
   <header-directive></header-directive>
   <div class="wrapper">
-    <div ui-view="main"></div>
+    <div ui-view="main" class="main"></div>
   </div>
   <footer-directive></footer-directive>
-  <script src="https://js.braintreegateway.com/js/braintree-2.27.0.min.js"></script>
   <script src="scripts/vendor.js"></script>
   <script src="scripts/app.js"></script>
 </body>

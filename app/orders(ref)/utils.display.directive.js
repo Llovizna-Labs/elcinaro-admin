@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .directive('adbDisplayChooser', directive);
 
   /* @ngInject */
@@ -247,7 +247,7 @@
         return;
       }
       //
-      // UtilService.getLocation()
+      // $util.getLocation()
       //   .then(function(location) {
       //     vm.location = location;
       //     //centerMap(vm.map.instance, vm.location);

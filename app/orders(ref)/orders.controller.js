@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .controller('OrdersController', Controller);
 
   Controller.$inject = [
@@ -12,10 +12,10 @@
     '$mdDialog',
     '$mdToast',
     'DataService',
-    'UtilService'
+    '$util'
   ];
 
-  function Controller(_, $scope, $rootScope, $mdDialog, $mdToast, DataService, UtilService) {
+  function Controller(_, $scope, $rootScope, $mdDialog, $mdToast, DataService, $util) {
     var vm = this;
 
     vm.openImage = openImage;
@@ -66,7 +66,7 @@
         activities: []
       },
       customer: {},
-      country: $rootScope.user ? (_.find(UtilService.getCountries(), function(i) {
+      country: $rootScope.user ? (_.find($util.getCountries(), function(i) {
         return i.name === $rootScope.user.country || i.id === $rootScope.user.country;
       }) || 'CA') : 'CA',
       state: null,
@@ -207,7 +207,7 @@
     }, function() {
       if (!$rootScope.user) return;
 
-      vm.form.country = _.find(UtilService.getCountries(), function(i) {
+      vm.form.country = _.find($util.getCountries(), function(i) {
         return i.name === $rootScope.user.country || i.id === $rootScope.user.country;
       }).id;
     }, true);

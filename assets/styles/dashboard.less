@@ -1,50 +1,96 @@
 .dashboard-content {
-  display: block;
-  background-color: #eee;
+    display: block;
+    background-color: #eee;
 }
-
 .dashboard {
-  max-height: 100%;
-  h1 {
-    color: #eb7d32;
-    padding: 10px 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 1.6em;
-  }
-  h2 {
-    color: #eb7d32;
-    padding: 10px 0 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 1.2em;
-    margin-top: 20px;
-    margin-bottom: 0;
-  }
-  hr {
-    border: 0;
-    height: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    margin-bottom: 10px;
-  }
-  .form {
-    color: #555;
-    .radio-group,
-    .checkbox-group {
-      margin-bottom: 20px;
-      label {
-        margin-right: 10px;
-      }
-      md-checkbox {
+    max-height: 100%;
+    h1 {
+        color: #eb7d32;
+        padding: 10px 0;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 1.6em;
+    }
+    h2 {
+        color: #eb7d32;
+        padding: 10px 0 0;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 1.2em;
+        margin-top: 20px;
         margin-bottom: 0;
-      }
     }
-    .md-datepicker-input-container {
-      width: ~'calc(100% - 70px)';
+    hr {
+        border: 0;
+        height: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        margin-bottom: 10px;
     }
-    .md-datepicker-input {
-      min-width: 200px;
+    a {
+        margin: 0;
     }
-  }
+    .activities-list {
+        .action-chip {
+            border-radius: 5%;
+            padding: 5px;
+            margin-right: 5px;
+        }
+
+        md-chips .md-chips {
+            box-shadow: none;
+        }
+        .action-chip,
+        md-chip, .actions {
+            color: white !important;
+            background-color: #569E44;
+            &.actividad-1 {
+                //desmalezamiento
+                background-color: #569E44;
+            }
+            &.actividad-2 {
+                //riego
+                background-color: #DAEAC2;
+            }
+            &.actividad-3 {
+                //fertilizacion
+                background-color: #DBC125;
+            }
+            &.actividad-4 {
+                //plagicida
+                background-color: #A2C43A;
+            }
+            &.actividad-5 {
+                //limpieza
+            }
+        }
+    }
+    .form {
+        color: #555;
+        .checkbox-group,
+        .radio-group {
+            margin-bottom: 20px;
+            label {
+                margin-right: 10px;
+            }
+            md-checkbox {
+                margin-bottom: 0;
+            }
+        }
+        .md-datepicker-input-container {
+            width: ~'calc(100% - 70px)';
+        }
+        .md-datepicker-input {
+            min-width: 200px;
+        }
+    }
+    .activity-setup {
+        .chips .cultivos-item {
+            color: white;
+            background-color: @primary-color;
+            &.active {
+                font-style: italic;
+            }
+        }
+    }
 }

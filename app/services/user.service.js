@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .service('UserService', factory);
 
   factory.$inject = ['$http', '$q', '$localstorage', '$rootScope', 'baseApi'];

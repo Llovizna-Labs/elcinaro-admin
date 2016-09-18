@@ -35,9 +35,18 @@ body {
 }
 
 .wrapper {
+  min-height: 600px;
   margin: 0 auto;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.main {
+  min-height: inherit;
+}
+
+.layout-fill {
+  min-height: inherit;
 }
 
 .footer {
@@ -55,7 +64,9 @@ body {
   .sidenav-items {
     padding: 0;
     .sidenav-item {
-      padding: 12px 18px;
+      text-align: center;
+      margin: auto;
+      padding: 12px 0px;
       color: lighten(@accent-color, 60%);
       font-size: 1.2em;
       transition: all .25s ease;
@@ -69,7 +80,7 @@ body {
       }
     }
     md-icon {
-      margin-right: 10px;
+      display: block;
       color: #fff;
     }
   }

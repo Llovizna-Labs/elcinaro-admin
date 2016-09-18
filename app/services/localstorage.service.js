@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .factory('$localstorage', $localstorage);
 
   $localstorage.$inject = ['$window'];

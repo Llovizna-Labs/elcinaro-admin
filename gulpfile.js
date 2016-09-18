@@ -51,7 +51,12 @@ var vendorScripts = [
   'bower_components/markerclustererplus/src/markerclusterer.js',
   'bower_components/angular-google-maps/dist/angular-google-maps.js',
   'bower_components/dropzone/dist/min/dropzone.min.js',
-  'bower_components/moment/min/moment.min.js'
+  'bower_components/moment/min/moment.min.js',
+  'bower_components/angular-material-data-table/dist/md-data-table.min.js',
+  'bower_components/angular-moment/angular-moment.min.js',
+  'bower_components/angular-moment-picker/dist/angular-moment-picker.min.js',
+  'vendors/offline/offline.min.js',
+
   // 'bower_components/braintree-web/client.js',
   // 'bower_components/braintree-web/paypal.js',
 
@@ -59,6 +64,11 @@ var vendorScripts = [
 var vendorStyles = [
   'bower_components/angular-material/angular-material.min.css',
   'bower_components/dropzone/dist/min/dropzone.min.css',
+  'bower_components/angular-material-data-table/dist/md-data-table.min.css',
+  'bower_components/angular-moment-picker/dist/angular-moment-picker.min.css',
+  'vendors/offline/offline-chrome-theme.css',
+  'vendors/offline/offline-spanish-indicator.css',
+  'vendors/offline/offline-spanish-theme.css',
 ];
 var vendorFonts = [];
 
@@ -293,4 +303,26 @@ gulp.task('live', ['watchlive'], function() {
 
   // Watch any files in www/, reload on change
   watch("www/**").pipe(connect.reload());
+});
+
+
+//DEPLOYMENT TO S3
+
+var config = {
+    accessKeyId: 'AKIAIIEMHAZN74TY6XVQ',
+    secretAccessKey: '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'
+};
+
+var s3 = require('gulp-s3-upload')(config);
+
+gulp.task("upload", function() {
+    gulp.src("./www/**")
+        .pipe(s3({
+            Bucket: 'elcinaro-site', //  Required
+            ACL:    'public-read'       //  Needs to be user-defined
+        }, {
+            // S3 Construcor Options, ie:
+            maxRetries: 5
+        }))
+    ;
 });

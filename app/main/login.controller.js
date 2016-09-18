@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .controller('LoginController', LoginController);
 
   LoginController.$inject = ['$state', 'Auth'];

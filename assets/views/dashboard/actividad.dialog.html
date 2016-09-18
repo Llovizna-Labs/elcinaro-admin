@@ -1,0 +1,43 @@
+<md-dialog aria-label="Nueva Actividad">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Agregar Actividad</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="vm.cancel()">
+          <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <h4>Seleccione</h4>
+        <div layout="column">
+          <div adb-chips
+          adb-id="rubros"
+          class="chips-autocomplete"
+          ng-model="vm.data.rubros"
+          list="vm.categories"
+          editable="true"
+          hide-list="false"
+          placeholder="Seleccione los Rubros"
+          map="vm.map"
+          flex="90"></div>
+        </div>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
+        More on Wikipedia
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="answer('not useful')">
+       Cancelar
+      </md-button>
+      <md-button ng-click="answer('useful')">
+        Confirmar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

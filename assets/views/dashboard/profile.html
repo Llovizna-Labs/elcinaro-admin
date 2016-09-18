@@ -22,22 +22,6 @@
           <label>Username <span ng-show="vm.loadingAvailability">(looking for availability)</span></label>
           <input ng-model="vm.data.username" ng-blur="vm.checkCredentailsAvailability('username')" required>
         </md-input-container>
-        <md-autocomplete class="no-margin" md-input-name="userCountry" md-input-minlength="2" md-input-maxlength="18" md-selected-item="vm.data.country" md-search-text="vm.query" md-item-text="item.name" md-items="item in vm.autocompleteCountry(vm.query)" md-min-length="0" md-floating-label="Country">
-          <md-item-template>
-            <span md-highlight-text="vm.query">{{item.name}}</span>
-          </md-item-template>
-          <md-not-found>
-            No countries matching "{{vm.query}}" were found.
-          </md-not-found>
-        </md-autocomplete>
-        <md-autocomplete ng-disabled="!vm.placesReady" md-selected-item-change="vm.citySelected(item)" md-selected-item="vm.data.addressPlace" md-search-text="vm.data.city" md-items="item in vm.autocompleteAddress(vm.data.city)" md-item-text="item.description" md-min-length="2" md-floating-label="City" flex="90" required>
-          <md-item-template>
-            <span md-highlight-text="vm.data.city">{{item.description}}</span>
-          </md-item-template>
-          <md-not-found>
-            No matches found for "<span ng-bind="vm.data.city"></span>".
-          </md-not-found>
-        </md-autocomplete>
         <md-datepicker ng-model="vm.data.birth" md-placeholder="Date of birth (dd/mm/yyyy)" md-min-date="vm.datepicker.minDate" md-max-date="vm.datepicker.maxDate"></md-datepicker>
         <md-input-container class="md-block mb-0">
           <label>Biography</label>

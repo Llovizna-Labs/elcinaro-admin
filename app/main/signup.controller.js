@@ -2,12 +2,12 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .controller('SignupController', SignupController);
 
-  SignupController.$inject = ['$rootScope', '$mdDialog', '$scope', 'Auth', 'UtilService'];
+  SignupController.$inject = ['$rootScope', '$mdDialog', '$scope', 'Auth', '$util'];
 
-  function SignupController($rootScope, $mdDialog, $scope, Auth, UtilService) {
+  function SignupController($rootScope, $mdDialog, $scope, Auth, $util) {
     var vm = this;
     vm.data = {
       country: null
@@ -16,7 +16,7 @@
     vm.loading = false;
     vm.isConfirm = true;
     vm.availability = true;
-    vm.countries = UtilService.getCountries();
+    vm.countries = $util.getCountries();
 
     ////////////////
 

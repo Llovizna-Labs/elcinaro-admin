@@ -1,6 +1,6 @@
 /**
  * @ngdoc overview
- * @name AnyDayBuddyAds
+ * @name ElCinaroAdmin
  * @requires ui.router
  * @description
  *
@@ -11,10 +11,13 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds', [
+    .module('ElCinaroAdmin', [
       'ui.router',
       'ngMaterial',
       'uiGmapgoogle-maps',
+      'md.data.table',
+      'angularMoment',
+      'moment-picker'
     ]);
 
 })();

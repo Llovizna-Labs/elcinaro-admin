@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .directive('adbOrdersCheckout', directive);
 
   /* @ngInject */

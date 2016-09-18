@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .config(routerProvider);
 
   routerProvider.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
@@ -47,13 +47,79 @@
         },
         authenticate: true
       })
-      .state('dashboard.campaigns', {
-        url: '/campaigns/:id',
+      .state('dashboard.home', {
+        url: '/home/',
         views: {
           'dashboard': {
-            controller: 'CampaignController',
+            controller: 'HomeDashboardController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/campaigns.html'
+            templateUrl: 'assets/views/dashboard/home.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.actividades', {
+        url: '/actividades/',
+        views: {
+          'dashboard': {
+            controller: 'ActividadController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/seguimiento/actividad.tmpl.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.rubros', {
+        url: '/rubros/:id',
+        views: {
+          'dashboard': {
+            controller: 'SemillasController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/rubros.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.cultivos', {
+        url: '/cultivos/:id',
+        views: {
+          'dashboard': {
+            controller: 'CultivosController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/cultivos.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.semillas', {
+        url: '/semillas/:id',
+        views: {
+          'dashboard': {
+            controller: 'SemillasController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/semillas.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.lotes', {
+        url: '/lotes/:id',
+        views: {
+          'dashboard': {
+            controller: 'LotesController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/lotes.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.suelos', {
+        url: '/suelos/:id',
+        views: {
+          'dashboard': {
+            controller: 'SuelosController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/suelos.html'
           }
         },
         authenticate: true

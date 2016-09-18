@@ -1,5 +1,5 @@
-# AnyDayBuddy Ads
-This site is intended to create advertisment campaigns for the [AnyDayBuddy](https://anydaybuddy.com) platform.
+# El Cinaro Ads
+This site is intended to create advertisment campaigns for the [El Cinaro](https://El Cinaro.com) platform.
 
 ## Steps
 

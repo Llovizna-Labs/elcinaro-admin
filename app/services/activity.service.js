@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .service('CategoryService', CategoryService);
 
   CategoryService.$inject = ['$http', '$q', 'baseApi'];

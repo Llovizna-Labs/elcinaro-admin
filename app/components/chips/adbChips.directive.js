@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('AnyDayBuddyAds')
+    .module('ElCinaroAdmin')
     .directive('adbChips', adbChips);
 
   function adbChips() {
@@ -55,7 +55,7 @@
 
     vm.querySearch = function(query) {
       vm.queryGiven = query;
-      var results = query ? vm.list.filter(createFilterFor(query)) : [];
+      var results = query && vm.list.length ? vm.list.filter(createFilterFor(query)) : [];
 
       if (vm.create) create(results, query);
 
@@ -104,10 +104,15 @@
 
       if (jQuery(vm.input).is(':focus') && e.which == 13) {
         $scope.$apply(function() {
-          var results = vm.queryGiven ? vm.list.filter(createFilterFor(vm.queryGiven)) : [];
+          var results = (vm.queryGiven && vm.list.length)? vm.list.filter(createFilterFor(vm.queryGiven)) : [];
           create(results, vm.queryGiven + ',');
         });
       }
     }
+
+    $scope.$watch('vm.list', function(c, o) {
+      console.log(c);
+
+    })
   }
 })();
