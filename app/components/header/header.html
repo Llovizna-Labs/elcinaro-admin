@@ -6,13 +6,7 @@
       </a>
       <span flex></span>
       <div ng-hide="$root.$state.includes('dashboard')">
-        <md-button>
-          Help
-        </md-button>
         <md-button ng-if="!$root.user" ui-sref="login">
-          Log In
-        </md-button>
-        <md-button ng-if="$root.user" ui-sref="dashboard.campaigns">
           Dashboard
         </md-button>
       </div>

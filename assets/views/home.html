@@ -1,86 +1,41 @@
 <section class="landing">
   <div class="container-principal">
-    <img class="image-container-principal"  src="assets/images/cinaro_ls.jpeg" />
+    <div class="box-title">
+      <h1>El cinaro</h1>
+    </div>
+    <img class="image-container-principal" src="assets/images/first-section.png" />
     <div layout="row" class="buttons">
-      <md-button class="md-raised md-primary" ui-sref="dashboard.home">Dashboard</md-button>
-      <md-button class="md-raised" ng-click="vm.scrollTo('#form-contact')">Contact Us</md-button>
-    </div>
-  </div>
-  <div class="container">
-    <div class="container-inside" layout-xs="colunm" layout-gt-xs="row">
-      <div flex="33" flex-order-gt-xs="2" layout-align="center center">
-        <h4 class="adPage_h4">Achieve global reach, on an
-        unprecedented scale.</h4>
-
-        <p>Advertise with El Cinaro and reach potential customers around the world. El Cinaro connects your brand with over 170 million monthly active users and 45 million daily active users.</p>
-      </div>
-      <div flex="66" flex-order-gt-xs="1" layout-align="center center">
-        <img class="images-responsive" src="assets/images/monthly-daily-active-users.png" />
-      </div>
-
-    </div>
-    <div class="container-inside white" layout-xs="column" layout-gt-xs="row" layout-align="center center" >
-      <div flex="33">
-        <h4>
-          Engage with a young, highly
-        <i></i>nfluential male demographic.
-        </h4>
-
-        <p>Our users are young, educated, and tech-savvy: the 18-24 year-old guys who can be hard to reach through traditional marketing channels.</p>
-      </div>
-      <div flex="66" layout-align="center center">
-        <img class="images-responsive" src="assets/images/demographics-gender-age-chart.png" />
-      </div>
-    </div>
-    <div class="pre-footer">
-      <h2>Ad Units</h2>
-
-      <p>Contact us to learn more about the variety of ad units available to help you reach the customers you need: via desktop, mobile, and the web.</p>
-      <br>
-
-      <div layout="row" layout-align="center center">
-        <md-button class="md-raised md-primary"  ui-sref="orders">Start Campanign</md-button>
-      </div>
+      <md-button class="md-raised" ng-click="vm.scrollTo('#form-contact')">Contáctanos</md-button>
     </div>
   </div>
   <div class="form-contact" id="form-contact">
-    <h2>Contact Us</h2>
+    <h2 class="title">Contáctanos</h2>
     <form name="userForm" class="clearfix">
       <div layout-gt-xs="row">
         <md-input-container class="md-block" flex>
-          <label>Company</label>
-          <input ng-model="user.company">
-        </md-input-container>
-        <md-input-container class="md-block" flex>
-          <label>Firts Name</label>
+          <label>Nombre</label>
           <input ng-model="user.firtsName">
         </md-input-container>
-      </div>
-      <div layout-gt-xs="row">
         <md-input-container class="md-block" flex>
-          <label>Last Name</label>
+          <label>Apellido</label>
           <input ng-model="user.lastName">
         </md-input-container>
-        <md-input-container class="md-block" flex>
-          <label>Budget</label>
-          <input ng-model="user.budget">
-        </md-input-container>
       </div>
       <div layout-gt-xs="row">
         <md-input-container class="md-block" flex>
-          <label>Email</label>
+          <label>Correo Eléctronico</label>
           <input ng-model="user.email">
         </md-input-container>
         <md-input-container class="md-block" flex>
-          <label>Phone</label>
+          <label>Teléfono</label>
           <input ng-model="user.phone">
         </md-input-container>
       </div>
       <md-input-container class="md-block">
-        <label>Comment</label>
+        <label>Comentarios</label>
         <textarea ng-model="user.comment" md-maxlength="150" rows="2" md-select-on-focus></textarea>
       </md-input-container>
-      <md-button  type="submit" class="md-raised md-primary">Submit</md-button>
+      <md-button type="submit" class="md-raised md-primary">Enviar</md-button>
     </form>
   </div>
   <div class="clearfix"></div>
