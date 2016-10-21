@@ -63,78 +63,107 @@
 
 
     function submit() {
-      console.log(vm.observations);
-      console.log(vm.selectedCultivos);
+      // console.log(vm.observations);
+      // console.log(vm.selectedCultivos);
+      //var bulk = _.merge(vm.selectedCultivos, _.keyBy(vm.observations, 'selector'));
+
+      var data = _.map(vm.observations, function(i) {
+        var item = i;
+        item.cultivo = i.cultivo.id;
+        if (item.hasOwnProperty('fecha_aplicacion')) {
+          item.fecha_aplicacion = moment(i.fecha_aplicacion, 'DD-MM-YYYY HH:mm A', true);
+        }
+        return item;
+      });
+
+      $seguimiento.createActividades(_.groupBy(data, 'selector'))
+        .then(function(resp) {
+          console.log(resp);
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
     }
 
     function getActividades() {
-      $seguimiento.getActividades(vm.query).then(function(resp) {
-        console.log(resp);
-        vm.data = resp;
-      }).catch(function(err) {
-        console.log(err);
-      })
+      $seguimiento.getActividades(vm.query)
+        .then(function(resp) {
+          console.log(resp);
+          vm.data = resp;
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
     }
 
     function getInsumos() {
-      $insumos.getInsumos({}).then(function(resp) {
-        vm.insumos = _.map(resp.results, function(i) {
-          return {
-            name: i.nombre,
-            id: i.id,
-            _lowername: _.lowerCase(i.nombre)
-          }
+      $insumos.getInsumos({})
+        .then(function(resp) {
+          vm.insumos = _.map(resp.results, function(i) {
+            return {
+              name: i.nombre,
+              id: i.id,
+              _lowername: _.lowerCase(i.nombre)
+            }
+          })
         })
-      }).catch(function(err) {
-        console.log(err);
-      }).finally(function() {
+        .catch(function(err) {
+          console.log(err);
+        })
+        .finally(function() {
 
-      })
+        })
     }
 
     function getRubros() {
       $siembras.getRubros({
-        page: 1,
-        limit: 10,
-        order: '-nombre',
-        filter: ''
-      }).then(function(resp) {
-        vm.rubros = _.map(resp.results, function(i) {
-          return {
-            name: i.nombre,
-            id: i.id,
-            _lowername: _.lowerCase(i.nombre)
-          }
+          page: 1,
+          limit: 10,
+          order: '-nombre',
+          filter: ''
         })
-      }).catch(function(err) {
+        .then(function(resp) {
+          vm.rubros = _.map(resp.results, function(i) {
+            return {
+              name: i.nombre,
+              id: i.id,
+              _lowername: _.lowerCase(i.nombre)
+            }
+          })
+        })
+        .catch(function(err) {
 
-      }).finally(function() {
+        })
+        .finally(function() {
 
-      })
+        })
     }
 
     function getCultivos(query) {
-      $siembras.getCultivos(query).then(function(resp) {
-        vm.cultivos = _.map(resp.results, function(i) {
-          return {
-            name: i.codigo,
-            description: i.lote.semilla_utilizada.descripcion,
-            id: i.id,
-            _lowername: _.lowerCase(i.nombre),
-            selected: false,
-            fertilizacion: [],
-            plaguicida: [],
-            riego: [],
-            observaciones: {
-              text: 'Observaciones'
+      $siembras.getCultivos(query)
+        .then(function(resp) {
+          vm.cultivos = _.map(resp.results, function(i) {
+            return {
+              name: i.codigo,
+              description: i.lote.semilla_utilizada.descripcion,
+              id: i.id,
+              _lowername: _.lowerCase(i.nombre),
+              selected: false,
+              plaguicida: {},
+              fertilizacion: {},
+              riego: {},
+              observaciones: {
+                text: 'Observaciones'
+              }
             }
-          }
+          })
         })
-      }).catch(function(err) {
+        .catch(function(err) {
 
-      }).finally(function() {
+        })
+        .finally(function() {
 
-      })
+        })
     }
 
 
@@ -165,13 +194,15 @@
         })
         .then(function(answer) {
           console.log(answer);
-          if (_.isArray(item.cultivo[item.selector])) {
-            item.cultivo[item.selector].push(answer);
-          } else if (_.isObject(item.cultivo[item.selector])) {
-            item.cultivo[item.selector] = answer;
-          } else {
-            console.log('undefined');
-          }
+          // if (_.isArray(item.cultivo[item.selector])) {
+          //   item.cultivo[item.selector].push(answer);
+          // } else if (_.isObject(item.cultivo[item.selector])) {
+          //   item.cultivo[item.selector] = answer;
+          // } else {
+          //   console.log('undefined');
+          // }
+
+          _.merge(item, answer);
 
           console.log(item);
         }, function() {
@@ -201,8 +232,9 @@
         selectCultivo(index, item);
       });
     }
+
     /**
-     * Search for vegetables.
+     * Search utils.
      */
     function querySearch(data, query) {
       var results = query ? data.filter(createFilterFor(query)) : [];
@@ -224,7 +256,9 @@
     $scope.$watch('vm.data', function(current, original) {
       if (!current) return;
       var temp = _.groupBy(vm.data.results, function(o) {
-        return moment(moment(o.fecha_realizacion).startOf('day')).format();
+        return moment(moment(o.fecha_realizacion)
+            .startOf('day'))
+          .format();
       });
       vm.formattedData = temp;
     });
@@ -258,8 +292,9 @@
       if (!current.length) return;
 
       var query = _.map(current, function(i) {
-        return i.name;
-      }).join(',');
+          return i.name;
+        })
+        .join(',');
 
       getCultivos({
         page: 1,

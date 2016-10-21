@@ -11,6 +11,7 @@
   function factory(baseApi, $http, $q) {
     var service = {
       getActividades: getActividades,
+      createActividades: createActividades,
       actividades: []
     };
 
@@ -29,6 +30,18 @@
         })
         .success(function(data) {
           angular.copy(data.results, service.semillas);
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function createActividades(payload) {
+      var deferred = $q.defer();
+      $http.post(baseApi + '/actividades/', payload)
+        .success(function(data) {
           deferred.resolve(data);
         })
         .error(function(err) {

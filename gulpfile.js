@@ -315,10 +315,10 @@ var config = {
 
 var s3 = require('gulp-s3-upload')(config);
 
-gulp.task("upload", function() {
+gulp.task("upload", ['rev:collect'], function() {
     gulp.src("./www/**")
         .pipe(s3({
-            Bucket: 'elcinaro-site', //  Required
+            Bucket: 'www.elcinaro.com.ve', //  Required
             ACL:    'public-read'       //  Needs to be user-defined
         }, {
             // S3 Construcor Options, ie:

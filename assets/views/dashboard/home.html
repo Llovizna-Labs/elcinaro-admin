@@ -45,8 +45,8 @@
         </md-card>
       </div>
     </md-tab>
-      <!-- plan de trabajo -->
-      <md-tab label=Agregar>
+    <!-- plan de trabajo -->
+    <md-tab label=Agregar>
       <div class="activity-setup" layout="column" ng-cloak layout-padding layout-margin>
         <md-card>
           <md-card-title>
@@ -107,10 +107,7 @@
                 <span md-highlight-text="vm.searchTextAction">{{item.name}} :: {{item.id}}</span>
               </md-autocomplete>
               <md-chip-template>
-                <span>
-        <strong>{{$chip.name}}</strong>
-        <em>({{$chip.id}})</em>
-      </span>
+                <span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span>
               </md-chip-template>
             </md-chips>
             <md-list ng-hide="!vm.observations.length" class="md-long-text activities-list" flex="">

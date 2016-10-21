@@ -12,6 +12,11 @@
     var vm = this;
     vm.detail = $stateParams.id ? true : false;
 
+
+    vm.querySearch = querySearch;
+    vm.selectedItem = null;
+    vm.searchText = null;
+
     vm.getData = getData;
     vm.toggleSearch = false;
     vm.timeout = false;
@@ -30,11 +35,19 @@
       filter: ''
     };
 
+    vm.form = {
+      lotes: [],
+      selectedLotes: [],
+      areasSiembra: []
+    }
+
     activate();
 
     function activate() {
       console.log('Cultivos Controller');
       vm.detail ? getItem() : getData();
+
+      getLotes();
     }
 
     function getItem() {
@@ -70,9 +83,7 @@
 
     $scope.$watch('vm.query.filter', function(current, original) {
       if (!current) return;
-
       if (vm.timeout) $timeout.cancel(vm.timeout);
-
       vm.timeout = $timeout(function() {
         getData();
       }, 500); // delay 500 ms
@@ -82,5 +93,71 @@
       if (!current) return;
       console.log(current);
     });
+
+    // Cultivo Wizard
+
+    /**
+     * Search utils.
+     */
+    function querySearch(data, query) {
+      var results = query ? data.filter(createFilterFor(query)) : [];
+      return results;
+    }
+
+    /**
+     * Create filter function for a query string
+     */
+    function createFilterFor(query) {
+      var lowercaseQuery = angular.lowercase(query);
+      return function filterFn(item) {
+        return (item._lowername.indexOf(lowercaseQuery) === 0);
+      };
+
+    }
+
+    function getLotes() {
+      $siembras.getLotes({
+        page: 1,
+        limit: 100,
+        order: '-nombre',
+        filter: ''
+      }).then(function(resp) {
+        vm.form.lotes = _.map(resp.results, function(i) {
+          return {
+            name: i.semilla_utilizada.descripcion,
+            codigo: i.semilla_utilizada.codigo,
+            id: i.id,
+            _lowername: _.lowerCase(i.semilla_utilizada.descripcion)
+          }
+        })
+      }).catch(function(err) {
+        console.log(err);
+      }).finally(function() {
+        vm.form.loading = false;
+      })
+    }
+
+    function getAreasSiembra() {
+      $siembras.getLotes({
+        page: 1,
+        limit: 100,
+        order: '-nombre',
+        filter: ''
+      }).then(function(resp) {
+        vm.form.lotes = _.map(resp.results, function(i) {
+          return {
+            name: i.semilla_utilizada.descripcion,
+            codigo: i.semilla_utilizada.codigo,
+            id: i.id,
+            _lowername: _.lowerCase(i.semilla_utilizada.descripcion)
+          }
+        })
+      }).catch(function(err) {
+        console.log(err);
+      }).finally(function() {
+        vm.form.loading = false;
+      })
+    }
+
   }
 })();

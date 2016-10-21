@@ -1,13 +1,10 @@
 <section class="dashboard">
-  <md-content>
-  <md-nav-bar md-selected-nav-item="rubros" nav-bar-aria-label="navigation links">
-    <md-nav-item md-nav-sref="dashboard.rubros" name="rubros">Rubros</md-nav-item>
-    <md-nav-item md-nav-sref="dashboard.semillas" name="semillas">Semillas</md-nav-item>
-    <md-nav-item md-nav-sref="dashboard.lotes" name="lotes">Lotes de Siembras</md-nav-item>
-  </md-nav-bar>
-</md-content>
-  <md-divider></md-divider>
-  <h1 class="title">Rubros</h1>
+  <div class="header" layout="row" flex layout-align="start center">
+    <a flex="10" href="javascript:void(0)" ui-sref="dashboard.rubros({id: null})">
+      <h1 class="title"> Rubros </h1>
+    </a>
+    <div class="" flex="80"></div>
+  </div>
   <hr>
   <md-card>
     <md-card-title>

@@ -9,7 +9,7 @@
 
   function routerProvider($stateProvider, $urlRouterProvider, $locationProvider) {
     // $locationProvider.html5Mode({
-    //   enabled: true,
+    //   enabled: false,
     //   requireBase: false
     // });
     //
@@ -34,7 +34,7 @@
             templateUrl: 'assets/views/dashboard/index.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.profile', {
         url: '/profile',
@@ -45,7 +45,7 @@
             templateUrl: 'assets/views/dashboard/profile.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.home', {
         url: '/home/',
@@ -56,7 +56,7 @@
             templateUrl: 'assets/views/dashboard/home.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.actividades', {
         url: '/actividades/',
@@ -67,7 +67,7 @@
             templateUrl: 'assets/views/seguimiento/actividad.tmpl.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.rubros', {
         url: '/rubros/:id',
@@ -78,7 +78,7 @@
             templateUrl: 'assets/views/dashboard/rubros.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.cultivos', {
         url: '/cultivos/:id',
@@ -89,7 +89,7 @@
             templateUrl: 'assets/views/dashboard/cultivos.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.semillas', {
         url: '/semillas/:id',
@@ -100,7 +100,7 @@
             templateUrl: 'assets/views/dashboard/semillas.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.lotes', {
         url: '/lotes/:id',
@@ -111,7 +111,7 @@
             templateUrl: 'assets/views/dashboard/lotes.html'
           }
         },
-        authenticate: true
+        authenticate: false
       })
       .state('dashboard.suelos', {
         url: '/suelos/:id',
@@ -122,7 +122,18 @@
             templateUrl: 'assets/views/dashboard/suelos.html'
           }
         },
-        authenticate: true
+        authenticate: false
+      })
+      .state('dashboard.clientes', {
+        url: '/clientes/:id',
+        views: {
+          'dashboard': {
+            controller: 'ClientesController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/clientes.html'
+          }
+        },
+        authenticate: false
       })
       .state('orders', {
         url: '/orders',
