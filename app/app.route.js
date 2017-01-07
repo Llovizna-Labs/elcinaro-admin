@@ -34,7 +34,7 @@
             templateUrl: 'assets/views/dashboard/index.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.profile', {
         url: '/profile',
@@ -89,7 +89,7 @@
             templateUrl: 'assets/views/dashboard/cultivos.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.semillas', {
         url: '/semillas/:id',
@@ -100,7 +100,7 @@
             templateUrl: 'assets/views/dashboard/semillas.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.lotes', {
         url: '/lotes/:id',
@@ -111,7 +111,7 @@
             templateUrl: 'assets/views/dashboard/lotes.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.suelos', {
         url: '/suelos/:id',
@@ -122,7 +122,7 @@
             templateUrl: 'assets/views/dashboard/suelos.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.clientes', {
         url: '/clientes/:id',
@@ -133,7 +133,7 @@
             templateUrl: 'assets/views/dashboard/clientes.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('orders', {
         url: '/orders',
@@ -144,7 +144,7 @@
             templateUrl: 'assets/views/orders.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('login', {
         url: '/login',
@@ -158,7 +158,7 @@
         authenticate: false
       });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/login');
   }
 
 })();

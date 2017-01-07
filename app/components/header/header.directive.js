@@ -27,6 +27,10 @@
 
     ////////////////
 
+    function activate() {
+      console.log('header directive');
+    }
+
     vm.logout = function() {
       console.log('LOGOUT');
       Auth.logout();

@@ -40,7 +40,7 @@
     ////////////////
 
     function getUser() {
-      return $localstorage.getObject('user', null);
+      return $localstorage.getObject('user', null) || $localstorage.get('access_token', null) ;
     }
 
     function validate(token) {
@@ -63,7 +63,7 @@
     function login(credentials) {
       var deferred = $q.defer();
 
-      $http.post(baseApi + '/auth/login', credentials)
+      $http.post(baseApi + '/rest-auth/login/', credentials)
         .success(function(data, status, headers, config) {
           deferred.resolve(data);
 
@@ -73,6 +73,10 @@
             $rootScope.$emit('login', data.user);
             $localstorage.set('access_token', data.token);
             $localstorage.setObject('user', data.user);
+          }
+
+          if (data.hasOwnProperty('key')) {
+              $localstorage.set('access_token', data.key);
           }
         })
         .error(function(err) {

@@ -10,7 +10,7 @@
   function LoginController($state, Auth) {
     var vm = this;
     vm.loading = false;
-    
+
     ////////////////
 
     vm.auth = function() {
@@ -18,7 +18,7 @@
       vm.loading = true;
       Auth.login(vm.user).then(function(res) {
         console.log(res);
-          $state.go('dashboard.campaigns');
+          $state.go('dashboard');
       }).catch(function(err) {
         console.log(err);
       }).finally(function() {

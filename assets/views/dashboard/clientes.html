@@ -6,17 +6,19 @@
     <div class="" flex="80"></div>
   </div>
   <hr>
-  <md-card >
+  <md-card>
     <md-card-title>
       <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.item.length || vm.toggleSearch">
         <div class="md-toolbar-tools">
           <span ng-bind="vm.table.title"></span>
           <div flex></div>
-          <md-button class="md-icon-button" ng-click="vm.toggleSearch = true">
-            <md-icon>search</md-icon>
+          <md-button class="md-icon-button" ng-click="vm.spawnModal($event, true)">
+            <md-icon>add</md-icon>
           </md-button>
         </div>
       </md-toolbar>
+
+      <!-- Search bar -->
       <md-toolbar class="md-table-toolbar md-default" ng-show="vm.toggleSearch" aria-hidden="false">
         <div class="md-toolbar-tools">
           <form flex name="vm.filter.form">
@@ -25,23 +27,36 @@
               <input type="text" ng-model="vm.query.filter" placeholder="{{vm.table.search.placeholder}}">
             </md-input-container>
           </form>
-          <md-button class="md-icon-button" ng-click="vm.resetTable()">
+          <md-button class="md-icon-button" ng-click="vm.toggleSearch = !vm.toggleSearch">
             <md-icon>close</md-icon>
           </md-button>
         </div>
       </md-toolbar>
 
+      <!--detail bar-->
       <md-toolbar class="md-table-toolbar alternate" ng-show="vm.item.length" aria-hidden="false">
         <div class="md-toolbar-tools" flex>
           <div layout="row" layout-padding flex="80">
-            <p>Cliente: <span ng-bind="vm.item[0].nombre + vm.item[0].apellido"></span> </p>
+            <p>Cliente: <span ng-bind="vm.item[0].nombre + ' ' + vm.item[0].apellido"></span> </p>
           </div>
           <div layout="row" flex="20" layout-align="end end">
-            <md-button class="md-icon-button" ui-sref="dashboard.clientes({id: vm.item[0].id})">
-              <md-icon>search</md-icon>
+            <md-button class="md-icon-button" ng-click="vm.spawnModal($event)">
+              <md-icon>mode_edit</md-icon>
+              <md-tooltip md-direction="bottom">
+                Editar
+              </md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="vm.spawnDeleteModal($event, vm.item[0].id)">
+              <md-icon>delete_forever</md-icon>
+              <md-tooltip md-direction="bottom">
+                Eliminar
+              </md-tooltip>
             </md-button>
             <md-button class="md-icon-button" ng-click="vm.item = []">
               <md-icon>close</md-icon>
+              <md-tooltip md-direction="bottom">
+                Cancelar
+              </md-tooltip>
             </md-button>
           </div>
         </div>
@@ -58,6 +73,8 @@
                 <th md-column md-order-by="lote__semilla_utilizada__descripcion">Apellido</th>
                 <th md-column md-numeric md-order-by="cantidad">E-mail</th>
                 <th md-column md-numeric md-order-by="proovedor__nombre"><span>Teléfono</span></th>
+                <th md-column md-numeric md-order-by="updated"><span>Actualizado</span></th>
+
               </tr>
             </thead>
             <tbody md-body>
@@ -67,11 +84,12 @@
                 <td md-cell>{{data.apellido}}</td>
                 <td md-cell>{{data.email}}</td>
                 <td md-cell>{{data.telefono}}</td>
+                <td md-cell am-time-ago="data.updated"></td>
               </tr>
             </tbody>
           </table>
         </md-table-container>
-        <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page="vm.query.page" md-total="{{vm.data.count}}" md-on-paginate="vm.getData" md-page-select></md-table-pagination>
+        <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15, 20, 25]" md-page="vm.query.page" md-total="{{vm.data.count}}" md-on-paginate="vm.getData" md-page-select></md-table-pagination>
       </div>
     </md-card-content>
   </md-card>
