@@ -135,6 +135,17 @@
         },
         authenticate: true
       })
+      .state('dashboard.users', {
+        url: '/users/:id',
+        views: {
+          'dashboard': {
+            controller: 'AdminController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/admin.html'
+          }
+        },
+        authenticate: true
+      })
       .state('dashboard.proovedores', {
         url: '/proovedores/:id',
         views: {
