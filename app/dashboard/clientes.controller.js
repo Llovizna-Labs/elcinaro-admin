@@ -91,7 +91,7 @@
             payload: {
               type: 'clientes',
               handler: isNew ? 'createCliente' : 'updateCliente',
-              title: 'Actualizar Datos Cliente',
+              title: isNew ? 'Registrar Cliente' :'Actualizar Datos Cliente',
               data: !_.isEmpty(vm.item) ? _.head(vm.item) : clientObject,
               fields: fieldsMeta
             }

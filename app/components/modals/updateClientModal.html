@@ -11,16 +11,34 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content">
-        <md-content class="md-no-momentum">
-          <form name="updateForm">
-          <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields">
-            <!-- Use floating label instead of placeholder -->
-            <label ng-bind="field.name"> </label>
-            <md-icon class="name" ng-bind="field.icon"></md-icon>
-            <input name="{{field.name}}" ng-model="meta.data[field.name]" type="{{field.type}}" required="required">
-          </md-input-container>
-        </form>
-        </md-content>
+        <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields | filter: {type: 'text'}">
+          <!-- Use floating label instead of placeholder -->
+          <label ng-bind="field.name"> </label>
+          <md-icon class="name" ng-bind="field.icon"></md-icon>
+          <input name="{{field.name}}" ng-model="meta.data[field.name]" type="{{field.type}}" required="required">
+        </md-input-container>
+
+        <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields |  filter: { type: 'number'}">
+          <!-- Use floating label instead of placeholder -->
+          <label ng-bind="field.name"> </label>
+          <md-icon class="name" ng-bind="field.icon"></md-icon>
+          <input name="{{field.name}}" ng-model="meta.data[field.name]" type="{{field.type}}" required="required"  min="0">
+        </md-input-container>
+
+        <!-- select fields -->
+        <!-- <md-select placeholder="{{field.placeholder}}" ng-model="meta.data[field.name]" md-on-open="selectHandler(field.name, field.handler, field.map)" style="min-width: 200px;" ng-repeat="field in meta.fields | filter: {type: 'select'}">
+          <md-option ng-value="item.id" ng-repeat="item in meta.options[field.name]">{{item.name}}</md-option>
+        </md-select> -->
+
+        <auto-complete meta="field" ng-model="meta.data[field.name]" ng-repeat="field in meta.fields | filter: {type: 'select'}"></auto-complete >
+        <!-- date fields -->
+        <div layout="column" ng-repeat="field in meta.fields | filter: {type: 'date'}">
+          <!-- Use floating label instead of placeholder -->
+          <label for="">{{field.placeholder}}</label>
+          <md-datepicker ng-model="meta.data[field.name]" md-placeholder="" flex="60"  ></md-datepicker>
+        </div>
+
+
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
@@ -31,7 +49,7 @@
       <md-button ng-click="handle(true)">
         Cancelar
       </md-button>
-      <md-button ng-click="handle(cancel)" ng-disabled="updateForm.$invalid">
+      <md-button ng-click="handle(cancel)">
         Guardar
       </md-button>
     </md-dialog-actions>

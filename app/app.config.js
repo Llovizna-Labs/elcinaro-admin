@@ -5,7 +5,8 @@
     .config(config)
     .config(corsProvider)
     .config(iconProvider)
-    .config(mapsProvider);
+    .config(mapsProvider)
+    .config(dateProvider);
 
   corsProvider.$inject = ['$httpProvider'];
 
@@ -35,6 +36,21 @@
       .icon('spade', 'assets/images/icons/icon-spade.svg'); // Register icon in a specific set
   }
 
+  dateProvider.$inject = ['$mdDateLocaleProvider']
+
+  function dateProvider($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function(date) {
+      console.log(date);
+      return moment(date)
+        .format('YYYY-MM-DD');
+    };
+
+    $mdDateLocaleProvider.parseDate = function(dateString) {
+      var m = moment(dateString, 'DD-MM-YYYY', true);
+      console.log(m);
+      return m.isValid() ? m.toDate() : new Date(NaN);
+    };
+  }
 
 
   function config($mdThemingProvider, $locationProvider) {

@@ -56,7 +56,7 @@
             templateUrl: 'assets/views/dashboard/home.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.actividades', {
         url: '/actividades/',
@@ -67,7 +67,7 @@
             templateUrl: 'assets/views/seguimiento/actividad.tmpl.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.rubros', {
         url: '/rubros/:id',
@@ -78,7 +78,7 @@
             templateUrl: 'assets/views/dashboard/rubros.html'
           }
         },
-        authenticate: false
+        authenticate: true
       })
       .state('dashboard.cultivos', {
         url: '/cultivos/:id',
@@ -135,13 +135,13 @@
         },
         authenticate: true
       })
-      .state('orders', {
-        url: '/orders',
+      .state('dashboard.proovedores', {
+        url: '/proovedores/:id',
         views: {
-          'main': {
-            controller: 'OrdersController',
+          'dashboard': {
+            controller: 'ProovedoresController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/orders.html'
+            templateUrl: 'assets/views/dashboard/proovedores.html'
           }
         },
         authenticate: true

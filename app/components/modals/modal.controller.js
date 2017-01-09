@@ -5,14 +5,16 @@
     .module('ElCinaroAdmin')
     .controller('ModalController', Controller);
 
-  Controller.$inject = ['$scope', '$http', '$mdDialog', '$pedidos', 'payload'];
+  Controller.$inject = ['$scope', '$q', '$http', '$timeout', '$mdDialog', '$pedidos', '$siembras',  '$proovedores', 'payload'];
 
   /* @ngInject */
-  function Controller($scope, $http, $mdDialog, $pedidos, payload) {
+  function Controller($scope, $q, $http, $timeout, $mdDialog, $pedidos, $siembras, $proovedores, payload) {
     var vm = this;
 
 
-    $scope.meta = {};
+    $scope.meta = {
+      options: {}
+    };
 
 
     activate();
@@ -43,6 +45,65 @@
         });
     }
 
+
+    $scope.selectHandler = function(name, type, map) {
+      console.log(name, type);
+
+      var query = {
+        page: 1,
+        limit: 100,
+        filter: '',
+        order: '-id'
+      }
+
+      if ($scope.meta['options'][name]) return;
+
+      var handlers = {
+        getRubros: function() {
+          return $siembras.getRubros(query);
+        },
+        getCultivos: function() {
+          return $siembras.getCultivos(query);
+        },
+        getProovedores: function() {
+          return $siembras.getProovedores(query);
+        },
+        getUnidades: function() {
+          return $siembras.getUnidades(query);
+        },
+        getProovedorCategoria: function() {
+          return $siembras.getProovedorCategoria(query);
+        }
+      }
+
+      if (!handlers.hasOwnProperty(type)) return;
+
+      return handlers[type]()
+        .then(function(resp) {
+
+          $scope.meta['options'][name] = _.map(resp.results, function(i) {
+            return {
+              id: i.id,
+              name: i.nombre
+            }
+          });
+
+
+          // var selected = _.filter(resp.results, function(i) {
+          //   return i.id === $scope.meta['data'][name];
+          // });
+          //
+          // console.log(selected);
+          //
+          // $scope.meta['data'][name] = _.head(selected);
+
+        })
+        .catch(function(err) {
+          console.log(err);
+        })
+    }
+
+
     $scope.$watch('meta', function(o, c) {
       console.log(o, c);
     });
@@ -53,9 +114,24 @@
         case 'clientes':
           return $pedidos[handler](data);
           break;
+        case 'semillas':
+          return $siembras[handler](data);
+          break;
+        case 'proovedores':
+          return $proovedores[handler](data);
+          break;
         default:
-          return {};
+          return fake(data);
       }
+    }
+
+    function fake(data) {
+      var deferred = $q.defer();
+      $timeout(function() {
+        deferred.resolve(data);
+      }, Math.random() * 1000, false);
+
+      return deferred.results;
     }
   }
 })();
