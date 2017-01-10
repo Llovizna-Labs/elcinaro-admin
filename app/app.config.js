@@ -16,6 +16,7 @@
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
   }
 
+
   mapsProvider.$inject = ['uiGmapGoogleMapApiProvider'];
 
   function mapsProvider(uiGmapGoogleMapApiProvider) {

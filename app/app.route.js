@@ -69,17 +69,6 @@
         },
         authenticate: true
       })
-      .state('dashboard.rubros', {
-        url: '/rubros/:id',
-        views: {
-          'dashboard': {
-            controller: 'SemillasController',
-            controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/rubros.html'
-          }
-        },
-        authenticate: true
-      })
       .state('dashboard.cultivos', {
         url: '/cultivos/:id',
         views: {
@@ -153,6 +142,28 @@
             controller: 'ProovedoresController',
             controllerAs: 'vm',
             templateUrl: 'assets/views/dashboard/proovedores.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.insumos', {
+        url: '/insumos/:id',
+        views: {
+          'dashboard': {
+            controller: 'InsumosController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/insumos.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.rubros', {
+        url: '/rubros/:id',
+        views: {
+          'dashboard': {
+            controller: 'RubrosController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/rubros.html'
           }
         },
         authenticate: true

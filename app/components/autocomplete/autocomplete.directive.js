@@ -27,10 +27,10 @@
     }
   }
 
-  Controller.$inject = ['_', '$scope', '$log', '$siembras'];
+  Controller.$inject = ['_', '$scope', '$log', '$siembras', '$suelos'];
 
   /* @ngInject */
-  function Controller(_, $scope, $log, $siembras) {
+  function Controller(_, $scope, $log, $siembras, $suelos) {
     var vm = this;
 
     vm.simulateQuery = false;
@@ -89,6 +89,9 @@
         },
         getProovedorCategoria: function() {
           return $siembras.getProovedorCategoria(query);
+        },
+        getTipoParcela: function() {
+          return $suelos.getTipoParcela(query);
         }
       }
 

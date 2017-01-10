@@ -10,7 +10,8 @@
     /* @ngInject */
     function factory(baseApi, $http, $q) {
         var service = {
-            getUsers: getUsers
+            getUsers: getUsers,
+            deleteUsers: deleteUsers
         };
 
         return service;
@@ -27,6 +28,19 @@
                 search: query.filter || ''
               }
             })
+            .success(function(data) {
+              deferred.resolve(data);
+            })
+            .error(function(err) {
+              deferred.reject(err);
+            });
+          return deferred.promise;
+        }
+
+
+        function deleteUsers(id) {
+          var deferred = $q.defer();
+          $http.delete(baseApi + '/users/' + id + '/' )
             .success(function(data) {
               deferred.resolve(data);
             })

@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('ModalController', Controller);
 
-  Controller.$inject = ['$scope', '$q', '$http', '$timeout', '$mdDialog', '$pedidos', '$siembras',  '$proovedores', 'payload'];
+  Controller.$inject = ['$scope', '$q', '$http', '$timeout', '$mdDialog', '$pedidos', '$siembras',  '$proovedores', '$suelos', 'payload'];
 
   /* @ngInject */
-  function Controller($scope, $q, $http, $timeout, $mdDialog, $pedidos, $siembras, $proovedores, payload) {
+  function Controller($scope, $q, $http, $timeout, $mdDialog, $pedidos, $siembras, $proovedores, $suelos, payload) {
     var vm = this;
 
 
@@ -73,6 +73,9 @@
         },
         getProovedorCategoria: function() {
           return $siembras.getProovedorCategoria(query);
+        },
+        getTipoParcela: function() {
+          return $suelos.getTipoParcela(query);
         }
       }
 

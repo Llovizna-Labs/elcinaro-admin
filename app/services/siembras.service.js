@@ -19,6 +19,7 @@
       getUnidades: getUnidades,
       createSemilla: createSemilla,
       updateSemilla: updateSemilla,
+
       cultivos: [],
       semillas: [],
       lotes: []

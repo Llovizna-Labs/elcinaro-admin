@@ -34,23 +34,23 @@
     <md-card-content>
       <div layout="column">
         <md-table-container>
-          <table md-table md-row-select multiple ng-model="vm.selected" md-progress="vm.promise">
+          <table md-table md-row-select multiple ng-model="vm.item" md-progress="vm.promise">
             <thead md-head md-order="vm.query.order" md-on-reorder="vm.getData">
               <tr md-row>
                 <th md-column md-order-by="familia__nombre"><span>Rubro</span></th>
-                <th md-column md-numeric>Descripcion</th>
-                <th md-column md-numeric md-order-by="proovedor__nombre"><span>Proovedor</span></th>
-                <th md-column md-numeric md-order-by="cantidad">Cantidad (u/g)</th>
-                <th md-column md-numeric md-order-by="nivel_germinacion">n/g (%)</th>
+                <th md-column md-numeric md-numeric>Semillas (Rubro)</th>
+                <th md-column md-numeric md-order-by="proovedor__nombre"><span>Lotes de Siembra (Rubro)</span></th>
+                <th md-column md-numeric md-order-by="cantidad">Cultivos (Rubro)</th>
+                <th md-column md-numeric md-order-by="updated">Actualizado</th>
               </tr>
             </thead>
             <tbody md-body>
               <tr md-row md-select="dessert" md-select-id="nombre" md-auto-select ng-repeat="data in vm.data.results">
-                <td md-cell>{{data.familia.nombre}}</td>
-                <td md-cell>{{data.descripcion}}</td>
-                <td md-cell>{{data.proovedor.nombre}}</td>
-                <td md-cell>{{data.cantidad | number: 1 + dessert.unidad}}</td>
-                <td md-cell>{{data.nivel_germinacion}}</td>
+                <td md-cell>{{data.nombre}}</td>
+                <td md-cell>{{data.semillas_count}}</td>
+                <td md-cell>{{data.lotes_count}}</td>
+                <td md-cell>{{data.lotes_count}}</td>
+                <td md-cell am-time-ago="data.updated"></td>
               </tr>
             </tbody>
           </table>

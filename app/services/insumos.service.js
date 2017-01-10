@@ -11,6 +11,9 @@
     function factory(baseApi, $http, $q) {
         var service = {
             getInsumos: getInsumos,
+            deleteInsumos: deleteInsumos,
+            updateInsumos: updateInsumos,
+            createInsumos: createInsumos,
             insumos: []
         };
 
@@ -28,7 +31,43 @@
               }
             })
             .success(function(data) {
-              angular.copy(data.results, service.insumos);
+              deferred.resolve(data);
+            })
+            .error(function(err) {
+              deferred.reject(err);
+            });
+          return deferred.promise;
+        }
+
+        function updateInsumos(query) {
+          var deferred = $q.defer();
+          $http.put(baseApi + '/insumos/' + query.id + '/', query)
+            .success(function(data) {
+              deferred.resolve(data);
+            })
+            .error(function(err) {
+              deferred.reject(err);
+            });
+          return deferred.promise;
+        }
+
+
+        function createInsumos(payload) {
+          var deferred = $q.defer();
+          $http.post(baseApi + '/insumos/', payload)
+            .success(function(data) {
+              deferred.resolve(data);
+            })
+            .error(function(err) {
+              deferred.reject(err);
+            });
+          return deferred.promise;
+        }
+
+        function deleteInsumos(id) {
+          var deferred = $q.defer();
+          $http.delete(baseApi + '/insumos/' + id + '/' )
+            .success(function(data) {
               deferred.resolve(data);
             })
             .error(function(err) {

@@ -1,44 +1,83 @@
-<section class="dashboard suelos-grid">
+<section class="dashboard suelos-grid" layout="column">
   <h1 class="title">Suelos</h1>
   <hr>
 
-  <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+  <md-toolbar class="md-table-toolbar alternate" ng-hide="!vm.item" aria-hidden="false">
+    <div class="md-toolbar-tools" flex>
+      <div layout="row" layout-padding flex="80">
+        <p ng-bind="vm.toolbar.title(['Area de Siembra:', vm.item.codigo])"></p>
+      </div>
+      <div layout="row" flex="20" layout-align="end end">
+        <md-button class="md-icon-button" ng-click="vm.spawnModal($event, false)">
+          <md-icon>mode_edit</md-icon>
+          <md-tooltip md-direction="bottom">
+            Editar
+          </md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="vm.spawnDeleteModal($event)">
+          <md-icon>delete_forever</md-icon>
+          <md-tooltip md-direction="bottom">
+            Eliminar
+          </md-tooltip>
+        </md-button>
+        <md-button class="md-icon-button" ng-click="vm.item = null">
+          <md-icon>close</md-icon>
+          <md-tooltip md-direction="bottom">
+            Cancelar
+          </md-tooltip>
+        </md-button>
+      </div>
+    </div>
+  </md-toolbar>
 
-    <md-grid-tile class="green">
-      <md-grid-tile-footer>
-        <h3>#2: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
+  <md-card class="margin-fixed">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Parcelas</span>
+        <span class="md-subhead">Areas de Siembra a cielo Abierto</span>
+      </md-card-title-text>
 
-    <md-grid-tile class="yellow">
-      <md-grid-tile-footer>
-        <h3>#3: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button>Collapse</md-button>
+        <md-button ng-click="vm.spawnModal($event, true)">Agregar</md-button>
+      </md-card-actions>
+    </md-card-title>
 
-    <md-grid-tile class="green">
-      <md-grid-tile-footer>
-        <h3>#2: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
+    <md-card-content>
+      <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+        <md-grid-tile class="green" ng-repeat="item in vm.data.suelos.results" ng-click="vm.detail(item, 'parcelas')">
+          <md-grid-tile-footer>
+            <h3>{{item.codigo + ' Cultivos: ' + item.cultivos_count}}</h3>
+          </md-grid-tile-footer>
+          <md-tooltip md-direction="top">Ver Detalle</md-tooltip>
+        </md-grid-tile>
+      </md-grid-list>
+    </md-card-content>
+  </md-card>
 
-    <md-grid-tile class="yellow">
-      <md-grid-tile-footer>
-        <h3>#3: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
 
-    <md-grid-tile class="green">
-      <md-grid-tile-footer>
-        <h3>#2: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
 
-    <md-grid-tile class="yellow"   md-rowspan="0.6"  md-colspan="0.6">
-      <md-grid-tile-footer>
-        <h3>#3: (1r x 1c)</h3>
-      </md-grid-tile-footer>
-    </md-grid-tile>
+  <md-card class="margin-fixed">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Invernaderos/ Terrazas </span>
+        <span class="md-subhead">Large</span>
+      </md-card-title-text>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button>Collapse</md-button>
+        <md-button>Agregar</md-button>
+      </md-card-actions>
+    </md-card-title>
+    <md-card-content>
+      <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
+        <md-grid-tile class="green" ng-repeat="item in vm.data.invernaderos.results" ng-click="vm.detail(item, 'invernaderos')">
+          <md-grid-tile-footer>
+            <h3>{{item.codigo + ' Cultivos: ' + item.cultivos_count}}</h3>
+          </md-grid-tile-footer>
+          <md-tooltip md-direction="top">Ver Detalle</md-tooltip>
+        </md-grid-tile>
+      </md-grid-list>
+    </md-card-content>
+  </md-card>
 
-  </md-grid-list>
 </section>

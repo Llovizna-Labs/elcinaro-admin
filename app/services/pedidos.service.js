@@ -11,6 +11,7 @@
     function factory(baseApi, $http, $q) {
       var service = {
         getClientes: getClientes,
+        deleteCliente: deleteCliente,
         updateCliente: updateCliente,
         createCliente: createCliente,
         deleteCliente: deleteCliente,

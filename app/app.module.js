@@ -17,7 +17,7 @@
       'uiGmapgoogle-maps',
       'md.data.table',
       'angularMoment',
-      'moment-picker'
+      'moment-picker',
     ]);
 
 })();

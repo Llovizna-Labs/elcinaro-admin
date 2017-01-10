@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('AdminController', Controller);
 
-  Controller.$inject = ['moment', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$admin'];
+  Controller.$inject = ['moment', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$admin', '$pedidos'];
 
   /* @ngInject */
-  function Controller(moment, $scope, $http, $q, $timeout, $mdDialog, $admin) {
+  function Controller(moment, $scope, $http, $q, $timeout, $mdDialog, $admin, $pedidos) {
     var vm = this;
     vm.getData = getData;
     vm.toggleSearch = false;
@@ -160,7 +160,7 @@
 
       $mdDialog.show(confirm)
         .then(function() {
-          return $pedidos['deleteCliente'](id)
+          return $admin['deleteUsers'](id)
             .then(function(resp) {
               getData();
             })
