@@ -58,17 +58,17 @@
                     <th md-column md-numeric md-order-by="lote__id"><span>Lote</span></th>
                     <th md-column md-order-by="lote__semilla_utilizada__familia__nombre"><span>Rubro</span></th>
                     <th md-column md-order-by="lote__semilla_utilizada__descripcion">Semilla</th>
+                    <th md-column><span>Area de Siembra</span></th>
                     <th md-column md-numeric md-order-by="cantidad">Densidad/Siembra</th>
-                    <th md-column md-numeric md-order-by="proovedor__nombre"><span>Area de Siembra</span></th>
                     <th md-column md-order-by="fecha_siembra">Fecha de Siembra</th>
                   </tr>
                 </thead>
                 <tbody md-body>
                   <tr md-row md-select="data" md-select-id="data.id" md-on-select="vm.logItem" md-auto-select ng-repeat="data in vm.data.results">
-                    <td md-cell>{{data.lote.id}}</td>
-                    <td md-cell>{{data.lote.semilla_utilizada.familia.nombre}}</td>
-                    <td md-cell>{{data.lote.semilla_utilizada.descripcion}}</td>
-                    <td md-cell>{{data.densidad_siembra}}</td>
+                    <td md-cell>{{data.cultivo_lote.id}}</td>
+                    <td md-cell>{{data.cultivo_lote.semilla_utilizada.semilla_familia.nombre}}</td>
+                    <td md-cell>{{data.cultivo_lote.semilla_utilizada.descripcion}}</td>
+                    <td md-cell>{{data.area_siembra.nombre || data.area_siembra.codigo }}</td>
                     <td md-cell>{{data.densidad_siembra}}</td>
                     <td md-cell>{{data.fecha_siembra}}</td>
                   </tr>

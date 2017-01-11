@@ -71,6 +71,8 @@
                 <th md-column md-numeric md-order-by="lote__id"><span>ID</span></th>
                 <th md-column md-order-by="nombre"><span>Nombre</span></th>
                 <th md-column md-order-by="cantidad">Cantidad</th>
+                <th md-column >Proovedor</th>
+                <th md-column >Categoria</th>
                 <th md-column md-numeric md-order-by="updated"><span>Actualizado</span></th>
 
               </tr>
@@ -80,6 +82,8 @@
                 <td md-cell>{{data.id}}</td>
                 <td md-cell>{{data.nombre}}</td>
                 <td md-cell>{{data.cantidad}}</td>
+                <td md-cell>{{data.insumo_proovedor.nombre}}</td>
+                <td md-cell>{{data.insumo_proovedor.proovedor_categoria.nombre}}</td>
                 <td md-cell am-time-ago="data.updated"></td>
               </tr>
             </tbody>

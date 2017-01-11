@@ -81,9 +81,9 @@
             </thead>
             <tbody md-body>
               <tr md-row md-select="data" md-select-id="data.id" md-on-select="vm.logItem" md-auto-select ng-repeat="data in vm.data.results">
-                <td md-cell>{{data.familia.nombre}}</td>
+                <td md-cell>{{data.semilla_familia.nombre}}</td>
                 <td md-cell>{{data.descripcion}}</td>
-                <td md-cell>{{data.proovedor.nombre}}</td>
+                <td md-cell>{{data.semilla_proovedor.nombre}}</td>
                 <td md-cell>{{data.cantidad | number: 1 + data.unidad}}</td>
                 <td md-cell>{{data.nivel_germinacion}}</td>
                 <td md-cell>{{data.cultivos_count}}</td>
