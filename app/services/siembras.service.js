@@ -17,9 +17,12 @@
       getProovedores: getProovedores,
       getProovedorCategoria: getProovedorCategoria,
       getUnidades: getUnidades,
+      getMedidas: getMedidas,
       createSemilla: createSemilla,
       updateSemilla: updateSemilla,
-
+      createRubro: createRubro,
+      updateRubro: updateRubro,
+      deleteRubro: deleteRubro,
       cultivos: [],
       semillas: [],
       lotes: []
@@ -57,7 +60,7 @@
         .format('YYYY-MM-DD');
 
       var query = _.mapValues(payload, function(o) {
-        return  _.isObject(o)  ? o.id : o;
+        return _.isObject(o) ? o.id : o;
       });
 
       console.log(query);
@@ -188,6 +191,35 @@
       return deferred.promise;
     }
 
+    function getMedidas() {
+      var deferred = $q.defer();
+      $timeout(function() {
+        deferred.resolve({
+          results: [{
+            id: 1,
+            nombre: 'Centimetros(cm)'
+          }, {
+            id: 2,
+            nombre: 'Milimetros (mm)'
+          }, {
+            id: 3,
+            nombre: 'Mililitros(cm)'
+          }, {
+            id: 4,
+            nombre: 'Litro (l)'
+          }, {
+            id: 5,
+            nombre: 'Kilogramo(kg)'
+          }, {
+            id: 6,
+            nombre: 'Miligramos (mg)'
+          }]
+        });
+      }, Math.random() * 1000, false);
+
+      return deferred.promise;
+    }
+
     function getProovedorCategoria(query) {
       var deferred = $q.defer();
       $http.get(baseApi + '/categorias/', {
@@ -209,7 +241,6 @@
     }
 
     function getProovedores(query) {
-
       var deferred = $q.defer();
       $http.get(baseApi + '/proovedores/', {
           params: {
@@ -220,6 +251,42 @@
             search: query.filter
           }
         })
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function createRubro(query) {
+      var deferred = $q.defer();
+      $http.post(baseApi + '/rubros/', query)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function updateRubro(payload) {
+      var deferred = $q.defer();
+      $http.put(baseApi + '/rubros/' + payload.id + '/', payload)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function deleteRubro(payload) {
+      var deferred = $q.defer();
+      $http.delete(baseApi + '/rubros/' + payload.id + '/')
         .success(function(data) {
           deferred.resolve(data);
         })

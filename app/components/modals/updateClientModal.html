@@ -11,7 +11,7 @@
     </md-toolbar>
     <md-dialog-content>
       <div class="md-dialog-content">
-        <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields | filter: {type: 'text'}">
+        <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields | filter: isInput">
           <!-- Use floating label instead of placeholder -->
           <label ng-bind="field.name"> </label>
           <md-icon class="name" ng-bind="field.icon"></md-icon>

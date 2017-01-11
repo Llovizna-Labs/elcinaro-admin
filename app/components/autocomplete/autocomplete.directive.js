@@ -87,6 +87,9 @@
         getUnidades: function() {
           return $siembras.getUnidades(query);
         },
+        getMedidas: function() {
+          return $siembras.getMedidas(query);
+        },
         getProovedorCategoria: function() {
           return $siembras.getProovedorCategoria(query);
         },

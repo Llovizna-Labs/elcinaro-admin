@@ -35,47 +35,28 @@
 
 
     var fieldsMeta = [{
-      name: 'descripcion',
+      name: 'first_name',
       type: 'text',
-      icon: 'description'
-    }, {
-      name: 'fecha_compra',
-      type: 'date',
-      icon: 'today',
-      placeholder: 'Fecha Compra'
-    }, {
-      name: 'precio_compra',
-      type: 'number',
-      icon: 'attach_money'
-    }, {
-      name: 'cantidad',
-      type: 'number',
       icon: 'info'
     }, {
-      name: 'unidad',
-      type: 'select',
-      icon: 'info',
-      handler: 'getUnidades',
-      placeholder: 'Unidad'
-    }, {
-      name: 'familia',
-      type: 'select',
-      icon: 'text_fields',
-      handler: 'getRubros',
-      placeholder: 'Rubro',
-      map: {
-        id: 'id',
-        name: 'nombre'
-      }
-    }, {
-      name: 'proovedor',
-      type: 'select',
-      icon: 'perm_identity',
-      handler: 'getProovedores',
-      placeholder: 'Proovedor'
-    }, {
-      name: 'nivel_germinacion',
+      name: 'last_name',
       type: 'text',
+      icon: 'info'
+    }, {
+      name: 'username',
+      type: 'text',
+      icon: 'info'
+    }, {
+      name: 'email',
+      type: 'email',
+      icon: 'email'
+    }, {
+      name: 'password',
+      type: 'password',
+      icon: 'info'
+    }, {
+      name: 'confirm_password',
+      type: 'password',
       icon: 'info'
     }];
 
@@ -85,7 +66,7 @@
       first_name: '',
       last_name: '',
       password: '',
-      isStaff: '',
+      is_staff: true,
       email: '',
     }
 
@@ -109,6 +90,7 @@
     }
 
     function getData() {
+      vm.item = [];
       vm.promise = $admin.getUsers(vm.query)
         .then(success);
     }
@@ -125,9 +107,9 @@
           fullscreen: true,
           locals: {
             payload: {
-              type: 'semillas',
-              handler: isNew ? 'createSemilla' : 'updateSemilla',
-              title: isNew ? 'Registrar Semilla' : 'Actualizar Datos Semilla',
+              type: 'admin',
+              handler: isNew ? 'createUser' : 'updateUser',
+              title: isNew ? 'Registrar Usuario' : 'Actualizar Datos Usuario',
               data: !_.isEmpty(vm.item) ? _.mapValues(_.head(vm.item), function(i) {
                 return i.hasOwnProperty('id') ? i.id : i;
               }) : clientObject,

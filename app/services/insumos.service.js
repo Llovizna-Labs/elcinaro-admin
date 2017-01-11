@@ -54,7 +54,10 @@
 
         function createInsumos(payload) {
           var deferred = $q.defer();
-          $http.post(baseApi + '/insumos/', payload)
+          var query = _.mapValues(payload, function(o) {
+            return _.isObject(o) ? o.id : o;
+          });
+          $http.post(baseApi + '/insumos/', query)
             .success(function(data) {
               deferred.resolve(data);
             })

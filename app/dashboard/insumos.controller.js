@@ -39,41 +39,47 @@
 
         var clientObject = {
           nombre: '',
-          descripcion: '',
-          categoria: '',
-          direccion: '',
-          telefono: '',
+          codigo: '',
+          cantidad: '',
+          proovedor: '',
+          medida: ''
         }
 
         var fieldsMeta = [{
           name: 'nombre',
           type: 'text',
           icon: 'perm_identity'
-        }, {
-          name: 'descripcion',
+        },
+        {
+          name: 'codigo',
           type: 'text',
           icon: 'perm_identity'
-        }, {
-          name: 'categoria',
+        },
+        {
+          name: 'cantidad',
+          type: 'number',
+          icon: 'perm_identity'
+        },
+        {
+          name: 'medida',
           type: 'select',
           icon: 'perm_identity',
-          handler: 'getProovedorCategoria',
-          placeholder: 'Categoria'
-        }, {
-          name: 'telefono',
-          type: 'text',
-          icon: 'phone'
-        }, {
-          name: 'direccion',
-          type: 'text',
-          icon: 'place'
-        }];
+          placeholder: 'Medida',
+          handler: 'getMedidas',
+        },
+        {
+         name: 'proovedor',
+         type: 'select',
+         icon: 'perm_identity',
+         handler: 'getProovedores',
+         placeholder: 'Proovedor'
+       }];
 
 
         activate();
 
         function activate() {
-          console.log('ProovedoresController');
+          console.log('InsumosController');
           getData();
         }
 
@@ -108,7 +114,7 @@
               fullscreen: true,
               locals: {
                 payload: {
-                  type: 'proovedores',
+                  type: 'insumos',
                   handler: isNew ? 'createInsumos' : 'updateInsumos',
                   title: isNew ? 'Registrar Insumo' : 'Actualizar Datos Insumo',
                   data: !_.isEmpty(vm.item) ? _.mapValues(_.head(vm.item), function(i) {

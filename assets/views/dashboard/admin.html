@@ -74,7 +74,7 @@
                 <th md-column md-order-by="last_name">Apellido</th>
                 <th md-column md-order-by="username"><span>Username</span></th>
                 <th md-column md-order-by="email">Email</th>
-                <th md-column md-order-by="is_staff">Admin</th>
+                <th md-column md-order-by="date_joined">Creado</th>
               </tr>
             </thead>
             <tbody md-body>
@@ -83,8 +83,7 @@
                 <td md-cell>{{data.last_name}}</td>
                 <td md-cell>{{data.username}}</td>
                 <td md-cell>{{data.email}}</td>
-                <td md-cell>{{data.is_staff}}</td>
-                <!-- <td md-cell am-time-ago="data.updated"></td> -->
+                <td md-cell am-time-ago="data.date_joined"></td>
               </tr>
             </tbody>
           </table>

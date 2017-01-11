@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('ModalController', Controller);
 
-  Controller.$inject = ['$scope', '$q', '$http', '$timeout', '$mdDialog', '$pedidos', '$siembras',  '$proovedores', '$suelos', 'payload'];
+  Controller.$inject = ['_', '$scope', '$q', '$http', '$timeout', '$mdDialog', '$admin', '$insumos', '$pedidos', '$siembras', '$proovedores', '$suelos', 'payload'];
 
   /* @ngInject */
-  function Controller($scope, $q, $http, $timeout, $mdDialog, $pedidos, $siembras, $proovedores, $suelos, payload) {
+  function Controller(_, $scope, $q, $http, $timeout, $mdDialog, $admin, $insumos, $pedidos, $siembras, $proovedores, $suelos, payload) {
     var vm = this;
 
 
@@ -107,6 +107,10 @@
     }
 
 
+    $scope.isInput = function(item) {
+      return _.includes(['email', 'text', 'password'], item.type);
+    }
+
     $scope.$watch('meta', function(o, c) {
       console.log(o, c);
     });
@@ -123,6 +127,16 @@
         case 'proovedores':
           return $proovedores[handler](data);
           break;
+        case 'admin':
+          return $admin[handler](data);
+          break;
+        case 'insumos':
+          return $insumos[handler](data);
+          break;
+        case 'rubros':
+          return $siembras[handler](data);
+          break;
+
         default:
           return fake(data);
       }
