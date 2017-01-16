@@ -36,7 +36,7 @@
       type: 'text',
       icon: 'description'
     }, {
-      name: 'Ubicacion',
+      name: 'ubicacion',
       type: 'text',
       icon: 'info'
     }, {
@@ -47,21 +47,48 @@
       name: 'largo_medida',
       type: 'number',
       icon: 'info'
+    }];
+    //, {
+    //   name: 'tipo',
+    //   type: 'select',
+    //   icon: 'info',
+    //   handler: 'getTipoParcela',
+    //   placeholder: 'Tipo'
+    // }];
+
+    var invernaderoFieldsMeta = [{
+      name: 'nombre',
+      type: 'text',
+      icon: 'description'
     }, {
-      name: 'tipo',
-      type: 'select',
-      icon: 'info',
-      handler: 'getTipoParcela',
-      placeholder: 'Tipo'
+      name: 'codigo',
+      type: 'text',
+      icon: 'description'
+    }, {
+      name: 'ubicacion',
+      type: 'text',
+      icon: 'info'
+    }, {
+      name: 'capacidad',
+      type: 'number',
+      icon: 'info'
     }];
 
-
-    var clientObject = {
+    var parcelaObject = {
       codigo: '',
-      tipo: 0,
-      ubicacion: '',
+      tipo: 3,
+      ubicacion: 'El Cinaro',
       largo_medida: 1.0,
-      ancho_medida: 2.0
+      ancho_medida: 2.0,
+      capacidad: 0,
+    }
+
+
+    var invernaderoObject = {
+      nombre: '',
+      codigo: '',
+      ubicacion: 'El Cinaro',
+      capacidad: 0,
     }
 
     activate();
@@ -85,7 +112,24 @@
       vm.item.handler = handler;
     }
 
-    vm.spawnModal = function(ev, isNew) {
+    vm.spawnModal = function(ev, isNew, type) {
+
+      var metaValues = fieldsMeta;
+      var plainObj = parcelaObject;
+
+      var options = {
+        handler: isNew ? 'createParcela' : 'updateParcela',
+        title: isNew ? 'Registrar Parcela' : 'Actualizar Datos Parcela',
+      };
+
+      if ((vm.item && vm.item.handler === 'invernaderos') || type === 'invernaderos') {
+        options = {
+          handler: isNew ? 'createInvernadero' : 'updateInvernadero',
+          title: isNew ? 'Registrar Invernadero / Terraza' : 'Actualizar Datos Invernadero / Terraza',
+        };
+        metaValues = invernaderoFieldsMeta;
+        plainObj = invernaderoObject;
+      }
 
       $mdDialog.show({
           controller: 'ModalController',
@@ -95,18 +139,17 @@
           clickOutsideToClose: false,
           fullscreen: true,
           locals: {
-            payload: {
-              type: 'parcelas',
-              handler: isNew ? 'createParcela' : 'updateParcela',
-              title: isNew ? 'Registrar Parcela' : 'Actualizar Datos Parcela',
+            payload: _.merge({
+              type: 'suelos'
+            }, options, {
               data: !_.isEmpty(vm.item) ? _.mapValues(vm.item, function(i) {
                 return i.hasOwnProperty('id') ? i.id : i;
-              }) : clientObject,
-              fields: fieldsMeta,
+              }) : plainObj,
+              fields: metaValues,
               options: {
 
               }
-            }
+            })
           }
         })
         .then(function(answer) {

@@ -1,21 +1,21 @@
-<div layout="column" ng-cloak layout-padding>
-    <p>{{vm.meta.placeholder}}</p>
-    <form ng-submit="$event.preventDefault()">
+<div layout="column" ng-cloak flex>
+    <form ng-submit="$event.preventDefault()"  name="searchForm">
       <md-autocomplete
+          md-input-name="autocompleteField"
           ng-disabled="vm.isDisabled"
-          md-no-cache="vm.noCache"
           md-selected-item="vm.item"
-          ng-model="vm.item.id"
-          md-search-text-change="vm.searchTextChange(vm.searchText)"
+          ng-model="vm.item"
           md-search-text="vm.searchText"
-          md-selected-item-change="vm.selectedItemChange(item)"
           md-items="item in vm.querySearch(vm.searchText)"
           md-item-text="item.nombre"
           md-min-length="0"
-          placeholder="{{vm.meta.placeholder}}">
+          md-floating-label="{{vm.meta.placeholder}}">
         <md-item-template>
           <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.nombre}}</span>
         </md-item-template>
+        <!-- <div ng-if="vm.meta.checkings.length && vm.meta.searchForm.autocompleteField.$touched">
+          <div ng-message="{{check.type}}" ng-repeat="check in vm.meta.checkings">{{check.message}}</div>
+        </div> -->
       </md-autocomplete>
       <br/>
     </form>

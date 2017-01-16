@@ -1,4 +1,4 @@
-<md-dialog aria-label="Modal" flex="50" class="custom-modal">
+<md-dialog aria-label="Modal" flex="60" class="custom-modal">
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -13,16 +13,16 @@
       <div class="md-dialog-content">
         <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields | filter: isInput">
           <!-- Use floating label instead of placeholder -->
-          <label ng-bind="field.name"> </label>
+          <label ng-bind="field.placeholder || field.name"> </label>
           <md-icon class="name" ng-bind="field.icon"></md-icon>
           <input name="{{field.name}}" ng-model="meta.data[field.name]" type="{{field.type}}" required="required">
         </md-input-container>
 
         <md-input-container class="md-icon-float md-block" ng-repeat="field in meta.fields |  filter: { type: 'number'}">
           <!-- Use floating label instead of placeholder -->
-          <label ng-bind="field.name"> </label>
+          <label ng-bind="field.placeholder ||  field.name"> </label>
           <md-icon class="name" ng-bind="field.icon"></md-icon>
-          <input name="{{field.name}}" ng-model="meta.data[field.name]" type="{{field.type}}" required="required"  min="0">
+          <input name="{{field.name}}" ng-model="meta.data[field.name]" type="{{field.type}}" required="required" min="0">
         </md-input-container>
 
         <!-- select fields -->
@@ -30,26 +30,37 @@
           <md-option ng-value="item.id" ng-repeat="item in meta.options[field.name]">{{item.name}}</md-option>
         </md-select> -->
 
-        <auto-complete meta="field" ng-model="meta.data[field.name]" ng-repeat="field in meta.fields | filter: {type: 'select'}"></auto-complete >
-        <!-- date fields -->
-        <div layout="column" ng-repeat="field in meta.fields | filter: {type: 'date'}">
-          <!-- Use floating label instead of placeholder -->
-          <label for="">{{field.placeholder}}</label>
-          <md-datepicker ng-model="meta.data[field.name]" md-placeholder="" flex="60"  ></md-datepicker>
+        <div layout="column">
+          <auto-complete meta="field" ng-model="meta.data[field.name]" ng-repeat="field in meta.fields | filter: {type: 'select'}"></auto-complete>
         </div>
 
+
+        <!-- date fields -->
+        <div layout="row"  layout-padding>
+          <!-- Use floating label instead of placeholder -->
+          <md-input-container ng-repeat="field in meta.fields | filter: {type: 'date'}">
+          <label for="">{{field.placeholder}}</label>
+          <md-datepicker ng-model="meta.data[field.name]" md-placeholder="" flex="60"></md-datepicker>
+        </md-input-container>
+        </div>
+
+        <div layout="column" layout-margin>
+          <md-switch aria-label="switch" ng-model="meta.data[field.name]" ng-repeat="field in meta.fields | filter: {type: 'switch'}">
+            {{field.placeholder}}
+          </md-switch>
+        </div>
 
       </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">
-      <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
+      <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus class="md-raised md-accent">
         Ayuda
       </md-button>
       <span flex></span>
-      <md-button ng-click="handle(true)">
+      <md-button ng-click="handle(true)" class="md-raised md-warn">
         Cancelar
       </md-button>
-      <md-button ng-click="handle(cancel)">
+      <md-button ng-click="handle(cancel)"  class="md-raised md-primary">
         Guardar
       </md-button>
     </md-dialog-actions>

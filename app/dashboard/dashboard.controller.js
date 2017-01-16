@@ -66,6 +66,11 @@
         link: 'dashboard.rubros',
         title: 'Rubros',
         icon: 'grade'
+      },
+      {
+        link: 'dashboard.cosechas',
+        title: 'Cosechas',
+        icon: 'grade'
       }], ['title'], ['asc']);
     }
 

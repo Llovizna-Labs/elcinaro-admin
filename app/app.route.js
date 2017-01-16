@@ -157,6 +157,28 @@
         },
         authenticate: true
       })
+      .state('dashboard.plagas', {
+        url: '/plagas/:id',
+        views: {
+          'dashboard': {
+            controller: 'PlagasController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/plagas.html'
+          }
+        },
+        authenticate: true
+      })
+      .state('dashboard.cosechas', {
+        url: '/cosechas/:id',
+        views: {
+          'dashboard': {
+            controller: 'CosechasController',
+            controllerAs: 'vm',
+            templateUrl: 'assets/views/dashboard/cosechas.html'
+          }
+        },
+        authenticate: true
+      })
       .state('dashboard.rubros', {
         url: '/rubros/:id',
         views: {

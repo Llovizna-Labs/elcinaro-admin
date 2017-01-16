@@ -8,7 +8,7 @@
         <p ng-bind="vm.toolbar.title(['Area de Siembra:', vm.item.codigo])"></p>
       </div>
       <div layout="row" flex="20" layout-align="end end">
-        <md-button class="md-icon-button" ng-click="vm.spawnModal($event, false)">
+        <md-button class="md-icon-button" ng-click="vm.spawnModal($event, false, 'parcelas')">
           <md-icon>mode_edit</md-icon>
           <md-tooltip md-direction="bottom">
             Editar
@@ -38,8 +38,8 @@
       </md-card-title-text>
 
       <md-card-actions layout="row" layout-align="end center">
-        <md-button>Collapse</md-button>
-        <md-button ng-click="vm.spawnModal($event, true)">Agregar</md-button>
+        <!-- <md-button>Collapse</md-button> -->
+        <md-button ng-disabled="vm.item" ng-click="vm.spawnModal($event, true, 'parcelas')">Agregar</md-button>
       </md-card-actions>
     </md-card-title>
 
@@ -64,15 +64,15 @@
         <span class="md-subhead">Large</span>
       </md-card-title-text>
       <md-card-actions layout="row" layout-align="end center">
-        <md-button>Collapse</md-button>
-        <md-button>Agregar</md-button>
+        <!-- <md-button>Collapse</md-button> -->
+        <md-button ng-disabled="vm.item" ng-click="vm.spawnModal($event, true, 'invernaderos')">Agregar</md-button>
       </md-card-actions>
     </md-card-title>
     <md-card-content>
       <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="2:2" md-gutter="12px" md-gutter-gt-sm="8px">
         <md-grid-tile class="green" ng-repeat="item in vm.data.invernaderos.results" ng-click="vm.detail(item, 'invernaderos')">
           <md-grid-tile-footer>
-            <h3>{{item.codigo + ' Cultivos: ' + item.cultivos_count}}</h3>
+            <h3>{{item.codigo + ' Cultivos: ' + item.cultivos_count + '/' + item.capacidad}}</h3>
           </md-grid-tile-footer>
           <md-tooltip md-direction="top">Ver Detalle</md-tooltip>
         </md-grid-tile>

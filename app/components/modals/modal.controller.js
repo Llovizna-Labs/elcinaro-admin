@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('ModalController', Controller);
 
-  Controller.$inject = ['_', '$scope', '$q', '$http', '$timeout', '$mdDialog', '$admin', '$insumos', '$pedidos', '$siembras', '$proovedores', '$suelos', 'payload'];
+  Controller.$inject = ['_', '$scope', '$q', '$http', '$timeout', '$mdDialog', '$admin', '$insumos', '$plagas', '$pedidos', '$siembras', '$proovedores', '$suelos', 'payload'];
 
   /* @ngInject */
-  function Controller(_, $scope, $q, $http, $timeout, $mdDialog, $admin, $insumos, $pedidos, $siembras, $proovedores, $suelos, payload) {
+  function Controller(_, $scope, $q, $http, $timeout, $mdDialog, $admin, $insumos, $plagas, $pedidos, $siembras, $proovedores, $suelos, payload) {
     var vm = this;
 
 
@@ -21,7 +21,6 @@
 
     function activate() {
       console.log('modal controller');
-      console.log(payload);
       $scope.meta = angular.copy(payload);
     }
 
@@ -36,6 +35,7 @@
         $mdDialog.cancel();
       }
 
+      
       handle(payload.type, payload.handler, $scope.meta.data)
         .then(function(resp) {
           $mdDialog.hide(resp);
@@ -76,6 +76,9 @@
         },
         getTipoParcela: function() {
           return $suelos.getTipoParcela(query);
+        },
+        getSemillas: function() {
+          return $siembras.getSemillas(query);
         }
       }
 
@@ -90,15 +93,6 @@
               name: i.nombre
             }
           });
-
-
-          // var selected = _.filter(resp.results, function(i) {
-          //   return i.id === $scope.meta['data'][name];
-          // });
-          //
-          // console.log(selected);
-          //
-          // $scope.meta['data'][name] = _.head(selected);
 
         })
         .catch(function(err) {
@@ -136,7 +130,15 @@
         case 'rubros':
           return $siembras[handler](data);
           break;
-
+        case 'plagas':
+          return $plagas[handler](data);
+          break;
+        case 'suelos':
+          return $suelos[handler](data);
+          break;
+        case 'cosechas':
+          return $siembras[handler](data);
+          break;
         default:
           return fake(data);
       }

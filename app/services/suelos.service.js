@@ -5,16 +5,21 @@
     .module('ElCinaroAdmin')
     .factory('$suelos', factory);
 
-  factory.$inject = ['$http', '$q', 'baseApi'];
+  factory.$inject = ['_', '$http', '$q', 'baseApi'];
 
   /* @ngInject */
-  function factory($http, $q, baseApi) {
+  function factory(_, $http, $q, baseApi) {
     var service = {
       getInvernaderos: getInvernaderos,
       getParcelas: getParcelas,
+      createParcela: createParcela,
+      updateParcela: updateParcela,
+      createInvernadero: createInvernadero,
+      updateInvernadero: updateInvernadero,
       getTipoParcela: getTipoParcela,
       deleteParcela: deleteParcela,
-      deleteInvernadero: deleteInvernadero
+      deleteInvernadero: deleteInvernadero,
+      getAreasSiembra: getAreasSiembra
     };
 
     return service;
@@ -79,6 +84,67 @@
       return deferred.promise;
     }
 
+    function createInvernadero(payload) {
+      var deferred = $q.defer();
+      var query = _.mapValues(payload, function(o) {
+        return _.isObject(o) ? o.id : o;
+      });
+      $http.post(baseApi + '/invernaderos/', query)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+
+    function updateParcela(payload) {
+      var deferred = $q.defer();
+      var query = _.mapValues(payload, function(o) {
+        return _.isObject(o) ? o.id : o;
+      });
+      $http.put(baseApi + '/parcelas/' + payload.id + '/', payload)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+    function updateInvernadero(payload) {
+      var deferred = $q.defer();
+      var query = _.mapValues(payload, function(o) {
+        return _.isObject(o) ? o.id : o;
+      });
+      $http.put(baseApi + '/invernaderos/' + payload.id + '/', payload)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+
+    function createParcela(payload) {
+      var deferred = $q.defer();
+      var query = _.mapValues(payload, function(o) {
+        return _.isObject(o) ? o.id : o;
+      });
+      $http.post(baseApi + '/parcelas/', query)
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
 
     function deleteParcela(id) {
       var deferred = $q.defer();
@@ -99,6 +165,19 @@
           deferred.resolve(data);
         })
         .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
+
+
+    function getAreasSiembra(query) {
+      var deferred = $q.defer();
+      $q.all([getInvernaderos(query), getParcelas(query)])
+        .then(function(resp) {
+          deferred.resolve({results: _.merge(resp[0].results, resp[1].results)});
+        })
+        .catch(function(err) {
           deferred.reject(err);
         });
       return deferred.promise;

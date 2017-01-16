@@ -38,10 +38,7 @@
 
     // list of `state` value/display objects
     vm.querySearch = querySearch;
-    vm.selectedItemChange = selectedItemChange;
-    vm.searchTextChange = searchTextChange;
 
-    vm.newState = newState;
 
     activate();
 
@@ -49,13 +46,10 @@
       console.log('autocomplete directive');
       console.log(vm.meta);
       console.log(vm.item);
+
+      //if (vm.item) vm.searchText = vm.item;
     }
 
-
-
-    function newState(state) {
-      alert("Sorry! You'll need to create a Constitution for " + state + " first!");
-    }
 
     // ******************************
     // Internal methods
@@ -65,6 +59,7 @@
      * remote dataservice call.
      */
     function querySearch(q) {
+      console.log('doing query with', q);
 
       var query = {
         page: 1,
@@ -95,29 +90,32 @@
         },
         getTipoParcela: function() {
           return $suelos.getTipoParcela(query);
+        },
+        getSemillas: function() {
+          return $siembras.getSemillas(query);
+        },
+        getAreasSiembra: function() {
+          return $suelos.getAreasSiembra(query);
+        },
+        getLotesSiembra: function() {
+          return $siembras.getLotes(query);
         }
       }
 
-      return handlers[vm.meta.handler]().then(function(resp) {
-        return _.map(resp.results, function(item) {
-          return {
-            id: item.id,
-            nombre: item.nombre
-          }
-        })
-      });
+      var mapper = function(item) {
+        return {
+          id: item.id,
+          nombre: item.nombre
+        }
+      };
+
+      return handlers[vm.meta.handler]()
+        .then(function(resp) {
+          console.log(resp);
+          return _.map(resp.results, vm.meta.mapper || mapper);
+        });
 
     }
-
-
-    function searchTextChange(text) {
-      $log.info('Text changed to ' + text);
-    }
-
-    function selectedItemChange(item) {
-      $log.info('Item changed to ' + JSON.stringify(item));
-    }
-
 
     /**
      * Create filter function for a query string
