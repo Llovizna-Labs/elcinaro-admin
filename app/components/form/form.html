@@ -1,4 +1,4 @@
-<div class="activity-setup" layout="column" ng-cloak layout-padding layout-margin>
+<div class="activity-setup" layout="column" layout-padding layout-margin>
   <md-card>
     <md-card-title>
       <md-card-title-text>
@@ -18,7 +18,6 @@
             <input ng-model="vm.form[field.name]" type="number" min="1">
           </md-input-container>
         </div>
-
         <div layout-gt-sm="row">
           <md-input-container class="md-block" flex-gt-sm ng-repeat="field in vm.meta.fields | filter: {type: 'date'}">
             <label ng-bind="field.label  || field.placeholder"></label>
@@ -26,6 +25,11 @@
           </md-input-container>
         </div>
 
+        <div layout="row">
+          <md-switch ng-model="vm.form[field.name]" aria-label="Switch" class="md-primary" ng-repeat="field in vm.meta.fields | filter: {type: 'switch'}">
+            {{field.placeholder}}
+          </md-switch>
+        </div>
         <div layout-gt-sm="row" layout="row" layout-align="space-between center">
           <div layout="row" layout-align="start start">
             <md-button class="md-accent md-raised">Ayuda</md-button>

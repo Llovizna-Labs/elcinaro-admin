@@ -34,6 +34,7 @@
   "author": "José Cols <josecols@devion.io>",
   "license": "MIT License",
   "devDependencies": {
+    "gulp-angular-templatecache": "2.0.0",
     "gulp-jshint": "^2.0.1",
     "jshint": "^2.9.3"
   }

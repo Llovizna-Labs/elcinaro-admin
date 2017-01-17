@@ -18,6 +18,7 @@
       'md.data.table',
       'angularMoment',
       'moment-picker',
+      'angular-loading-bar'
     ]);
 
 })();

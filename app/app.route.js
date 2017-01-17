@@ -20,7 +20,7 @@
           'main': {
             controller: 'HomeController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/home.html'
+            templateUrl: 'home.html'
           }
         },
         authenticate: false
@@ -31,7 +31,7 @@
           'main': {
             controller: 'DashboardController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/index.html'
+            templateUrl: 'dashboard.html'
           }
         },
         authenticate: true
@@ -42,7 +42,7 @@
           'dashboard': {
             controller: 'ProfileController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/profile.html'
+            templateUrl: 'profile.html'
           }
         },
         authenticate: false
@@ -53,7 +53,7 @@
           'dashboard': {
             controller: 'HomeDashboardController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/home.html'
+            templateUrl: 'home.html'
           }
         },
         authenticate: true
@@ -64,7 +64,7 @@
           'dashboard': {
             controller: 'ActividadController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/seguimiento/actividad.tmpl.html'
+            templateUrl: 'actividad.tmpl.html'
           }
         },
         authenticate: true
@@ -75,7 +75,7 @@
           'dashboard': {
             controller: 'CultivosController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/cultivos.html'
+            templateUrl: 'cultivos.html'
           }
         },
         authenticate: true
@@ -86,7 +86,7 @@
           'dashboard': {
             controller: 'SemillasController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/semillas.html'
+            templateUrl: 'semillas.html'
           }
         },
         authenticate: true
@@ -97,7 +97,7 @@
           'dashboard': {
             controller: 'LotesController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/lotes.html'
+            templateUrl: 'lotes.html'
           }
         },
         authenticate: true
@@ -108,7 +108,7 @@
           'dashboard': {
             controller: 'SuelosController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/suelos.html'
+            templateUrl: 'suelos.html'
           }
         },
         authenticate: true
@@ -119,7 +119,7 @@
           'dashboard': {
             controller: 'ClientesController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/clientes.html'
+            templateUrl: 'clientes.html'
           }
         },
         authenticate: true
@@ -130,7 +130,7 @@
           'dashboard': {
             controller: 'AdminController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/admin.html'
+            templateUrl: 'admin.html'
           }
         },
         authenticate: true
@@ -141,7 +141,7 @@
           'dashboard': {
             controller: 'ProovedoresController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/proovedores.html'
+            templateUrl: 'proovedores.html'
           }
         },
         authenticate: true
@@ -152,7 +152,7 @@
           'dashboard': {
             controller: 'InsumosController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/insumos.html'
+            templateUrl: 'insumos.html'
           }
         },
         authenticate: true
@@ -163,7 +163,7 @@
           'dashboard': {
             controller: 'PlagasController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/plagas.html'
+            templateUrl: 'plagas.html'
           }
         },
         authenticate: true
@@ -174,7 +174,7 @@
           'dashboard': {
             controller: 'CosechasController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/cosechas.html'
+            templateUrl: 'cosechas.html'
           }
         },
         authenticate: true
@@ -185,7 +185,7 @@
           'dashboard': {
             controller: 'RubrosController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/dashboard/rubros.html'
+            templateUrl: 'rubros.html'
           }
         },
         authenticate: true
@@ -196,7 +196,7 @@
           'main': {
             controller: 'LoginController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/login.html'
+            templateUrl: 'login.html'
           }
         },
         authenticate: false

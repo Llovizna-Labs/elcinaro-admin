@@ -14,7 +14,9 @@
         2: 'Riego',
         3: 'Fertilizacion',
         4: 'Plaguicida',
-        5: 'Limpieza'
+        5: 'Limpieza',
+        'crecimientocultivo': 'Crecimiento',
+        'insumocultivo': 'Insumo'
       }
       return opciones[params];
     }

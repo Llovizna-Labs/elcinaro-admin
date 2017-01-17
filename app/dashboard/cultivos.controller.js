@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('CultivosController', Controller);
 
-  Controller.$inject = ['_', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$siembras', '$stateParams'];
+  Controller.$inject = ['_', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$mdBottomSheet', '$mdToast', '$siembras', '$stateParams'];
 
   /* @ngInject */
-  function Controller(_, $scope, $http, $q, $timeout, $mdDialog, $siembras, $stateParams) {
+  function Controller(_, $scope, $http, $q, $timeout, $mdDialog, $mdBottomSheet,  $mdToast, $siembras, $stateParams) {
     var vm = this;
     vm.detail = $stateParams.id ? true : false;
     vm.getData = getData;
@@ -113,11 +113,8 @@
     }
 
     vm.switchTab = function() {
-      console.log('switching tab',vm.item);
-      vm.currentTab = 1;
-
       var data = _.head(vm.item);
-
+      vm.detailTab = vm.tabOptions[1];
       data.lote = {
         id: data.cultivo_lote.id,
         nombre: data.cultivo_lote.nombre
@@ -126,11 +123,38 @@
       angular.copy(data, vm.form);
     }
 
+    vm.showGridBottomSheet = function() {
+      $mdBottomSheet.show({
+          templateUrl: 'assets/views/bottom-action-bar/bottom-action-bar.html',
+          controller: 'ListBottomSheetController',
+          clickOutsideToClose: false,
+          locals: {
+            items: [{
+              id: 'add',
+              name: 'agregar'
+            }, {
+              id: 'edit',
+              name: 'editar'
+            }, {
+              id: 'view',
+              name: 'ver detalle'
+            }]
+          }
+        })
+        .then(function(clickedItem) {
+          $mdToast.show(
+            $mdToast.simple()
+            .textContent('clicked!')
+            .position('top right')
+            .hideDelay(1500)
+          );
+        });
+    };
 
     vm.handleForm = function(handler) {
 
       if (_.isEmpty(vm.form)) return;
-      
+
       if (vm.form.area_siembra.type === 'parcela') {
         vm.form.parcela = vm.form.area_siembra.id;
         delete vm.form.invernadero;
@@ -239,7 +263,7 @@
     });
 
     $scope.$watch('vm.currentTab', function(current, original) {
-      if (!current) {
+      if (!current && !vm.detail) {
         vm.form = {};
         vm.item = [];
         return;

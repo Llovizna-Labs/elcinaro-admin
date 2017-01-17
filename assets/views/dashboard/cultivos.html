@@ -7,7 +7,7 @@
   <hr>
   <!-- home - cultivos list -->
   <md-tabs md-dynamic-height md-border-bottom md-selected="vm.currentTab">
-    <md-tab label="Listado" >
+    <md-tab label="Listado">
       <md-card ng-if="!vm.detail">
         <md-card-title>
           <md-toolbar class="md-table-toolbar md-default" ng-hide="vm.item.length || vm.toggleSearch">
@@ -108,21 +108,19 @@
           <md-card flex="50" ng-repeat="item in vm.item">
             <md-card-title>
               <md-card-title-text>
-                <span class="md-headline" ng-bind="item.lote.semilla_utilizada.descripcion"></span>
-                <span class="md-subhead" ng-bind="item.lote.semilla_utilizada.familia.nombre"></span>
+                <span class="md-headline"> Ficha Técnica</span>
               </md-card-title-text>
             </md-card-title>
             <md-card-content>
               <md-list flex>
-                <md-subheader class="md-no-sticky">Ficha Tecnica</md-subheader>
                 <md-list-item>
-                  <p> Lote de siembra: {{ item.lote.id }}</p>
+                  <p> Lote de siembra: {{ item.cultivo_lote.id }}</p>
                 </md-list-item>
                 <md-list-item>
                   <p> Fecha de siembra: {{ item.fecha_siembra }}</p>
                 </md-list-item>
                 <md-list-item>
-                  <p> Area de Siembra : {{ item.fecha_siembra }}</p>
+                  <p> Area de Siembra : {{ item.area_siembra.nombre }}</p>
                 </md-list-item>
                 <md-list-item>
                   <p> Muestras: {{ item.muestras.length }}</p>
@@ -130,7 +128,6 @@
                 <md-list-item>
                   <p> Cosechas: {{ item.muestras.length }}</p>
                 </md-list-item>
-
               </md-list>
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">

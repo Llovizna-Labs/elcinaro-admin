@@ -111,8 +111,12 @@
 
     vm.form = {
       fecha_enviado: new Date(),
-      fecha_recibido: new Date()
+      fecha_recibido: new Date(),
+      germinado: true,
+      cantidad_semillas_recibidas: 0,
+      cantidad_semillas_enviadas: 0
     }
+
     activate();
 
     function activate() {
@@ -121,16 +125,6 @@
       vm.detailTab = !vm.detail ? vm.tabOptions[0] : vm.tabOptions[1];
     }
 
-    function getItem() {
-      if (!vm.item) {
-        console.log('have to get item');
-        return;
-      } else {
-        vm.item = _.filter($siembras.cultivos, function(item) {
-          return item.id === parseInt($stateParams.id);
-        });
-      }
-    }
 
     vm.resetTable = function() {
       vm.detail = false;
@@ -143,18 +137,21 @@
       console.log(vm.item);
     }
 
+    vm.switchTab = function() {
+      console.log('switching tab', vm.item);
+      vm.currentTab = 1;
+      var data = _.head(vm.item);
+      vm.detailTab = vm.tabOptions[1];
+      data.semilla_utilizada = {
+        id: data.lote_semilla.id,
+        nombre: data.lote_semilla.nombre
+      };
+
+      angular.copy(data, vm.form);
+    }
+
+
     function handleForm(meta, form) {
-      console.log(meta, form);
-      //
-      // //field formatting
-      // if (vm.form.fecha_siembra) {
-      //   vm.form['fecha_siembra'] = moment(vm.form['fecha_siembra'])
-      //     .format('YYYY-MM-DD');
-      // }
-      // var query = _.mapValues(vm.form, function(o) {
-      //   return _.isObject(o) ? o.id : o;
-      // });
-      //
 
       form['fecha_enviado'] = moment(form['fecha_enviado'])
         .format('YYYY-MM-DD');
@@ -245,6 +242,18 @@
       return true;
     }
 
+    function getItem() {
+      if (!vm.item) {
+        console.log('have to get item');
+        return;
+      } else {
+        vm.item = _.filter($siembras.cultivos, function(item) {
+          return item.id === parseInt($stateParams.id);
+        });
+      }
+    }
+
+
     $scope.$watch('vm.query.filter', function(current, original) {
       if (!current) return;
 
@@ -257,7 +266,20 @@
 
     $scope.$watchCollection('vm.item', function(current, original) {
       if (!current) return;
-      console.log(current);
     });
+
+    $scope.$watch('vm.currentTab', function(c, o) {
+      vm.detailTab = !vm.form.hasOwnProperty('id') ? vm.tabOptions[0] : vm.tabOptions[1];
+
+      if (!c) {
+        vm.form = {
+          fecha_enviado: new Date(),
+          fecha_recibido: new Date(),
+          germinado: true,
+          cantidad_semillas_recibidas: 0,
+          cantidad_semillas_enviadas: 0
+        }
+      }
+    })
   }
 })();

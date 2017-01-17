@@ -46,7 +46,7 @@
 
     vm.query = {
       page: 1,
-      limit: 5,
+      limit: 10,
       order: '-fecha_realizacion',
       filter: ''
     }
@@ -145,7 +145,7 @@
           vm.cultivos = _.map(resp.results, function(i) {
             return {
               name: i.codigo,
-              description: i.lote.semilla_utilizada.descripcion,
+              description: i.nombre,
               id: i.id,
               _lowername: _.lowerCase(i.nombre),
               selected: false,
@@ -281,6 +281,7 @@
             template: action.template,
             selector: angular.lowercase(action.name),
             cultivo: item,
+            action: action.name
           };
         })
       });
@@ -314,8 +315,11 @@
     });
 
     $scope.$watchCollection('vm.observations', function(current, original) {
-      console.log(current);
+      console.log( 'observations', current);
     }, true);
 
+    $scope.$watchCollection('vm.info', function(current, original) {
+      console.log(current);
+    }, true);
   }
 })();

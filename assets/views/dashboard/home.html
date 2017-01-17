@@ -30,12 +30,12 @@
                 <md-list-item class="md-3-line" ng-repeat="item in data">
                   <md-icon>history</md-icon>
                   <div class="md-list-item-text" layout="column">
-                    <h3>{{ item.cultivo.lote.semilla_utilizada.descripcion }}</h3>
+                    <h3>{{ item.cultivo_name}}</h3>
                     <h4>{{ item.fecha_realizacion |  amUtc |  amDateFormat: 'HH:mm:ss' }}</h4>
                     <p>{{ item.observaciones}}</p>
                   </div>
                   <md-chips>
-                    <md-chip class="actividad-{{item.actividad}}">{{item.actividad | formatter }}</md-chip>
+                    <md-chip class="actividad-{{item.actividad}}">{{item.actividad || item.type | formatter }}</md-chip>
                   </md-chips>
                 </md-list-item>
               </div>
@@ -61,10 +61,7 @@
                 <span md-highlight-text="vm.searchText">{{item.name}} :: {{item.id}}</span>
               </md-autocomplete>
               <md-chip-template>
-                <span>
-          <strong>{{$chip.name}}</strong>
-          <em>({{$chip.id}})</em>
-        </span>
+                <span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span>
               </md-chip-template>
             </md-chips>
             <br/>
@@ -110,6 +107,13 @@
                 <span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span>
               </md-chip-template>
             </md-chips>
+
+            <!-- actions -->
+            <div layout="column">
+              <eca-action meta="item"  ng-repeat="item in vm.observations"></eca-action>
+            </div>
+
+            <!-- detail -->
             <md-list ng-hide="!vm.observations.length" class="md-long-text activities-list" flex="">
               <md-subheader class="md-no-sticky">Detalle</md-subheader>
               <md-list-item class="md-3-line secondary-button-padding" ng-repeat="item in vm.observations | orderBy: 'type'" ng-click="vm.detailItem($event, item)">

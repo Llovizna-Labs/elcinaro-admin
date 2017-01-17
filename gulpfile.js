@@ -15,7 +15,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var minifyhtml = require('gulp-minify-html');
 var rev = require('gulp-rev');
 var collect = require('gulp-rev-collector');
-
+var templateCache = require('gulp-angular-templatecache');
 
 // App Files
 var appScripts = [
@@ -55,6 +55,7 @@ var vendorScripts = [
   'bower_components/angular-material-data-table/dist/md-data-table.min.js',
   'bower_components/angular-moment/angular-moment.min.js',
   'bower_components/angular-moment-picker/dist/angular-moment-picker.min.js',
+  'bower_components/angular-loading-bar/build/loading-bar.min.js',
   'vendors/offline/offline.min.js',
 
   // 'bower_components/braintree-web/client.js',
@@ -66,6 +67,7 @@ var vendorStyles = [
   'bower_components/dropzone/dist/min/dropzone.min.css',
   'bower_components/angular-material-data-table/dist/md-data-table.min.css',
   'bower_components/angular-moment-picker/dist/angular-moment-picker.min.css',
+  'bower_components/angular-loading-bar/build/loading-bar.min.css',
   'vendors/offline/offline-chrome-theme.css',
   'vendors/offline/offline-spanish-indicator.css',
   'vendors/offline/offline-spanish-theme.css',
@@ -291,6 +293,18 @@ gulp.task('rev:collect', ['rev'], function() {
 
 
 
+gulp.task('template-cache', function() {
+  return gulp.src(['www/assets/**/*.html'])
+    .pipe(templateCache({
+      module: 'ElCinaroAdmin',
+      transformUrl: function(url) {   
+        return url.substring(url.lastIndexOf('/') + 1);
+      }
+    }))
+    .pipe(gulp.dest('www/scripts/'));
+});
+
+
 // Live task
 gulp.task('live', ['watchlive'], function() {
   // Watch app style, JS and image files
@@ -299,7 +313,7 @@ gulp.task('live', ['watchlive'], function() {
   gulp.watch(appImages, ['images']);
 
   // Watch HTML files
-  gulp.watch(['index.html', 'assets/views/**/*.html', 'app/components/**/**.html'], ['views']);
+  gulp.watch(['index.html', 'assets/views/**/*.html', 'app/components/**/**.html'], ['views', 'template-cache']);
 
   // Watch any files in www/, reload on change
   watch("www/**").pipe(connect.reload());

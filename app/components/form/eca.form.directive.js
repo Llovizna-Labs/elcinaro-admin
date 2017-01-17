@@ -37,10 +37,12 @@
         activate();
 
         function activate() {
-          console.log('eca form');
-          console.log(vm.form);
-          console.log(vm.meta);
           vm.action = !vm.form.hasOwnProperty('id') ? vm.meta.handlers[0] : vm.meta.handlers[1];
         }
+
+
+        $scope.$watch('vm.options', function(c,o) {
+          vm.action = !vm.form.hasOwnProperty('id') ? vm.meta.handlers[0] : vm.meta.handlers[1];
+        }, true);
     }
 })();
