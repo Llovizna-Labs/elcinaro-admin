@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('SemillasController', Controller);
 
-  Controller.$inject = ['moment', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$siembras'];
+  Controller.$inject = ['_','moment', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$siembras'];
 
   /* @ngInject */
-  function Controller(moment, $scope, $http, $q, $timeout, $mdDialog, $siembras) {
+  function Controller(_, moment, $scope, $http, $q, $timeout, $mdDialog, $siembras) {
     var vm = this;
     vm.getData = getData;
     vm.toggleSearch = false;
@@ -80,22 +80,62 @@
     }];
 
 
-    var clientObject = {
-      proovedor: '',
-      nivel_germinacion: '',
-      familia: '',
-      unidad: '',
-      cantidad: '',
-      precio_compra: '',
-      fecha_compra: new Date()
+    vm.form = {
+      nivel_germinacion: 0.0,
+      cantidad: 0.0,
+      precio_compra: 0.0,
+      codigo: 'ABCD00',
+      fecha_compra: new Date(),
+      descripcion: 'Descripción de la semilla'
     }
 
+    vm.meta = {
+      searchForm: {},
+      fields: [{
+        name: 'familia',
+        type: 'select',
+        icon: 'perm_identity',
+        handler: 'getRubros',
+        placeholder: 'Seleccione un Rubro',
+        mapper: {
+          id: 'id',
+          name: 'nombre'
+        },
+        repeat: true
+      },
+      {
+        name: 'proovedor',
+        type: 'select',
+        icon: 'perm_identity',
+        handler: 'getProovedores',
+        placeholder: 'Seleccione un Proovedor',
+        mapper: {
+          id: 'id',
+          name: 'nombre'
+        },
+        repeat: true
+      },
+      {
+        name: 'unidad',
+        type: 'select',
+        icon: 'perm_identity',
+        handler: 'getUnidades',
+        placeholder: 'Unidad',
+        repeat: false
+      }]
+    };
+
+
+    //Selector
+    vm.metaFieldsByname = _.keyBy(vm.meta.fields, 'name')
 
     activate();
 
     function activate() {
       console.log('Semillas Controller');
       getData();
+
+      console.log(vm.metaFieldsByname)
     }
 
     vm.resetTable = function() {
@@ -114,6 +154,14 @@
         .then(success);
     }
 
+    vm.formIsValid = function() {
+      return true;
+    }
+
+
+    vm.handleForm = function() {
+      console.log(vm.form);
+    }
 
     vm.spawnModal = function(ev, isNew) {
 
@@ -174,6 +222,8 @@
     }
 
 
+
+
     $scope.$watch('vm.query.filter', function(current, original) {
       if (!current) return;
 
@@ -183,7 +233,6 @@
         getData();
       }, 500); // delay 500 ms
     });
-
 
     $scope.$watchCollection('vm.item', function(c, o) {
       if (_.isEmpty(c)) return;

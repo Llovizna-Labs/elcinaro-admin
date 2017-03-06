@@ -306,7 +306,7 @@ gulp.task('template-cache', function() {
 
 
 // Live task
-gulp.task('live', ['watchlive'], function() {
+gulp.task('live', ['liveserver'], function() {
   // Watch app style, JS and image files
   gulp.watch(appScripts, ['scripts']);
   gulp.watch(appStyles, ['styles']);
@@ -316,7 +316,7 @@ gulp.task('live', ['watchlive'], function() {
   gulp.watch(['index.html', 'assets/views/**/*.html', 'app/components/**/**.html'], ['views', 'template-cache']);
 
   // Watch any files in www/, reload on change
-  watch("www/**").pipe(connect.reload());
+  //watch("www/**").pipe(connect.reload());
 });
 
 
