@@ -1,1 +1,39 @@
-<div layout=row flex=auto layout-align="start center"><div layout=column layout-padding flex><div layout=row flex=auto ng-if="vm._.includes(['Fertilizacion', 'Plaguicida'], vm.meta.action)"><h3>{{vm.meta.cultivo.description }}</h3><md-input-container md-no-float flex=25><label>Hora y fecha de aplicación</label> <input ng-model=vm.data.time placeholder=Hora type=text moment-picker=vm.data.time format="DD-MM-YYYY HH:mm A"></md-input-container><md-input-container md-no-float flex=25><label>Insumo</label><md-select ng-model=vm.data.insumo aria-label=Insumo><md-option ng-repeat="item in vm.insumos" ng-bind=item.nombre ng-value=item.id></md-option></md-select></md-input-container><md-input-container md-no-float flex=25><label>Cantidad</label> <input ng-model=vm.data.quantity placeholder=Cantidad type=number></md-input-container><md-input-container md-no-float flex=25><label>Medida</label><md-select ng-model=vm.data.medida aria-label=Medida><md-option ng-repeat="item in vm.medidas" ng-bind=item.nombre ng-value=item.id></md-option></md-select></md-input-container></div><div layout=row ng-if="vm.meta.name === 'Observaciones'"><md-input-container md-no-float class=md-block flex=100><label>Observaciones</label> <textarea ng-model=vm.data.text md-maxlength=150 rows=2 md-select-on-focus></textarea></md-input-container></div></div></div>
+<div layout="row" flex="auto" layout-align="start center">
+  <div layout="column" layout-padding flex>
+    <!-- Fertilizacion form -->
+    <div layout="row" flex="auto" ng-if="vm._.includes(['Fertilizacion', 'Plaguicida'], vm.meta.action)">
+
+      <h3> {{vm.meta.cultivo.description }}</h3>
+      <md-input-container md-no-float flex="25">
+        <label> Hora y fecha de aplicación</label>
+        <input ng-model="vm.data.time" placeholder="Hora" type="text" moment-picker="vm.data.time" format="DD-MM-YYYY HH:mm A">
+      </md-input-container>
+      <md-input-container md-no-float flex="25">
+        <label>Insumo</label>
+        <md-select ng-model="vm.data.insumo" aria-label="Insumo">
+          <md-option ng-repeat="item in vm.insumos" ng-bind="item.nombre" ng-value="item.id">
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container  md-no-float flex="25">
+        <label> Cantidad</label>
+        <input ng-model="vm.data.quantity" placeholder="Cantidad" type="number">
+      </md-input-container>
+      <md-input-container md-no-float flex="25">
+        <label>Medida</label>
+        <md-select ng-model="vm.data.medida" aria-label="Medida">
+          <md-option ng-repeat="item in vm.medidas" ng-bind="item.nombre" ng-value="item.id">
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+
+    <div layout="row" ng-if="vm.meta.name === 'Observaciones'">
+      <md-input-container md-no-float class="md-block" flex="100">
+        <label>Observaciones</label>
+        <textarea ng-model="vm.data.text" md-maxlength="150" rows="2" md-select-on-focus></textarea>
+      </md-input-container>
+    </div>
+
+  </div>
+</div>

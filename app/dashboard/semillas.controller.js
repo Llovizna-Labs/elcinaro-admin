@@ -97,10 +97,6 @@
         icon: 'perm_identity',
         handler: 'getRubros',
         placeholder: 'Seleccione un Rubro',
-        mapper: {
-          id: 'id',
-          name: 'nombre'
-        },
         repeat: true
       },
       {
@@ -109,10 +105,6 @@
         icon: 'perm_identity',
         handler: 'getProovedores',
         placeholder: 'Seleccione un Proovedor',
-        mapper: {
-          id: 'id',
-          name: 'nombre'
-        },
         repeat: true
       },
       {
@@ -129,7 +121,7 @@
     //Selector
     vm.metaFieldsByname = _.keyBy(vm.meta.fields, 'name')
 
-    activate();
+    //activate();
 
     function activate() {
       console.log('Semillas Controller');
@@ -161,6 +153,14 @@
 
     vm.handleForm = function() {
       console.log(vm.form);
+
+      $siembras['createSemilla'](vm.form)
+        .then(function(resp) {
+          console.log(resp);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     }
 
     vm.spawnModal = function(ev, isNew) {
@@ -236,7 +236,18 @@
 
     $scope.$watchCollection('vm.item', function(c, o) {
       if (_.isEmpty(c)) return;
-      vm.item[0]['fecha_compra'] = new Date(vm.item[0]['fecha_compra']);
+      vm.item['fecha_compra'] = new Date(vm.item[0]['fecha_compra']);
+    });
+
+    $scope.$watch('vm.form.fecha_compra', function(c, o) {
+      if (_.isEmpty(c)) return;
+      vm.form['fecha_compra'] = new Date(c);
+    });
+
+    $scope.$watch('vm.currentTab', function(c, o) {
+      console.log('current tab', c);
+      if (c == o) return;
+      if (!c) activate();
     });
   }
 })();

@@ -1,1 +1,139 @@
-<section class="dashboard campaigns"><div layout=row layout-padding><h1 class=title flex>Dashboard</h1><span flex></span><div class=text-right flex><md-button class="md-raised md-accent md-hue-2" ui-sref=orders>Configuracion</md-button></div></div><hr><md-tabs md-dynamic-height md-border-bottom><md-tab label=Actividades><div layout=column layout-margin layout-padding><md-card class=activities-list><md-card-title><md-card-title-text><span class=md-headline>Plan de Trabajo</span> <span class=md-subhead>Actividades Generales</span></md-card-title-text></md-card-title><md-card-actions layout=row layout-align="end center"><md-button>Organizar</md-button><md-button ng-click=vm.agregarActividad()>Crear</md-button></md-card-actions><md-card-content><md-list><div ng-repeat="(date, data) in vm.formattedData"><md-subheader class=md-no-sticky>{{date | amDateFormat:'MMMM Do YYYY'}}</md-subheader><md-list-item class=md-3-line ng-repeat="item in data"><md-icon>history</md-icon><div class=md-list-item-text layout=column><h3>{{ item.cultivo_name}}</h3><h4>{{ item.fecha_realizacion | amUtc | amDateFormat: 'HH:mm:ss' }}</h4><p>{{ item.observaciones}}</p></div><md-chips><md-chip class=actividad-{{item.actividad}}>{{item.actividad || item.type | formatter }}</md-chip></md-chips></md-list-item></div><md-divider></md-divider></md-list></md-card-content></md-card></div></md-tab><md-tab label=Agregar><div class=activity-setup layout=column ng-cloak layout-padding layout-margin><md-card><md-card-title><md-card-title-text><span class=md-headline>Registro de Actividad</span> <span class=md-subhead>Registre actividades relacionadas a los cultivos</span></md-card-title-text></md-card-title><md-card-content layout=column layout-padding><md-chips ng-model=vm.selectedRubros md-autocomplete-snap md-require-match=true max=1><md-autocomplete ng-disabled=vm.selectedRubros.length md-selected-item=vm.selectedItem md-search-text=vm.searchText md-items="item in vm.querySearch(vm.rubros, vm.searchText)" md-item-text=item.name placeholder="Selecciona un rubro"><span md-highlight-text=vm.searchText>{{item.name}} :: {{item.id}}</span></md-autocomplete><md-chip-template><span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span></md-chip-template></md-chips><br></md-card-content><md-card-content layout=column layout-padding><md-card-title><md-card-title-text><span class=md-headline>Cultivos</span> <span class=md-subhead><md-checkbox ng-change=vm.toggle(vm.all) ng-model=vm.all ng-disabled=!vm.cultivos.length>Seleccionar todos {{ vm.all }}</md-checkbox></span></md-card-title-text></md-card-title><md-grid-list class=chips md-cols-xs=5 md-cols-sm=5 md-cols-md=5 md-cols-gt-md=6 md-row-height-gt-md=1:1 md-row-height=4:3 md-gutter=12px><md-grid-tile ng-if=!vm.cultivos.length class=cultivos-item ng-class=disabled><span class=text-center>Cultivo</span><md-grid-tile-footer><h3 class=text-center>Codigo</h3></md-grid-tile-footer></md-grid-tile><md-grid-tile ng-repeat="item in vm.cultivos" ng-click="vm.selectCultivo($index, item)" class=cultivos-item ng-class="{'active': item.selected}"><span class=text-center>{{item.description}}</span><md-grid-tile-footer><h3>{{item.name}}</h3></md-grid-tile-footer></md-grid-tile></md-grid-list></md-card-content><md-card-title><md-card-title-text><span class=md-headline>Acciones</span> <span class="md-subhead activities-list"><span ng-repeat="item in vm.actions" ng-bind=item.name class="actions action-chip actividad-{{item.id}}"></span></span></md-card-title-text></md-card-title><md-card-content layout=column layout-padding><md-chips class=activities-list ng-model=vm.selectedActions md-autocomplete-snap md-require-match=true><md-autocomplete md-search-text=vm.searchTextAction md-items="item in vm.querySearch(vm.actions, vm.searchTextAction)" md-item-text=item.name placeholder="Seleccione Accion"><span md-highlight-text=vm.searchTextAction>{{item.name}} :: {{item.id}}</span></md-autocomplete><md-chip-template><span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span></md-chip-template></md-chips><div layout=column><eca-action meta=item ng-repeat="item in vm.observations"></eca-action></div><md-list ng-hide=!vm.observations.length class="md-long-text activities-list" flex><md-subheader class=md-no-sticky>Detalle</md-subheader><md-list-item class="md-3-line secondary-button-padding" ng-repeat="item in vm.observations | orderBy: 'type'" ng-click="vm.detailItem($event, item)"><md-icon>history</md-icon><div class=md-list-item-text layout=column><h3>{{ item.text + ' (' + item.cultivo.name + ')'}}</h3><h4>{{ item.id | amDateFormat: 'HH:mm:ss A' }}</h4><p>{{item.content || item.cultivo.observaciones.text }} <span ng-if=item.touched>touched</span></p></div><md-icon class=md-secondary ng-click="vm.removeItem($event, $index)" aria-label=Remove>close</md-icon><md-divider></md-divider></md-list-item></md-list></md-card-content><md-card-actions layout=row layout-align="end center"><md-button>Organizar</md-button><md-button ng-click=vm.submit()>Enviar</md-button></md-card-actions></md-card></div></md-tab></md-tabs></section>
+<section class="dashboard campaigns">
+  <div layout="row" layout-padding>
+    <h1 class="title" flex>Dashboard</h1>
+    <span flex></span>
+    <div class="text-right" flex>
+      <md-button class="md-raised md-accent md-hue-2" ui-sref="orders">Configuracion</md-button>
+    </div>
+  </div>
+  <hr>
+  <!-- <md-progress-circular ng-show="vm.loading" class="margin-auto" md-mode="indeterminate" md-diameter="30"></md-progress-circular> -->
+  <md-tabs md-dynamic-height md-border-bottom>
+    <md-tab label="Actividades">
+      <!--plan de trabajo-->
+      <div layout="column" layout-margin layout-padding>
+        <md-card class="activities-list">
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Plan de Trabajo</span>
+              <span class="md-subhead">Actividades Generales</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button>Organizar</md-button>
+            <md-button ng-click="vm.agregarActividad()">Crear</md-button>
+          </md-card-actions>
+          <md-card-content>
+            <md-list>
+              <div ng-repeat="(date, data) in vm.formattedData">
+                <md-subheader class="md-no-sticky"> {{date | amDateFormat:'MMMM Do YYYY'}}</md-subheader>
+                <md-list-item class="md-3-line" ng-repeat="item in data">
+                  <md-icon>history</md-icon>
+                  <div class="md-list-item-text" layout="column">
+                    <h3>{{ item.cultivo_name}}</h3>
+                    <h4>{{ item.fecha_realizacion |  amUtc |  amDateFormat: 'HH:mm:ss' }}</h4>
+                    <p>{{ item.observaciones}}</p>
+                  </div>
+                  <md-chips>
+                    <md-chip class="actividad-{{item.actividad}}">{{item.actividad || item.type | formatter }}</md-chip>
+                  </md-chips>
+                </md-list-item>
+              </div>
+              <md-divider></md-divider>
+            </md-list>
+          </md-card-content>
+        </md-card>
+      </div>
+    </md-tab>
+    <!-- plan de trabajo -->
+    <md-tab label=Agregar>
+      <div class="activity-setup" layout="column" ng-cloak layout-padding layout-margin>
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Registro de Actividad</span>
+              <span class="md-subhead">Registre actividades relacionadas a los cultivos</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout="column" layout-padding>
+            <md-chips ng-model="vm.selectedRubros" md-autocomplete-snap md-require-match="true" max="1">
+              <md-autocomplete ng-disabled="vm.selectedRubros.length" md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.rubros, vm.searchText)" md-item-text="item.name" placeholder="Selecciona un rubro">
+                <span md-highlight-text="vm.searchText">{{item.name}} :: {{item.id}}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                <span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span>
+              </md-chip-template>
+            </md-chips>
+            <br/>
+          </md-card-content>
+          <md-card-content layout="column" layout-padding>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Cultivos</span>
+                <span class="md-subhead">
+            <md-checkbox ng-change="vm.toggle(vm.all)" ng-model="vm.all" ng-disabled="!vm.cultivos.length">
+                Seleccionar todos {{ vm.all }}
+            </md-checkbox>
+            </span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-grid-list class="chips" md-cols-xs="5" md-cols-sm="5" md-cols-md="5" md-cols-gt-md="6" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter="12px">
+              <md-grid-tile ng-if="!vm.cultivos.length" class="cultivos-item" ng-class="disabled">
+                <span class="text-center">Cultivo</span>
+                <md-grid-tile-footer>
+                  <h3 class="text-center">Codigo</h3>
+                </md-grid-tile-footer>
+              </md-grid-tile>
+              <md-grid-tile ng-repeat="item in vm.cultivos" ng-click="vm.selectCultivo($index, item)" class="cultivos-item" ng-class="{'active': item.selected}">
+                <span class="text-center">{{item.description}}</span>
+                <md-grid-tile-footer>
+                  <h3>{{item.name}}</h3>
+                </md-grid-tile-footer>
+              </md-grid-tile>
+            </md-grid-list>
+          </md-card-content>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Acciones</span>
+              <span class="md-subhead activities-list"><span ng-repeat="item in vm.actions" ng-bind="item.name" class="actions action-chip actividad-{{item.id}}"></span></span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout="column" layout-padding>
+            <md-chips class="activities-list" ng-model="vm.selectedActions" md-autocomplete-snap md-require-match="true">
+              <md-autocomplete md-search-text="vm.searchTextAction" md-items="item in vm.querySearch(vm.actions, vm.searchTextAction)" md-item-text="item.name" placeholder="Seleccione Accion">
+                <span md-highlight-text="vm.searchTextAction">{{item.name}} :: {{item.id}}</span>
+              </md-autocomplete>
+              <md-chip-template>
+                <span><strong>{{$chip.name}}</strong><em>({{$chip.id}})</em></span>
+              </md-chip-template>
+            </md-chips>
+
+            <!-- actions -->
+            <div layout="column">
+              <eca-action meta="item"  ng-repeat="item in vm.observations"></eca-action>
+            </div>
+
+            <!-- detail -->
+            <md-list ng-hide="!vm.observations.length" class="md-long-text activities-list" flex="">
+              <md-subheader class="md-no-sticky">Detalle</md-subheader>
+              <md-list-item class="md-3-line secondary-button-padding" ng-repeat="item in vm.observations | orderBy: 'type'" ng-click="vm.detailItem($event, item)">
+                <md-icon>history</md-icon>
+                <div class="md-list-item-text" layout="column">
+                  <h3>{{ item.text + ' (' + item.cultivo.name + ')'}}</h3>
+                  <h4>{{ item.id  |  amDateFormat: 'HH:mm:ss A' }}</h4>
+                  <p> {{item.content || item.cultivo.observaciones.text }} <span ng-if="item.touched"> touched</span></p>
+                </div>
+                <md-icon class="md-secondary" ng-click="vm.removeItem($event, $index)" aria-label="Remove">close</md-icon>
+                <md-divider></md-divider>
+              </md-list-item>
+            </md-list>
+          </md-card-content>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button>Organizar</md-button>
+            <md-button ng-click="vm.submit()">Enviar</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
+    </md-tab>
+  </md-tabs>
+</section>

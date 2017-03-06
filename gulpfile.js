@@ -112,6 +112,11 @@ gulp.task('clean', function() {
 });
 
 
+// Clean
+gulp.task('clean-templates', function() {
+  return clean(['www/scripts/templates.js']);
+});
+
 // Prune
 gulp.task('prune', function() {
   return clean(['vendors']);
@@ -192,15 +197,15 @@ gulp.task('vendors', function() {
 
 
 // Views
-gulp.task('views', function() {
+gulp.task('views',  ['clean-templates'], function() {
   gulp.src('index.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/'));
   gulp.src('assets/views/**/*.html')
-    .pipe(minifyhtml())
+    //.pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
   gulp.src('app/components/**/*.html')
-    .pipe(minifyhtml())
+    //.pipe(minifyhtml())
     .pipe(gulp.dest('www/assets/views'))
 });
 
@@ -219,7 +224,7 @@ gulp.task('optimize', ['vendors', 'views'], function() {
 
 // Default task
 gulp.task('default', function() {
-  gulp.start('scripts', 'vendors', 'views', 'styles', 'fonts', 'images');
+  gulp.start('scripts', 'vendors', 'views', 'styles', 'fonts');
 });
 
 
@@ -294,14 +299,14 @@ gulp.task('rev:collect', ['rev'], function() {
 
 
 gulp.task('template-cache', function() {
-  return gulp.src(['www/assets/**/*.html'])
+  return gulp.src(['assets/views/**/*.html'])
     .pipe(templateCache({
       module: 'ElCinaroAdmin',
-      transformUrl: function(url) {   
+      transformUrl: function(url) { 
         return url.substring(url.lastIndexOf('/') + 1);
       }
     }))
-    .pipe(gulp.dest('www/scripts/'));
+    .pipe(gulp.dest('www/scripts'));
 });
 
 

@@ -1,1 +1,17 @@
-<md-content class=login-content layout=row layout-align="center center" layout-padding layout-wrap><form class=md-whiteframe-1dp name=loginForm ng-submit="loginForm.$valid && vm.auth()" flex=100 flex-gt-xs=50 novalidate><h2 class=title>Log In</h2><md-input-container class=md-block><label>Username</label> <input type=text name=username ng-model=vm.user.username required></md-input-container><md-input-container class=md-block><label>Password</label> <input type=password name=password ng-model=vm.user.password required></md-input-container><div layout=column><md-button class="md-raised md-accent md-hue-2" type=submit ng-disabled=vm.loading md-autofocus>Login</md-button><a href=#>Forgot password?</a></div></form></md-content>
+<md-content class="login-content" layout="row" layout-align="center center" layout-padding layout-wrap>
+  <form class="md-whiteframe-1dp" name="loginForm" ng-submit="loginForm.$valid && vm.auth()" flex="100" flex-gt-xs="50" novalidate>
+  	<h2 class="title">Log In</h2>
+    <md-input-container class="md-block">
+      <label>Username</label>
+      <input type="text" name="username" ng-model="vm.user.username" required>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>Password</label>
+      <input type="password" name="password" ng-model="vm.user.password" required>
+    </md-input-container>
+    <div layout="column">
+      <md-button class="md-raised md-accent md-hue-2" type="submit" ng-disabled="vm.loading" md-autofocus>Login</md-button>
+      <a href="#">Forgot password?</a>
+    </div>
+  </form>
+</md-content>

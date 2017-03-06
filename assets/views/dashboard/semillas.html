@@ -1,3 +1,4 @@
+<!-- dashboard - Semillas -->
 <section class="dashboard">
   <div class="header" layout="row" flex layout-align="start center">
     <a flex="10" href="javascript:void(0)" ui-sref="dashboard.semillas({id: null})">
@@ -8,7 +9,7 @@
   <md-divider></md-divider>
 
 
-  <!-- home - cultivos list -->
+  <!-- home - semillas list -->
   <md-tabs md-dynamic-height md-border-bottom md-selected="vm.currentTab">
     <md-tab label="Listado">
 
@@ -111,77 +112,79 @@
         <md-card>
           <md-card-title>
             <md-card-title-text>
-              <span class="md-headline">Información de la Semilla</span>
+              <span class="md-headline">Registro de Semilla</span>
               <span class="md-subhead">Seleccione el Rubro y Proovedor </span>
             </md-card-title-text>
           </md-card-title>
           <md-card-content layout="column" layout-padding>
-            <div layout="row">
-              <auto-complete flex="30" meta="field" ng-model="vm.form[field.name]" ng-repeat="field in vm.meta.fields | filter:{repeat: true }"></auto-complete>
-            </div>
+            <form name="semillaForm">
+
+              <div layout="row">
+                <auto-complete flex="30" meta="field" ng-model="vm.form[field.name]" ng-repeat="field in vm.meta.fields | filter:{repeat: true }"></auto-complete>
+              </div>
 
 
-            <div layout-padding layout="column">
+              <div layout-padding layout="column">
+                <div layout-gt-sm="row">
+                  <md-input-container flex-gt-sm flex="30">
+                    <label>Nivel de germinación</label>
+                    <input name="nivel_germinacion" ng-model="vm.form.nivel_germinacion" type="number" min="0" max="1" required="true">
+                    <div ng-messages="semillaForm.nivel_germinacion.$error">
+                      <div ng-message="max"> Introduzca un valor entre 0 y 1</div>
+                      <div ng-message="required"> Este campo es requerido</div>
+                    </div>
+                  </md-input-container>
+
+                  <div flex="2"></div>
+
+                  <md-input-container flex-gt-sm flex="30">
+                    <label>Precio de compra</label>
+                    <input ng-model="vm.form.precio_compra" type="number" min="0">
+                  </md-input-container>
+
+                </div>
+              </div>
+
+              <div layout-padding layout="column">
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm flex="30">
+                    <label>Cantidad</label>
+                    <input ng-model="vm.form.cantidad" type="number" min="1">
+                  </md-input-container>
+
+                  <div flex="2"></div>
+                  <auto-complete flex="30" meta="vm.metaFieldsByname.unidad" ng-model="vm.form.unidad"></auto-complete>
+
+                </div>
+              </div>
+
               <div layout-gt-sm="row">
                 <md-input-container flex-gt-sm flex="30">
-                  <label>Nivel de germinación</label>
-                  <input ng-model="vm.form.nivel_germinacion" type="number" min="0">
+                  <label>Código Proovedor</label>
+                  <input ng-model="vm.form.codigo" type="text">
                 </md-input-container>
-
-                <div flex="2"></div>
-
-                <md-input-container flex-gt-sm flex="30">
-                  <label>Precio de compra</label>
-                  <input ng-model="vm.form.precio_compra" type="number" min="1">
+                <md-input-container class="md-block" flex-gt-sm flex="40">
+                  <label>Fecha de Compra</label>
+                  <md-datepicker ng-model="vm.form.fecha_compra" md-placeholder="Enter date"></md-datepicker>
                 </md-input-container>
-
               </div>
-            </div>
-
-            <div layout-padding layout="column">
               <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm flex="30">
-                  <label>Cantidad</label>
-                  <input ng-model="vm.form.cantidad" type="number" min="1">
+                <md-input-container flex-gt-sm flex="65">
+                  <label>Descripción</label>
+                  <input ng-model="vm.form.descripcion" type="text">
                 </md-input-container>
-
-                <div flex="2"></div>
-
-                <auto-complete flex="30" meta="vm.metaFieldsByname.unidad" ng-model="vm.form.unidad"></auto-complete>
-
               </div>
-            </div>
-
-            <div layout-gt-sm="row">
-              <md-input-container flex-gt-sm flex="30">
-                <label>Código Proovedor</label>
-                <input ng-model="vm.form.codigo" type="text">
-              </md-input-container>
-
-              <md-input-container class="md-block" flex-gt-sm flex="40">
-                <label>Fecha de Compra</label>
-                <md-datepicker ng-model="vm.form.fecha_compra" md-placeholder="Enter date"></md-datepicker>
-              </md-input-container>
-            </div>
-
-            <div layout-gt-sm="row">
-              <md-input-container flex-gt-sm flex="65">
-                <label>Descripción</label>
-                <input ng-model="vm.form.descripcion" type="text">
-              </md-input-container>
-            </div>
-
-
-
-            <div layout-gt-sm="row" layout="row" layout-align="space-between center">
-              <div layout="row" layout-align="start start">
-                <md-button class="md-accent md-raised">Ayuda</md-button>
+              <div layout-gt-sm="row" layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start start">
+                  <md-button class="md-warn md-raised">Ayuda</md-button>
+                  <md-button class="md-warn md-raised" ng-click="vm.currentTab = 1">Ir al listado</md-button>
+                </div>
+                <div layout="row" layout-align="end end">
+                  <md-button type="submit" class="md-primary md-raised" ng-click="vm.handleForm(vm.detailTab.handler)">Registrar</md-button>
+                </div>
               </div>
-              <div layout="row" layout-align="end end">
-                <md-button class="md-warn md-raised">Ver listado</md-button>
-                <md-button class="md-primary md-raised" ng-click="vm.handleForm(vm.detailTab.handler)" ng-disabled="!vm.formIsValid()">{{vm.detailTab.submitButton}}</md-button>
-              </div>
-            </div>
+            </form>
+          </md-card-content>
       </div>
       </md-card>
       </div>

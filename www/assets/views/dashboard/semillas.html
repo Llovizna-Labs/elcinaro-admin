@@ -1,1 +1,193 @@
-<section class=dashboard><div class=header layout=row flex layout-align="start center"><a flex=10 href=javascript:void(0) ui-sref="dashboard.semillas({id: null})"><h1 class=title>Semillas</h1></a><div flex=80></div></div><md-divider></md-divider><md-tabs md-dynamic-height md-border-bottom md-selected=vm.currentTab><md-tab label=Listado><md-card><md-card-title><md-toolbar class="md-table-toolbar md-default" ng-hide="vm.item.length || vm.toggleSearch"><div class=md-toolbar-tools><span ng-bind=vm.table.title></span><div flex></div><md-button class=md-icon-button ng-click="vm.toggleSearch = true"><md-icon>search</md-icon></md-button><md-button class=md-icon-button ng-click="vm.spawnModal($event, true)"><md-icon>add</md-icon></md-button></div></md-toolbar><md-toolbar class="md-table-toolbar md-default" ng-show=vm.toggleSearch aria-hidden=false><div class=md-toolbar-tools><form flex name=vm.filter.form><md-input-container md-no-float class=md-block><md-icon class=material-icons>search</md-icon><input type=text ng-model=vm.query.filter placeholder={{vm.table.search.placeholder}}></md-input-container></form><md-button class=md-icon-button ng-click=vm.resetTable()><md-icon>close</md-icon></md-button></div></md-toolbar><md-toolbar class="md-table-toolbar alternate" ng-show=vm.item.length aria-hidden=false><div class=md-toolbar-tools flex><div layout=row layout-padding flex=80><p>{{vm.table.detail.title([vm.item[0].descripcion])}}</p></div><div layout=row flex=20 layout-align="end end"><md-button class=md-icon-button ng-click=vm.spawnModal($event)><md-icon>mode_edit</md-icon><md-tooltip md-direction=bottom>Editar</md-tooltip></md-button><md-button class=md-icon-button ng-click="vm.spawnDeleteModal($event, vm.item[0].id)"><md-icon>delete_forever</md-icon><md-tooltip md-direction=bottom>Eliminar</md-tooltip></md-button><md-button class=md-icon-button ng-click="vm.item = []"><md-icon>close</md-icon><md-tooltip md-direction=bottom>Cancelar</md-tooltip></md-button></div></div></md-toolbar></md-card-title><md-card-content><div layout=column><md-table-container><table md-table md-row-select ng-model=vm.item md-progress=vm.promise><thead md-head md-order=vm.query.order md-on-reorder=vm.getData><tr md-row><th md-column md-order-by=familia__nombre><span>Rubro</span></th><th md-column>Descripcion</th><th md-column md-numeric md-order-by=proovedor__nombre><span>Proovedor</span></th><th md-column md-numeric md-order-by=cantidad>Cantidad (u/g)</th><th md-column md-numeric md-order-by=nivel_germinacion>n/g (%)</th><th md-column md-order-by=cultivos_count>Cultivos</th><th md-column md-numeric md-order-by=updated>Actualizado</th></tr></thead><tbody md-body><tr md-row md-select=data md-select-id=data.id md-on-select=vm.logItem md-auto-select ng-repeat="data in vm.data.results"><td md-cell>{{data.semilla_familia.nombre}}</td><td md-cell>{{data.descripcion}}</td><td md-cell>{{data.semilla_proovedor.nombre}}</td><td md-cell>{{data.cantidad | number: 1 + data.unidad}}</td><td md-cell>{{data.nivel_germinacion}}</td><td md-cell>{{data.cultivos_count}}</td><td md-cell am-time-ago=data.updated></td></tr></tbody></table></md-table-container><md-table-pagination md-limit=vm.query.limit md-limit-options="[5, 10, 15]" md-page=vm.query.page md-total={{vm.data.count}} md-on-paginate=vm.getData md-page-select></md-table-pagination></div></md-card-content></md-card></md-tab><md-tab label=Agregar/Editar><div class=activity-setup layout=column ng-cloak layout-padding layout-margin><md-card><md-card-title><md-card-title-text><span class=md-headline>Información de la Semilla</span> <span class=md-subhead>Seleccione el Rubro y Proovedor</span></md-card-title-text></md-card-title><md-card-content layout=column layout-padding><div layout=row><auto-complete flex=30 meta=field ng-model=vm.form[field.name] ng-repeat="field in vm.meta.fields | filter:{repeat: true }"></auto-complete></div><div layout-padding layout=column><div layout-gt-sm=row><md-input-container flex-gt-sm flex=30><label>Nivel de germinación</label> <input ng-model=vm.form.nivel_germinacion type=number min=0></md-input-container><div flex=2></div><md-input-container flex-gt-sm flex=30><label>Precio de compra</label> <input ng-model=vm.form.precio_compra type=number min=1></md-input-container></div></div><div layout-padding layout=column><div layout-gt-sm=row><md-input-container class=md-block flex-gt-sm flex=30><label>Cantidad</label> <input ng-model=vm.form.cantidad type=number min=1></md-input-container><div flex=2></div><auto-complete flex=30 meta=vm.metaFieldsByname.unidad ng-model=vm.form.unidad></auto-complete></div></div><div layout-gt-sm=row><md-input-container flex-gt-sm flex=30><label>Código Proovedor</label> <input ng-model=vm.form.codigo type=text></md-input-container><md-input-container class=md-block flex-gt-sm flex=40><label>Fecha de Compra</label><md-datepicker ng-model=vm.form.fecha_compra md-placeholder="Enter date"></md-datepicker></md-input-container></div><div layout-gt-sm=row><md-input-container flex-gt-sm flex=65><label>Descripción</label> <input ng-model=vm.form.descripcion type=text></md-input-container></div><div layout-gt-sm=row layout=row layout-align="space-between center"><div layout=row layout-align="start start"><md-button class="md-accent md-raised">Ayuda</md-button></div><div layout=row layout-align="end end"><md-button class="md-warn md-raised">Ver listado</md-button><md-button class="md-primary md-raised" ng-click=vm.handleForm(vm.detailTab.handler) ng-disabled=!vm.formIsValid()>{{vm.detailTab.submitButton}}</md-button></div></div></md-card-content></md-card></div></md-tab></md-tabs></section>
+<!-- dashboard - Semillas -->
+<section class="dashboard">
+  <div class="header" layout="row" flex layout-align="start center">
+    <a flex="10" href="javascript:void(0)" ui-sref="dashboard.semillas({id: null})">
+      <h1 class="title">Semillas</h1>
+    </a>
+    <div class="" flex="80"></div>
+  </div>
+  <md-divider></md-divider>
+
+
+  <!-- home - semillas list -->
+  <md-tabs md-dynamic-height md-border-bottom md-selected="vm.currentTab">
+    <md-tab label="Listado">
+
+      <md-card>
+        <md-card-title>
+          <md-toolbar class="md-table-toolbar md-default" ng-hide=" vm.item.length || vm.toggleSearch">
+            <div class="md-toolbar-tools">
+              <span ng-bind="vm.table.title"></span>
+              <div flex></div>
+              <md-button class="md-icon-button" ng-click="vm.toggleSearch = true">
+                <md-icon>search</md-icon>
+              </md-button>
+
+              <md-button class="md-icon-button" ng-click="vm.spawnModal($event, true)">
+                <md-icon>add</md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+          <md-toolbar class="md-table-toolbar md-default" ng-show="vm.toggleSearch" aria-hidden="false">
+            <div class="md-toolbar-tools">
+              <form flex name="vm.filter.form">
+                <md-input-container md-no-float class="md-block">
+                  <md-icon class="material-icons">search</md-icon>
+                  <input type="text" ng-model="vm.query.filter" placeholder="{{vm.table.search.placeholder}}">
+                </md-input-container>
+              </form>
+              <md-button class="md-icon-button" ng-click="vm.resetTable()">
+                <md-icon>close</md-icon>
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <!--detail bar-->
+          <md-toolbar class="md-table-toolbar alternate" ng-show="vm.item.length" aria-hidden="false">
+            <div class="md-toolbar-tools" flex>
+              <div layout="row" layout-padding flex="80">
+                <p>{{vm.table.detail.title([vm.item[0].descripcion])}}</p>
+              </div>
+              <div layout="row" flex="20" layout-align="end end">
+                <md-button class="md-icon-button" ng-click="vm.spawnModal($event)">
+                  <md-icon>mode_edit</md-icon>
+                  <md-tooltip md-direction="bottom">
+                    Editar
+                  </md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="vm.spawnDeleteModal($event, vm.item[0].id)">
+                  <md-icon>delete_forever</md-icon>
+                  <md-tooltip md-direction="bottom">
+                    Eliminar
+                  </md-tooltip>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="vm.item = []">
+                  <md-icon>close</md-icon>
+                  <md-tooltip md-direction="bottom">
+                    Cancelar
+                  </md-tooltip>
+                </md-button>
+              </div>
+            </div>
+          </md-toolbar>
+        </md-card-title>
+        <md-card-content>
+          <div layout="column">
+            <md-table-container>
+              <table md-table md-row-select ng-model="vm.item" md-progress="vm.promise">
+                <thead md-head md-order="vm.query.order" md-on-reorder="vm.getData">
+                  <tr md-row>
+                    <th md-column md-order-by="familia__nombre"><span>Rubro</span></th>
+                    <th md-column>Descripcion</th>
+                    <th md-column md-numeric md-order-by="proovedor__nombre"><span>Proovedor</span></th>
+                    <th md-column md-numeric md-order-by="cantidad">Cantidad (u/g)</th>
+                    <th md-column md-numeric md-order-by="nivel_germinacion">n/g (%)</th>
+                    <th md-column md-order-by="cultivos_count">Cultivos</th>
+                    <th md-column md-numeric md-order-by="updated">Actualizado</th>
+                  </tr>
+                </thead>
+                <tbody md-body>
+                  <tr md-row md-select="data" md-select-id="data.id" md-on-select="vm.logItem" md-auto-select ng-repeat="data in vm.data.results">
+                    <td md-cell>{{data.semilla_familia.nombre}}</td>
+                    <td md-cell>{{data.descripcion}}</td>
+                    <td md-cell>{{data.semilla_proovedor.nombre}}</td>
+                    <td md-cell>{{data.cantidad | number: 1 + data.unidad}}</td>
+                    <td md-cell>{{data.nivel_germinacion}}</td>
+                    <td md-cell>{{data.cultivos_count}}</td>
+                    <td md-cell am-time-ago="data.updated"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </md-table-container>
+            <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page="vm.query.page" md-total="{{vm.data.count}}" md-on-paginate="vm.getData" md-page-select></md-table-pagination>
+          </div>
+        </md-card-content>
+      </md-card>
+
+    </md-tab>
+
+    <!-- home - semillas - add/edit -->
+    <md-tab label="Agregar/Editar">
+      <div class="activity-setup" layout="column" ng-cloak layout-padding layout-margin>
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">Registro de Semilla</span>
+              <span class="md-subhead">Seleccione el Rubro y Proovedor </span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout="column" layout-padding>
+            <form name="semillaForm">
+
+              <div layout="row">
+                <auto-complete flex="30" meta="field" ng-model="vm.form[field.name]" ng-repeat="field in vm.meta.fields | filter:{repeat: true }"></auto-complete>
+              </div>
+
+
+              <div layout-padding layout="column">
+                <div layout-gt-sm="row">
+                  <md-input-container flex-gt-sm flex="30">
+                    <label>Nivel de germinación</label>
+                    <input name="nivel_germinacion" ng-model="vm.form.nivel_germinacion" type="number" min="0" max="1" required="true">
+                    <div ng-messages="semillaForm.nivel_germinacion.$error">
+                      <div ng-message="max"> Introduzca un valor entre 0 y 1</div>
+                      <div ng-message="required"> Este campo es requerido</div>
+                    </div>
+                  </md-input-container>
+
+                  <div flex="2"></div>
+
+                  <md-input-container flex-gt-sm flex="30">
+                    <label>Precio de compra</label>
+                    <input ng-model="vm.form.precio_compra" type="number" min="0">
+                  </md-input-container>
+
+                </div>
+              </div>
+
+              <div layout-padding layout="column">
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm flex="30">
+                    <label>Cantidad</label>
+                    <input ng-model="vm.form.cantidad" type="number" min="1">
+                  </md-input-container>
+
+                  <div flex="2"></div>
+                  <auto-complete flex="30" meta="vm.metaFieldsByname.unidad" ng-model="vm.form.unidad"></auto-complete>
+
+                </div>
+              </div>
+
+              <div layout-gt-sm="row">
+                <md-input-container flex-gt-sm flex="30">
+                  <label>Código Proovedor</label>
+                  <input ng-model="vm.form.codigo" type="text">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm flex="40">
+                  <label>Fecha de Compra</label>
+                  <md-datepicker ng-model="vm.form.fecha_compra" md-placeholder="Enter date"></md-datepicker>
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row">
+                <md-input-container flex-gt-sm flex="65">
+                  <label>Descripción</label>
+                  <input ng-model="vm.form.descripcion" type="text">
+                </md-input-container>
+              </div>
+              <div layout-gt-sm="row" layout="row" layout-align="space-between center">
+                <div layout="row" layout-align="start start">
+                  <md-button class="md-warn md-raised">Ayuda</md-button>
+                  <md-button class="md-warn md-raised" ng-click="vm.currentTab = 1">Ir al listado</md-button>
+                </div>
+                <div layout="row" layout-align="end end">
+                  <md-button type="submit" class="md-primary md-raised" ng-click="vm.handleForm(vm.detailTab.handler)">Registrar</md-button>
+                </div>
+              </div>
+            </form>
+          </md-card-content>
+      </div>
+      </md-card>
+      </div>
+    </md-tab>
+  </md-tabs>
+</section>

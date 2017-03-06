@@ -1,1 +1,122 @@
-<md-card><md-card-title><md-card-title-text><span class=md-headline>Media & Display target</span> <span class=md-subhead>Choose media target and display format</span></md-card-title-text></md-card-title><md-card-content><div layout=row layout-align="space-between center"><span flex=20>Media</span><md-select ng-model=vm.form.media placeholder=Media class=md-no-underline><md-option ng-value=item ng-repeat="item in vm.options.target.media track by item.id">{{item.display}}</md-option></md-select><div layout=row><span>$</span> <span>{{vm.total | number: 2}}</span></div></div><div layout=row layout-align="space-between center"><span flex=20>Display</span><md-select ng-model=vm.form.options.display placeholder=Target class=md-no-underline required><md-option ng-value=item ng-repeat="item in vm.options.target.display track by item.id">{{item.display}}</md-option></md-select><div layout=row><span>$</span> <span>{{vm.total | number: 2}}</span></div></div></md-card-content></md-card><md-card ng-show="vm.form.options.display.display === 'banner'"><md-card-title><md-card-title-text><span class=md-headline>Upload a banner image for your campaign</span> <span class=md-subhead></span></md-card-title-text></md-card-title><md-content layout-padding layout=column flex layout-margin><md-input-container class=md-block><label>Alternate Text</label> <input ng-model=vm.form.banner.description></md-input-container><md-input-container class=md-block><label>Destination URL</label> <input ng-model=vm.form.banner.url type=url ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/"><div ng-messages=vm.form.banner.url.$error><div ng-message=pattern>Please enter a valid URL. (http://example.com, https://example.com)</div></div></md-input-container><div layout=column layout-margin><div class=dropzone-container layout=column ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'website'"><h3>Website</h3><button type=button class=dropzone dropzone=vm.desktopDropzone></button><p class="margin-auto text-help">(Allowed: JPG, PNG, GIF, 880x1156, max 150 KB)</p></div><div class=dropzone-container layout=column ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'app'"><h3>App</h3><button type=button class=dropzone dropzone=vm.mobileDropzone></button><p class="margin-auto text-help">(Allowed: JPG, PNG, GIF, 750x100, max 150 KB)</p></div></div></md-content></md-card><md-card ng-if="vm.form.options.display.display === 'map'"><md-card-title><md-card-title-text><span class=md-headline>Select a location on the map</span> <span class=md-subhead>Your venue info will be seen in the following location</span></md-card-title-text></md-card-title><md-card-content layout=column><div flex=70><ui-gmap-google-map id=map center=vm.map.center zoom=vm.map.zoom options=vm.map.options control=vm.map.control events=vm.map.events><div class=marker-window-wrapper><ui-gmap-window show=vm.marker.show coords=vm.marker.location options=vm.window control=vm.marker><div class=marker-window layout=row><img src=https://ss3.4sqi.net/img/categories_v2/food/pizza_bg_32.png><div class=marker-details layout=column><h3>{{vm.info.name}}</h3><div>{{vm.info.address}}</div></div></div></ui-gmap-window></div><ui-gmap-marker idkey=vm.marker.id coords=vm.marker.location click=vm.clickMarker></ui-gmap-marker></ui-gmap-google-map></div><md-card-title><md-card-title-text><span class=md-headline>Marker Info</span> <span class=md-subhead>Your venue info will be seen in the following location</span></md-card-title-text></md-card-title><md-content layout-padding layout=row flex><div flex=30><md-input-container><label>Venue name</label> <input ng-model=vm.info.name required></md-input-container></div><div flex=50><md-autocomplete md-search-text=vm.info.address class="bold where" md-items="item in vm.autocompleteAddress(vm.info.address)" md-item-text=item.description md-min-length=2 md-selected-item=vm.info.place md-selected-item-change=vm.getPlace() ng-disabled=!vm.placesReady md-floating-label=Where required><md-item-template><span md-highlight-text=vm.info.address>{{item.description}}</span></md-item-template><md-not-found>No matches found for "<span ng-bind=vm.info.address></span>".</md-not-found></md-autocomplete></div></md-content></md-card-content><md-card-actions layout=row layout-align="end center"><md-button ng-click=vm.confirmMarker() class="md-raised md-primary" ng-disabled=vm.markerConfirmed>Confirm Marker</md-button></md-card-actions></md-card>
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Media & Display target </span>
+      <span class="md-subhead">Choose media target and display format</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <div layout="row" layout-align="space-between center">
+      <span flex="20">Media</span>
+      <md-select ng-model="vm.form.media" placeholder="Media" class="md-no-underline">
+        <md-option ng-value="item" ng-repeat="item in vm.options.target.media track by item.id"> {{item.display}}</md-option>
+      </md-select>
+      <div layout="row">
+        <span>$</span>
+        <span>{{vm.total | number: 2}}</span>
+      </div>
+    </div>
+    <div layout="row" layout-align="space-between center">
+      <span flex="20">Display</span>
+      <md-select ng-model="vm.form.options.display" placeholder="Target" class="md-no-underline" required>
+        <md-option ng-value="item" ng-repeat="item in vm.options.target.display track by item.id">{{item.display}}</md-option>
+      </md-select>
+      <div layout="row">
+        <span>$</span>
+        <span>{{vm.total | number: 2}}</span>
+      </div>
+    </div>
+  </md-card-content>
+</md-card>
+<md-card ng-show="vm.form.options.display.display === 'banner'">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Upload a banner image for your campaign</span>
+      <span class="md-subhead"></span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-content layout-padding layout="column" flex="" layout-margin>
+    <md-input-container class="md-block">
+      <label>Alternate Text</label>
+      <input ng-model="vm.form.banner.description">
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>Destination URL</label>
+      <input ng-model="vm.form.banner.url" type="url" ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/">
+      <div ng-messages="vm.form.banner.url.$error">
+        <div ng-message="pattern">Please enter a valid URL. (http://example.com, https://example.com)</div>
+      </div>
+    </md-input-container>
+    <div layout="column" layout-margin>
+      <div class="dropzone-container" layout="column" ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'website'">
+        <h3>Website</h3>
+        <button type="button" class="dropzone" dropzone="vm.desktopDropzone"></button>
+        <p class="margin-auto text-help">
+          (Allowed: JPG, PNG, GIF, 880x1156, max 150 KB)
+        </p>
+      </div>
+      <div class="dropzone-container" layout="column" ng-show="vm.form.media.display == 'both' || vm.form.media.display == 'app'">
+        <h3>App</h3>
+        <button type="button" class="dropzone" dropzone="vm.mobileDropzone"></button>
+        <p class="margin-auto text-help">
+          (Allowed: JPG, PNG, GIF, 750x100, max 150 KB)
+        </p>
+      </div>
+    </div>
+  </md-content>
+</md-card>
+<md-card ng-if="vm.form.options.display.display === 'map'">
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">Select a location on the map </span>
+      <span class="md-subhead">Your venue info will be seen in the following location</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content layout="column">
+      <div flex="70">
+        <ui-gmap-google-map id="map" center="vm.map.center" zoom="vm.map.zoom" options="vm.map.options" control="vm.map.control" events="vm.map.events">
+          <div class="marker-window-wrapper">
+            <ui-gmap-window show="vm.marker.show" coords="vm.marker.location" options="vm.window" control="vm.marker">
+              <div class="marker-window" layout="row">
+                <img src="https://ss3.4sqi.net/img/categories_v2/food/pizza_bg_32.png" alt="" />
+                <div class="marker-details" layout="column">
+                  <h3> {{vm.info.name}}</h3>
+                  <div> {{vm.info.address}}</div>
+                </div>
+              </div>
+            </ui-gmap-window>
+          </div>
+          <ui-gmap-marker idKey='vm.marker.id' coords='vm.marker.location' click='vm.clickMarker'>
+          </ui-gmap-marker>
+        </ui-gmap-google-map>
+      </div>
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Marker Info</span>
+          <span class="md-subhead">Your venue info will be seen in the following location</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-content layout-padding layout="row" flex="">
+        <div flex="30">
+          <md-input-container>
+            <label>Venue name</label>
+            <input ng-model="vm.info.name" required>
+          </md-input-container>
+        </div>
+        <div flex="50">
+          <md-autocomplete md-search-text="vm.info.address" class="bold where" md-items="item in vm.autocompleteAddress(vm.info.address)" md-item-text="item.description" md-min-length="2" md-selected-item="vm.info.place" md-selected-item-change="vm.getPlace()"
+              ng-disabled="!vm.placesReady" md-floating-label="Where" required>
+            <md-item-template>
+              <span md-highlight-text="vm.info.address">{{item.description}}</span>
+            </md-item-template>
+            <md-not-found>
+              No matches found for "<span ng-bind="vm.info.address"></span>".
+            </md-not-found>
+          </md-autocomplete>
+        </div>
+      </md-content>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="end center">
+  <md-button ng-click="vm.confirmMarker()" class="md-raised md-primary" ng-disabled="vm.markerConfirmed">Confirm Marker</md-button>
+</md-card-actions>
+</md-card>
