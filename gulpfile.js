@@ -328,8 +328,8 @@ gulp.task('live', ['liveserver'], function() {
 //DEPLOYMENT TO S3
 
 var config = {
-    accessKeyId: 'AKIAIIEMHAZN74TY6XVQ',
-    secretAccessKey: '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'
+    accessKeyId: '',
+    secretAccessKey: ''
 };
 
 var s3 = require('gulp-s3-upload')(config);
