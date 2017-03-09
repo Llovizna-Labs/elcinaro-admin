@@ -13,6 +13,7 @@
     vm.getData = getData;
     vm.toggleSearch = false;
     vm.timeout = false;
+    vm.isValid = false;
     vm.item = [];
 
     vm.table = {
@@ -86,7 +87,10 @@
       precio_compra: 0.0,
       codigo: 'ABCD00',
       fecha_compra: new Date(),
-      descripcion: 'Descripción de la semilla'
+      descripcion: 'Descripción de la semilla',
+      familia: null,
+      proovedor: null,
+      unidad: null
     }
 
     vm.meta = {
@@ -97,7 +101,9 @@
         icon: 'perm_identity',
         handler: 'getRubros',
         placeholder: 'Seleccione un Rubro',
-        repeat: true
+        repeat: true,
+        required: true,
+        hasError: false
       },
       {
         name: 'proovedor',
@@ -105,7 +111,9 @@
         icon: 'perm_identity',
         handler: 'getProovedores',
         placeholder: 'Seleccione un Proovedor',
-        repeat: true
+        repeat: true,
+        required: true,
+        hasError: false
       },
       {
         name: 'unidad',
@@ -113,9 +121,13 @@
         icon: 'perm_identity',
         handler: 'getUnidades',
         placeholder: 'Unidad',
-        repeat: false
+        repeat: false,
+        hasError: false,
+        required: true
       }]
     };
+
+    vm.errors = {};
 
 
     //Selector
@@ -160,39 +172,7 @@
         })
         .catch(function(err) {
           console.log(err);
-        });
-    }
-
-    vm.spawnModal = function(ev, isNew) {
-
-      $mdDialog.show({
-          controller: 'ModalController',
-          templateUrl: 'assets/views/modals/updateClientModal.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose: false,
-          fullscreen: true,
-          locals: {
-            payload: {
-              type: 'semillas',
-              handler: isNew ? 'createSemilla' : 'updateSemilla',
-              title: isNew ? 'Registrar Semilla' : 'Actualizar Datos Semilla',
-              data: !_.isEmpty(vm.item) ? _.mapValues(_.head(vm.item), function(i) {
-                return i.hasOwnProperty('id') ? i.id : i;
-              }) : clientObject,
-              fields: fieldsMeta,
-              options: {
-
-              }
-            }
-          }
-        })
-        .then(function(answer) {
-          if (!answer) return;
-          vm.query.order = isNew ? '-created' : '-updated';
-          getData();
-        }, function() {
-          console.log('cancelled');
+          vm.errors = err;
         });
     }
 
@@ -221,9 +201,6 @@
         });
     }
 
-
-
-
     $scope.$watch('vm.query.filter', function(current, original) {
       if (!current) return;
 
@@ -243,6 +220,11 @@
       if (_.isEmpty(c)) return;
       vm.form['fecha_compra'] = new Date(c);
     });
+
+    $scope.$watch('vm.form', function(c,o) {
+      console.log(c);
+      vm.isValid = _.isEmpty(_.pickBy(c, _.isNull));
+    }, true);
 
     $scope.$watch('vm.currentTab', function(c, o) {
       console.log('current tab', c);

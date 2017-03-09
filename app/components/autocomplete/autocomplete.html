@@ -1,22 +1,15 @@
 <div layout="column" ng-cloak flex>
-    <form ng-submit="$event.preventDefault()"  name="searchForm">
-      <md-autocomplete
-          md-input-name="autocompleteField"
-          ng-disabled="vm.isDisabled"
-          md-selected-item="vm.item"
-          ng-model="vm.item"
-          md-search-text="vm.searchText"
-          md-items="item in vm.querySearch(vm.searchText)"
-          md-item-text="item.nombre"
-          md-min-length="0"
-          md-floating-label="{{vm.meta.placeholder}}">
-        <md-item-template>
-          <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.nombre}}</span>
-        </md-item-template>
-        <!-- <div ng-if="vm.meta.checkings.length && vm.meta.searchForm.autocompleteField.$touched">
-          <div ng-message="{{check.type}}" ng-repeat="check in vm.meta.checkings">{{check.message}}</div>
-        </div> -->
-      </md-autocomplete>
-      <br/>
-    </form>
+  <form ng-submit="$event.preventDefault()" name="vm.form">
+    <md-autocomplete md-input-name="{{vm.meta.name}}" ng-disabled="vm.isDisabled" md-selected-item="vm.item" ng-model="vm.item" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)" md-item-text="item.nombre" md-min-length="0" required="{{vm.meta.required}}"
+      md-floating-label="{{vm.meta.placeholder}}">
+      <md-item-template>
+        <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.nombre}}</span>
+      </md-item-template>
+
+      <div ng-messages="vm.form[vm.meta.name].$error" ng-if="vm.form[vm.meta.name].$touched" >
+        <div ng-message="required">Este campo es requerido</div>
+      </div>
+    </md-autocomplete>
+    <br/>
+  </form>
 </div>

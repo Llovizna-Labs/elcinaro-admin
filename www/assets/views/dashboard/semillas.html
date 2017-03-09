@@ -118,12 +118,11 @@
           </md-card-title>
           <md-card-content layout="column" layout-padding>
             <form name="semillaForm">
-
-              <div layout="row">
-                <auto-complete flex="30" meta="field" ng-model="vm.form[field.name]" ng-repeat="field in vm.meta.fields | filter:{repeat: true }"></auto-complete>
+              <div  layout-padding layout="row">
+                <auto-complete flex="30" meta="vm.metaFieldsByname.familia"  ng-model="vm.form.familia" ></auto-complete>
+                  <div flex="5"></div>
+                 <auto-complete flex="30" meta="vm.metaFieldsByname.proovedor"  ng-model="vm.form.proovedor" ></auto-complete>
               </div>
-
-
               <div layout-padding layout="column">
                 <div layout-gt-sm="row">
                   <md-input-container flex-gt-sm flex="30">
@@ -158,7 +157,7 @@
                 </div>
               </div>
 
-              <div layout-gt-sm="row">
+              <div layout-padding layout-gt-sm="row">
                 <md-input-container flex-gt-sm flex="30">
                   <label>Código Proovedor</label>
                   <input ng-model="vm.form.codigo" type="text">
@@ -174,13 +173,14 @@
                   <input ng-model="vm.form.descripcion" type="text">
                 </md-input-container>
               </div>
-              <div layout-gt-sm="row" layout="row" layout-align="space-between center">
+
+              <div layout-padding layout-gt-sm="row" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start start">
                   <md-button class="md-warn md-raised">Ayuda</md-button>
                   <md-button class="md-warn md-raised" ng-click="vm.currentTab = 1">Ir al listado</md-button>
                 </div>
                 <div layout="row" layout-align="end end">
-                  <md-button type="submit" class="md-primary md-raised" ng-click="vm.handleForm(vm.detailTab.handler)">Registrar</md-button>
+                  <md-button type="submit" class="md-primary md-raised" ng-disabled="!vm.isValid" ng-click="vm.handleForm(vm.detailTab.handler)">Registrar</md-button>
                 </div>
               </div>
             </form>

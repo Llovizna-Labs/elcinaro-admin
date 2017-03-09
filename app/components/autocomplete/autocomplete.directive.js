@@ -35,6 +35,9 @@
 
     vm.simulateQuery = false;
     vm.isDisabled = false;
+    vm.validation = true;
+    vm.touched = false;
+    vm.form = {};
 
     // list of `state` value/display objects
     vm.querySearch = querySearch;
@@ -126,8 +129,19 @@
       return function filterFn(state) {
         return (state.value.indexOf(lowercaseQuery) === 0);
       };
-
     }
+
+
+    $scope.$watch('vm.item', function(c, o) {
+      if(!c) return;
+      console.log(c);
+      vm.touched = true;
+
+    });
+
+    $scope.$watch('vm.form', function(c,o) {
+      console.log(c, o);
+    })
 
   }
 })();
