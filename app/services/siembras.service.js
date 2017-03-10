@@ -25,6 +25,7 @@
       getUnidades: getUnidades,
       getMedidas: getMedidas,
       createSemilla: createSemilla,
+      deleteSemilla: deleteSemilla,
       updateSemilla: updateSemilla,
       createRubro: createRubro,
       updateRubro: updateRubro,
@@ -147,6 +148,18 @@
       return deferred.promise;
     }
 
+
+    function deleteSemilla(payload) {
+      var deferred = $q.defer();
+      $http.delete(baseApi + '/semillas/' + payload.id + '/')
+        .success(function(data) {
+          deferred.resolve(data);
+        })
+        .error(function(err) {
+          deferred.reject(err);
+        });
+      return deferred.promise;
+    }
 
     function deleteCultivo(payload) {
       var deferred = $q.defer();

@@ -79,22 +79,25 @@
                   <tr md-row>
                     <th md-column md-order-by="familia__nombre"><span>Rubro</span></th>
                     <th md-column>Descripcion</th>
+                    <th md-column md-order-by="familia__nombre"><span>Codigo</span></th>
                     <th md-column md-numeric md-order-by="proovedor__nombre"><span>Proovedor</span></th>
                     <th md-column md-numeric md-order-by="cantidad">Cantidad (u/g)</th>
                     <th md-column md-numeric md-order-by="nivel_germinacion">n/g (%)</th>
-                    <th md-column md-order-by="cultivos_count">Cultivos</th>
-                    <th md-column md-numeric md-order-by="updated">Actualizado</th>
+                    <th md-column md-numeric md-order-by="nivel_germinacion">Unidad</th>
+                    <th md-column md-order-by="precio_compra">Costo</th>
                   </tr>
                 </thead>
                 <tbody md-body>
                   <tr md-row md-select="data" md-select-id="data.id" md-on-select="vm.logItem" md-auto-select ng-repeat="data in vm.data.results">
                     <td md-cell>{{data.semilla_familia.nombre}}</td>
                     <td md-cell>{{data.descripcion}}</td>
+                    <td md-cell>{{data.codigo}}</td>
+
                     <td md-cell>{{data.semilla_proovedor.nombre}}</td>
                     <td md-cell>{{data.cantidad | number: 1 + data.unidad}}</td>
                     <td md-cell>{{data.nivel_germinacion}}</td>
-                    <td md-cell>{{data.cultivos_count}}</td>
-                    <td md-cell am-time-ago="data.updated"></td>
+                    <td md-cell>{{data.semilla_unidad}}</td>
+                    <td md-cell>{{data.precio_compra}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -118,10 +121,10 @@
           </md-card-title>
           <md-card-content layout="column" layout-padding>
             <form name="semillaForm">
-              <div  layout-padding layout="row">
-                <auto-complete flex="30" meta="vm.metaFieldsByname.familia"  ng-model="vm.form.familia" ></auto-complete>
-                  <div flex="5"></div>
-                 <auto-complete flex="30" meta="vm.metaFieldsByname.proovedor"  ng-model="vm.form.proovedor" ></auto-complete>
+              <div layout-padding layout="row">
+                <auto-complete flex="30" meta="vm.metaFieldsByname.familia" ng-model="vm.form.familia"></auto-complete>
+                <div flex="5"></div>
+                <auto-complete flex="30" meta="vm.metaFieldsByname.proovedor" ng-model="vm.form.proovedor"></auto-complete>
               </div>
               <div layout-padding layout="column">
                 <div layout-gt-sm="row">
