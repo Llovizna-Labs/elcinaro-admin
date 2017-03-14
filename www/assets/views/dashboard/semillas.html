@@ -49,7 +49,7 @@
                 <p>{{vm.table.detail.title([vm.item[0].descripcion])}}</p>
               </div>
               <div layout="row" flex="20" layout-align="end end">
-                <md-button class="md-icon-button" ng-click="vm.spawnModal($event)">
+                <md-button class="md-icon-button" ng-click="vm.editItem()">
                   <md-icon>mode_edit</md-icon>
                   <md-tooltip md-direction="bottom">
                     Editar
@@ -92,7 +92,6 @@
                     <td md-cell>{{data.semilla_familia.nombre}}</td>
                     <td md-cell>{{data.descripcion}}</td>
                     <td md-cell>{{data.codigo}}</td>
-
                     <td md-cell>{{data.semilla_proovedor.nombre}}</td>
                     <td md-cell>{{data.cantidad | number: 1 + data.unidad}}</td>
                     <td md-cell>{{data.nivel_germinacion}}</td>
@@ -130,20 +129,23 @@
                 <div layout-gt-sm="row">
                   <md-input-container flex-gt-sm flex="30">
                     <label>Nivel de germinación</label>
-                    <input name="nivel_germinacion" ng-model="vm.form.nivel_germinacion" type="number" min="0" max="1" required="true">
-                    <div ng-messages="semillaForm.nivel_germinacion.$error">
+                    <input name="nivel_germinacion" ng-model="vm.form.nivel_germinacion" type="number" min="0" max="1" step="0.1" required="true">
+                    <div ng-messages="semillaForm.nivel_germinacion.$error" multiple>
                       <div ng-message="max"> Introduzca un valor entre 0 y 1</div>
                       <div ng-message="required"> Este campo es requerido</div>
                     </div>
                   </md-input-container>
 
-                  <div flex="2"></div>
+                  <div flex="5"></div>
 
                   <md-input-container flex-gt-sm flex="30">
                     <label>Precio de compra</label>
-                    <input ng-model="vm.form.precio_compra" type="number" min="0">
+                    <input name="precio_compra" ng-model="vm.form.precio_compra" type="number" min="0.0" step="100.0" required="true">
+                    <div ng-messages="semillaForm.precio_compra.$error" multiple>
+                      <div ng-message="max"> Introduzca un valor mayor a 0</div>
+                      <div ng-message="required"> Este campo es requerido</div>
+                    </div>
                   </md-input-container>
-
                 </div>
               </div>
 
@@ -151,30 +153,48 @@
                 <div layout-gt-sm="row">
                   <md-input-container class="md-block" flex-gt-sm flex="30">
                     <label>Cantidad</label>
-                    <input ng-model="vm.form.cantidad" type="number" min="1">
+                    <input name="cantidad" ng-model="vm.form.cantidad" type="number" min="1" required="true">
+                    <div ng-messages="semillaForm.cantidad.$error" multiple>
+                      <div ng-message="min"> Introduzca un valor mayor a 1</div>
+                      <div ng-message="required"> Este campo es requerido</div>
+                    </div>
                   </md-input-container>
 
-                  <div flex="2"></div>
-                  <auto-complete flex="30" meta="vm.metaFieldsByname.unidad" ng-model="vm.form.unidad"></auto-complete>
-
+                  <div flex="5"></div>
+                  <md-input-container flex="30">
+                    <label>Medidas</label>
+                    <md-select name="unidad" ng-model="vm.form.unidad" required>
+                      <md-option value="2">Unidades</md-option>
+                      <md-option value="1">Gramos</md-option>
+                    </md-select>
+                    <div class="errors" ng-messages="semillaForm.unidad.$error">
+                      <div ng-message="required">Este campo es requerido</div>
+                    </div>
+                  </md-input-container>
                 </div>
               </div>
 
               <div layout-padding layout-gt-sm="row">
                 <md-input-container flex-gt-sm flex="30">
                   <label>Código Proovedor</label>
-                  <input ng-model="vm.form.codigo" type="text">
+                  <input name="codigo" ng-model="vm.form.codigo" type="text" required="true" placeholder="Codigo Referencial">
                 </md-input-container>
                 <md-input-container class="md-block" flex-gt-sm flex="40">
                   <label>Fecha de Compra</label>
-                  <md-datepicker ng-model="vm.form.fecha_compra" md-placeholder="Enter date"></md-datepicker>
+                  <md-datepicker name="fecha_compra" ng-model="vm.form.fecha_compra" md-placeholder="Enter date"></md-datepicker>
                 </md-input-container>
               </div>
               <div layout-gt-sm="row">
                 <md-input-container flex-gt-sm flex="65">
                   <label>Descripción</label>
-                  <input ng-model="vm.form.descripcion" type="text">
+                  <input ng-model="vm.form.descripcion" type="text" placeholder="Descripción de la semilla">
                 </md-input-container>
+              </div>
+
+              <div class="error-box" ng-if="vm.errors" layout-padding layout-gt-sm="row" layout="row" layout-align="space-between center">
+                <ul class="error-list">
+                  <li ng-repeat="(key, error) in vm.errors"> <span>{{key}}</span>: {{error.join()}}</li>
+                </ul>
               </div>
 
               <div layout-padding layout-gt-sm="row" layout="row" layout-align="space-between center">
@@ -183,7 +203,9 @@
                   <md-button class="md-warn md-raised" ng-click="vm.currentTab = 1">Ir al listado</md-button>
                 </div>
                 <div layout="row" layout-align="end end">
-                  <md-button type="submit" class="md-primary md-raised" ng-disabled="!vm.isValid" ng-click="vm.handleForm(vm.detailTab.handler)">Registrar</md-button>
+                  <md-button type="submit" class="md-primary md-raised" ng-disabled="!semillaForm.$valid || vm.loading" ng-click="vm.handleForm(vm.detailTab.handler)">
+                    {{!vm.isUpdating ? 'Registrar':'Actualizar'}}
+                  </md-button>
                 </div>
               </div>
             </form>

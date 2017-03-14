@@ -5,15 +5,15 @@
     .module('ElCinaroAdmin')
     .controller('SemillasController', Controller);
 
-  Controller.$inject = ['_','moment', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$siembras'];
+  Controller.$inject = ['_','moment', '$scope', '$http', '$q', '$timeout', '$mdDialog','$util', '$siembras'];
 
   /* @ngInject */
-  function Controller(_, moment, $scope, $http, $q, $timeout, $mdDialog, $siembras) {
+  function Controller(_, moment, $scope, $http, $q, $timeout, $mdDialog, $util, $siembras) {
     var vm = this;
     vm.getData = getData;
     vm.toggleSearch = false;
+    vm.isUpdating = false;
     vm.timeout = false;
-    vm.isValid = false;
     vm.item = [];
 
     vm.table = {
@@ -80,19 +80,6 @@
       icon: 'info'
     }];
 
-
-    vm.form = {
-      nivel_germinacion: 0.0,
-      cantidad: 0.0,
-      precio_compra: 0.0,
-      codigo: 'ABCD00',
-      fecha_compra: new Date(),
-      descripcion: 'Descripción de la semilla',
-      familia: null,
-      proovedor: null,
-      unidad: null
-    }
-
     vm.meta = {
       searchForm: {},
       fields: [{
@@ -127,16 +114,33 @@
       }]
     };
 
-    vm.errors = {};
+    vm.errors = null;
 
 
     //Selector
     vm.metaFieldsByname = _.keyBy(vm.meta.fields, 'name')
 
+    var formTemplate = {
+      nivel_germinacion: 0.0,
+      cantidad: 0.0,
+      precio_compra: 0.0,
+      codigo: null,
+      fecha_compra: new Date(),
+      descripcion: null,
+      familia: null,
+      proovedor: null,
+      unidad: null
+    }
+
+
     //activate();
 
     function activate() {
       console.log('Semillas Controller');
+      
+      vm.item.pop();
+      vm.form = formTemplate;
+      vm.isUpdating = false;
       getData();
 
       console.log(vm.metaFieldsByname)
@@ -165,17 +169,38 @@
 
     vm.handleForm = function() {
       console.log(vm.form);
+      vm.errors = null;
+      vm.loading = true;
+      
+      var handler = vm.isUpdating ? 'updateSemilla' : 'createSemilla';
 
-      $siembras['createSemilla'](vm.form)
+      $siembras[handler](vm.form)
         .then(function(resp) {
           console.log(resp);
+          vm.item[0] = resp;
         })
         .catch(function(err) {
           console.log(err);
           vm.errors = err;
+        }).finally(function(){
+          vm.loading = false;
         });
     }
 
+    vm.editItem = function editItem() {
+      vm.currentTab = 1;
+      vm.isUpdating = true;
+      vm.form = _.assign(vm.item[0], {
+        familia: {
+          id: vm.item[0].familia,
+          nombre: vm.item[0].semilla_familia.nombre
+        },
+        proovedor: {
+          id: vm.item[0].proovedor,
+          nombre: vm.item[0].semilla_proovedor.nombre
+        },
+      })
+    }
 
     vm.spawnDeleteModal = function(ev, id) {
 
@@ -189,12 +214,15 @@
 
       $mdDialog.show(confirm)
         .then(function() {
-          return $pedidos['deleteCliente'](id)
+          return $siembras['deleteSemilla']({id: id})
             .then(function(resp) {
               getData();
             })
             .catch(function(err) {
               console.log(err);
+          
+            }).finally(function(){
+              vm.item = [];
             });
         }, function() {
           console.log('cancel');
@@ -212,8 +240,11 @@
     });
 
     $scope.$watchCollection('vm.item', function(c, o) {
-      if (_.isEmpty(c)) return;
-      vm.item['fecha_compra'] = new Date(vm.item[0]['fecha_compra']);
+      if (_.isEmpty(c)) {
+        vm.isUpdating = false;
+        return;
+      }
+      vm.isUpdating = true;
     });
 
     $scope.$watch('vm.form.fecha_compra', function(c, o) {
@@ -222,8 +253,7 @@
     });
 
     $scope.$watch('vm.form', function(c,o) {
-      console.log(c);
-      vm.isValid = _.isEmpty(_.pickBy(c, _.isNull));
+      
     }, true);
 
     $scope.$watch('vm.currentTab', function(c, o) {

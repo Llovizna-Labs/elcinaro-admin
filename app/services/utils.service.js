@@ -5,18 +5,22 @@
     .module('ElCinaroAdmin')
     .factory('$util', factory);
 
-  function factory() {
+  function factory($mdToast) {
     var service = {
       getCountries: getCountries,
       getActions: getActions,
       getMedidas: getMedidas,
       getUnidades: getUnidades,
       convertDateStringsToDates: convertDateStringsToDates,
+      showSimpleToast: showSimpleToast,
       item: {}
     };
 
     return service;
 
+    function showSimpleToast(message) {
+         $mdToast.showSimple(message);
+    }
 
     function convertDateStringsToDates(input) {
       // Ignore things that aren't objects.

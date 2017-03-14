@@ -11,6 +11,7 @@
     });
 
   Auth.$inject = [
+    '_',
     'baseApi',
     '$window',
     '$http',
@@ -20,7 +21,7 @@
     '$localstorage'
   ];
 
-  function Auth(baseApi, $window, $http, $q, $state, $rootScope, $localstorage) {
+  function Auth(_,baseApi, $window, $http, $q, $state, $rootScope, $localstorage) {
 
     var Auth = {
       getUser: getUser,
@@ -220,7 +221,8 @@
 
     var AuthInterceptor = {
       request: request,
-      responseError: responseError
+      responseError: responseError,
+      response: response
     };
 
     return AuthInterceptor;
@@ -237,7 +239,46 @@
       return config;
     }
 
+    function response(response) {
+        
+        console.log(response);
+
+        var methodes = {
+          'PUT': 'Actualizado',
+          'POST': 'Creado',
+          'DELETE': 'Eliminado'
+        }
+        
+        var actions = ['POST', 'PUT', 'DELETE'];
+        var responses = ['200', '201', '204'];
+
+        var message = function(action) {
+            return 'Registro ' + action + ' exitosamente';
+        };
+
+        if(
+          _.includes(responses, String(response.status)) && 
+          _.includes(actions, response.config.method)
+          ) {
+
+          $injector.get('$util')
+            .showSimpleToast(message(methodes[response.config.method]));
+        }
+        
+        return response;
+    }
+
     function responseError(response) {
+      var options = {
+          '400': 'Solicitud Invalido',
+          '500': 'Ocurrió un Error en el servidor',
+          '502': 'Ocurrió un Error en el servidor',
+        }
+
+      if(options.hasOwnProperty(String(response.status))) {
+        $injector.get('$util').showSimpleToast(options[String(response.status)]);
+      }
+
       if (response.status === 401 || response.status === 403) {
         $localstorage.remove('access_token');
         $injector.get('$state').go('login');

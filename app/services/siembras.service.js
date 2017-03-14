@@ -92,7 +92,11 @@
       payload['fecha_compra'] = moment(payload['fecha_compra'])
         .format('YYYY-MM-DD');
 
-      $http.put(baseApi + '/semillas/' + payload.id + '/', payload)
+      var query = _.mapValues(payload, function(o) {
+        return _.isObject(o) ? o.id : o;
+      });
+
+      $http.put(baseApi + '/semillas/' + payload.id + '/', query)
         .success(function(data) {
           deferred.resolve(data);
         })
