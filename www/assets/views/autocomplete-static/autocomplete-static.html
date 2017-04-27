@@ -1,0 +1,11 @@
+<div layout="column" flex>
+  <form ng-submit="$event.preventDefault()">
+    <md-autocomplete md-floating-label="{{vm.meta.placeholder}}" ng-disabled="vm.isDisabled || !vm.data.length" md-no-cache="vm.noCache" md-selected-item="vm.item" md-search-text-change="vm.searchTextChange(vm.searchText)" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)"
+      md-item-text="item.display" md-require-match md-min-length="0">
+      <md-item-template>
+        <span md-highlight-text="vm.searchText" md-highlight-flags="^i">{{item.display}}</span>
+      </md-item-template>
+    </md-autocomplete>
+    <br/>
+  </form>
+</div>

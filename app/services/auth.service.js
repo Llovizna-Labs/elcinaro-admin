@@ -21,7 +21,7 @@
     '$localstorage'
   ];
 
-  function Auth(_,baseApi, $window, $http, $q, $state, $rootScope, $localstorage) {
+  function Auth(_, baseApi, $window, $http, $q, $state, $rootScope, $localstorage) {
 
     var Auth = {
       getUser: getUser,
@@ -41,7 +41,7 @@
     ////////////////
 
     function getUser() {
-      return $localstorage.getObject('user', null) || $localstorage.get('access_token', null) ;
+      return $localstorage.getObject('user', null) || $localstorage.get('access_token', null);
     }
 
     function validate(token) {
@@ -77,7 +77,7 @@
           }
 
           if (data.hasOwnProperty('key')) {
-              $localstorage.set('access_token', data.key);
+            $localstorage.set('access_token', data.key);
           }
         })
         .error(function(err) {
@@ -240,42 +240,47 @@
     }
 
     function response(response) {
-        
-        console.log(response);
 
-        var methodes = {
-          'PUT': 'Actualizado',
-          'POST': 'Creado',
-          'DELETE': 'Eliminado'
-        }
-        
-        var actions = ['POST', 'PUT', 'DELETE'];
-        var responses = ['200', '201', '204'];
+      console.log(response);
 
-        var message = function(action) {
-            return 'Registro ' + action + ' exitosamente';
-        };
+      var url = _.words(_.get(response, 'config.url', null), /[^/ ]+/g);
 
-        if(
-          _.includes(responses, String(response.status)) && 
-          _.includes(actions, response.config.method)
-          ) {
 
-          $injector.get('$util')
-            .showSimpleToast(message(methodes[response.config.method]));
-        }
-        
-        return response;
+
+      var methodes = {
+        'PUT': 'Actualizado',
+        'POST': 'Creado',
+        'DELETE': 'Eliminado'
+      }
+
+      var actions = ['POST', 'PUT', 'DELETE'];
+      var responses = ['200', '201', '204'];
+
+      var message = function(action) {
+        return 'Registro ' + action + ' exitosamente';
+      };
+
+      if (
+        _.includes(responses, String(response.status)) &&
+        _.includes(actions, response.config.method) &&
+        !_.includes(url, 'rest-auth')
+      ) {
+
+        $injector.get('$util')
+          .showSimpleToast(message(methodes[response.config.method]));
+      }
+
+      return response;
     }
 
     function responseError(response) {
       var options = {
-          '400': 'Solicitud Invalido',
-          '500': 'Ocurrió un Error en el servidor',
-          '502': 'Ocurrió un Error en el servidor',
-        }
+        '400': 'Solicitud Invalida',
+        '500': 'Ocurrió un Error en el servidor',
+        '502': 'Ocurrió un Error en el servidor',
+      }
 
-      if(options.hasOwnProperty(String(response.status))) {
+      if (options.hasOwnProperty(String(response.status))) {
         $injector.get('$util').showSimpleToast(options[String(response.status)]);
       }
 

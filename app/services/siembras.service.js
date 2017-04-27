@@ -36,7 +36,8 @@
       deleteCosecha: deleteCosecha,
       cultivos: [],
       semillas: [],
-      lotes: []
+      lotes: [],
+      rubros: []
     };
 
     return service;
@@ -241,6 +242,7 @@
         })
         .success(function(data) {
           deferred.resolve(data);
+          angular.copy(data.results, service.semillas);
         })
         .error(function(err) {
           deferred.reject(err);

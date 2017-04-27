@@ -12,6 +12,26 @@
     var vm = this;
     vm.detail = $stateParams.id ? true : false;
 
+    //Service binding
+    vm.semillas = [];
+    vm.rubros = [];
+    vm.proveedores = [];
+    //
+
+    //Directives Binding
+    vm.semillasMeta = {
+      placeholder: 'Selecciona semilla'
+    };
+
+    vm.rubrosMeta = {
+      placeholder: 'Seleccione un rubro'
+    };
+
+    vm.proveedorMeta = {
+      placeholder: 'Seleccione un proveedor'
+    };
+    //
+    //Local Binding
     vm.getData = getData;
     vm.toggleSearch = false;
     vm.timeout = false;
@@ -35,11 +55,11 @@
       filter: ''
     };
 
-    var clientObject = {
-      fecha_enviado: new Date(),
-      fecha_recibido: new Date(),
+    var loteDetailObject = {
+      fecha_enviado: moment().format('YYYY-MM-DD'),
+      fecha_recibido: moment().format('YYYY-MM-DD'),
       cantidad_semillas_enviadas: 0,
-      cantidad_semillas_recibidas: 0,
+      cantidad_plantulas_recibidas: 0,
       semilla_utilizada: null,
       germinado: true
     }
@@ -80,28 +100,12 @@
       placeholder: 'Germinado'
     }];
 
-    vm.meta = {
-      fields: fieldsMeta,
-      title: 'Lotes de Siembra',
-      subtitle: 'Datos de Lote Siembra',
-      handlers: [{
-        title: 'Agregar',
-        submitButton: 'Registrar',
-        handler: 'createLoteSiembra'
-      }, {
-        title: 'Detalle',
-        submitButton: 'Actualizar',
-        handler: 'updateLoteSiembra'
-      }],
-      validate: validateFunc,
-      handler: handleForm
-    };
-
     vm.currentTab = 0;
 
     vm.tabOptions = [{
       title: 'Agregar',
       submitButton: 'Registrar',
+      rubro: 'Registrar rubro',
       handler: 'createLoteSiembra'
     }, {
       title: 'Detalle',
@@ -113,16 +117,53 @@
       fecha_enviado: new Date(),
       fecha_recibido: new Date(),
       germinado: true,
-      cantidad_semillas_recibidas: 0,
+      cantidad_plantulas_recibidas: 0,
       cantidad_semillas_enviadas: 0
     }
+
+
+    vm.multiform = {
+      lote: {
+        codigo: '',
+        rubro: null
+      },
+      dataset: [{
+        cantidad_semillas_enviadas: 0,
+        cantidad_plantulas_recibidas: 0
+      }]
+    }
+
+
 
     activate();
 
     function activate() {
-      console.log('Cultivos Controller');
+      console.log('Lotes Controller');
       vm.detail ? getItem() : getData();
       vm.detailTab = !vm.detail ? vm.tabOptions[0] : vm.tabOptions[1];
+
+
+      // controller meta data
+      $q.all([$siembras.getSemillas({}),
+          $siembras.getRubros({}),
+          $siembras.getProovedores({ categoria: 'germinador' })
+        ])
+        .then(function(results) {
+          console.log('semillas resolved');
+          vm.semillas = results[0]['results'].map(function(semilla) {
+            return _.merge({ display: semilla.nombre, value: semilla.nombre.toLowerCase() }, semilla);
+          });
+
+          console.log('rubros resolved');
+          vm.rubros = results[1]['results'].map(function(rubro) {
+            return _.merge({ display: rubro.nombre, value: rubro.nombre.toLowerCase() }, rubro);
+          });
+
+          console.log('proveedores resolved');
+          vm.proveedores = results[2]['results'].map(function(prov) {
+            return _.merge({ display: prov.nombre, value: prov.nombre.toLowerCase() }, prov);
+          });
+        })
     }
 
 
@@ -150,6 +191,35 @@
       angular.copy(data, vm.form);
     }
 
+    vm.attachLote = function() {
+      vm.multiform.dataset.push({
+        cantidad_semillas_enviadas: 0,
+        cantidad_plantulas_recibidas: 0
+      });
+    }
+
+    vm.sendForm = function() {
+      console.log(vm.multiform);
+
+      //FORMATTING
+      var payload = {
+        codigo: vm.multiform.lote.codigo,
+        rubro: vm.multiform.lote.rubro.id,
+        proveedor: vm.multiform.lote.proveedor.id,
+        semilla_lote: vm.multiform.dataset.map(function(item) {
+          return _.merge(item, { semilla_utilizada: item.semilla.id });
+        })
+      };
+
+      console.log(payload);
+
+      return;
+      $siembras.createLoteSiembra(payload).then(function(resp) {
+        console.log(resp);
+      }).catch(function(err) {
+        console.log(err)
+      })
+    }
 
     function handleForm(meta, form) {
 
@@ -213,9 +283,6 @@
 
       //Cannot delete item, has associates.
       function alertDialog(ev) {
-        // Appending dialog to document.body to cover sidenav in docs app
-        // Modal dialogs should fully cover application
-        // to prevent interaction outside of dialog
         $mdDialog.show(
           $mdDialog.alert()
           .clickOutsideToClose(true)
@@ -264,9 +331,6 @@
       }, 500); // delay 500 ms
     });
 
-    $scope.$watchCollection('vm.item', function(current, original) {
-      if (!current) return;
-    });
 
     $scope.$watch('vm.currentTab', function(c, o) {
       vm.detailTab = !vm.form.hasOwnProperty('id') ? vm.tabOptions[0] : vm.tabOptions[1];
@@ -280,6 +344,6 @@
           cantidad_semillas_enviadas: 0
         }
       }
-    })
+    });
   }
 })();
