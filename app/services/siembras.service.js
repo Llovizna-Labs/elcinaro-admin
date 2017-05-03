@@ -217,7 +217,13 @@
     function updateLoteSiembra(payload) {
       var deferred = $q.defer();
       //fieldFormatting
-      $http.put(baseApi + '/lotes/' + payload.id + '/', payload)
+      //
+      var query = _.mapValues(payload, function(o) {
+          return _.isObject(o) && !moment(o, 'YYYY-MM-DD')
+            .isValid() && !_.isArray(o) ? o.id : o;
+      });
+
+      $http.put(baseApi + '/lotes/' + payload.id + '/', query)
         .success(function(data) {
           deferred.resolve(data);
         })
@@ -478,5 +484,6 @@
         });
       return deferred.promise;
     }
+
   }
 })();

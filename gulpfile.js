@@ -52,8 +52,9 @@ var vendorScripts = [
   'bower_components/angular-google-maps/dist/angular-google-maps.js',
   'bower_components/dropzone/dist/min/dropzone.min.js',
   'bower_components/moment/min/moment.min.js',
-  'bower_components/angular-material-data-table/dist/md-data-table.min.js',
+  'bower_components/moment/locale/es.js',
   'bower_components/angular-moment/angular-moment.min.js',
+  'bower_components/angular-material-data-table/dist/md-data-table.min.js',
   'bower_components/angular-moment-picker/dist/angular-moment-picker.min.js',
   'bower_components/angular-loading-bar/build/loading-bar.min.js',
   'vendors/offline/offline.min.js',
@@ -126,11 +127,11 @@ gulp.task('prune', function() {
 // Scripts
 gulp.task('scripts', function() {
   gulp.src(appScripts)
-    .pipe(sourcemaps.init())
+    //.pipe(sourcemaps.init())
     .pipe(concat('app.js'))
-    .pipe(annotate())
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
+    // .pipe(annotate())
+    // .pipe(uglify())
+    // .pipe(sourcemaps.write())
     .pipe(gulp.dest('www/scripts'))
 });
 
@@ -197,7 +198,7 @@ gulp.task('vendors', function() {
 
 
 // Views
-gulp.task('views',  ['clean-templates'], function() {
+gulp.task('views',  [], function() {
   gulp.src('index.html')
     .pipe(minifyhtml())
     .pipe(gulp.dest('www/'));
@@ -302,7 +303,7 @@ gulp.task('template-cache', function() {
   return gulp.src(['assets/views/**/*.html'])
     .pipe(templateCache({
       module: 'ElCinaroAdmin',
-      transformUrl: function(url) { 
+      transformUrl: function(url) {
         return url.substring(url.lastIndexOf('/') + 1);
       }
     }))

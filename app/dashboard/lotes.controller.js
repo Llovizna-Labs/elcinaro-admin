@@ -64,6 +64,18 @@
       germinado: true
     }
 
+    var formTemplate =  {
+      lote: {
+        codigo: '',
+        rubro: null,
+        fecha_enviado: new Date()
+      },
+      dataset: [{
+        cantidad_semillas_enviadas: 0,
+        cantidad_plantulas_recibidas: 0
+      }]
+    };
+
     var fieldsMeta = [{
       placeholder: 'Fecha Enviado',
       name: 'fecha_enviado',
@@ -121,19 +133,7 @@
       cantidad_semillas_enviadas: 0
     }
 
-
-    vm.multiform = {
-      lote: {
-        codigo: '',
-        rubro: null
-      },
-      dataset: [{
-        cantidad_semillas_enviadas: 0,
-        cantidad_plantulas_recibidas: 0
-      }]
-    }
-
-
+    vm.multiform = {};
 
     activate();
 
@@ -144,7 +144,8 @@
 
 
       // controller meta data
-      $q.all([$siembras.getSemillas({}),
+      $q.all([
+          $siembras.getSemillas({}),
           $siembras.getRubros({}),
           $siembras.getProovedores({ categoria: 'germinador' })
         ])
@@ -174,21 +175,29 @@
       getData();
     }
 
-    vm.logItem = function() {
-      console.log(vm.item);
-    }
-
     vm.switchTab = function() {
       console.log('switching tab', vm.item);
       vm.currentTab = 1;
-      var data = _.head(vm.item);
-      vm.detailTab = vm.tabOptions[1];
-      data.semilla_utilizada = {
-        id: data.lote_semilla.id,
-        nombre: data.lote_semilla.nombre
-      };
+      var lote = _.head(vm.item);
 
-      angular.copy(data, vm.form);
+      var incomingData = {
+        lote: _.merge(lote, {
+          rubro: {
+            id: lote.rubro,
+            display: lote.rubro_lote || ''
+          },
+          proveedor: {
+            id: lote.proveedor || 5,
+            display: lote.proveedor_lote || ''
+          }
+        }),
+        dataset: lote.semilla_lote
+      }
+
+      angular.copy(incomingData, vm.multiform);
+
+      vm.detailTab = vm.tabOptions[1];
+
     }
 
     vm.attachLote = function() {
@@ -203,18 +212,19 @@
 
       //FORMATTING
       var payload = {
+        id: vm.multiform.lote.id || null,
         codigo: vm.multiform.lote.codigo,
         rubro: vm.multiform.lote.rubro.id,
-        proveedor: vm.multiform.lote.proveedor.id,
+        proovedor: vm.multiform.lote.proveedor.id,
+        fecha_enviado: moment(vm.multiform.lote.fecha_enviado).format('YYYY-MM-DD'),
         semilla_lote: vm.multiform.dataset.map(function(item) {
           return _.merge(item, { semilla_utilizada: item.semilla.id });
         })
       };
 
       console.log(payload);
-
-      return;
-      $siembras.createLoteSiembra(payload).then(function(resp) {
+      var method = payload.id ? 'updateLoteSiembra': 'createLoteSiembra';
+      $siembras[method](payload).then(function(resp) {
         console.log(resp);
       }).catch(function(err) {
         console.log(err)
@@ -244,9 +254,7 @@
         })
     }
 
-    vm.spawnModal = function(ev, isNew) {
-      console.log(isNew);
-    }
+
 
     vm.spawnDeleteModal = function(ev) {
 
@@ -333,17 +341,11 @@
 
 
     $scope.$watch('vm.currentTab', function(c, o) {
-      vm.detailTab = !vm.form.hasOwnProperty('id') ? vm.tabOptions[0] : vm.tabOptions[1];
-
-      if (!c) {
-        vm.form = {
-          fecha_enviado: new Date(),
-          fecha_recibido: new Date(),
-          germinado: true,
-          cantidad_semillas_recibidas: 0,
-          cantidad_semillas_enviadas: 0
-        }
-      }
+      //vm.detailTab = !vm.form.hasOwnProperty('id') ? vm.tabOptions[0] : vm.tabOptions[1];
+      console.log('current tab', c);
+      if (!c) getData();
+      if (c && !vm.item.length) angular.copy(formTemplate, vm.multiform);
+      if (c) vm.item = [];
     });
   }
 })();

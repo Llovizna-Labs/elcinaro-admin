@@ -97,7 +97,7 @@
           'dashboard': {
             controller: 'LotesController',
             controllerAs: 'vm',
-            templateUrl: 'assets/views/lotes/lotes_form.html'
+            templateUrl: 'assets/views/dashboard/lotes.html'
           }
         },
         authenticate: true

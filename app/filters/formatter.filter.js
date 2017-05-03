@@ -12,9 +12,11 @@
       var opciones = {
         1: 'Desmalezamiento',
         2: 'Riego',
-        3: 'Fertilizacion',
-        4: 'Plaguicida',
-        5: 'Limpieza',
+        3: 'Observaciones',
+        4: 'Limpieza',
+        5: 'Plaguicida',
+        6: 'Fertilizacion',
+        7: 'Cosecha',
         'crecimientocultivo': 'Crecimiento',
         'insumocultivo': 'Insumo'
       }

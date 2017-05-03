@@ -56,7 +56,7 @@
             </md-card-title-text>
           </md-card-title>
           <md-card-content layout="column" layout-padding>
-            <md-chips ng-model="vm.selectedRubros" md-autocomplete-snap md-require-match="true" max="1">
+            <md-chips ng-model="vm.selectedRubros" md-autocomplete-snap md-require-match="true" max="1" md-on-remove="vm.removeRubro($chip)">
               <md-autocomplete ng-disabled="vm.selectedRubros.length" md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.rubros, vm.searchText)" md-item-text="item.name" placeholder="Selecciona un rubro">
                 <span md-highlight-text="vm.searchText">{{item.name}} :: {{item.id}}</span>
               </md-autocomplete>
@@ -71,9 +71,9 @@
               <md-card-title-text>
                 <span class="md-headline">Cultivos</span>
                 <span class="md-subhead">
-            <md-checkbox ng-change="vm.toggle(vm.all)" ng-model="vm.all" ng-disabled="!vm.cultivos.length">
-                Seleccionar todos {{ vm.all }}
-            </md-checkbox>
+                <!-- <md-checkbox ng-change="vm.toggle(vm.all)" ng-model="vm.all" ng-disabled="!vm.cultivos.length">
+                    Seleccionar todos {{ vm.all }}
+                </md-checkbox> -->
             </span>
               </md-card-title-text>
             </md-card-title>
@@ -99,7 +99,7 @@
             </md-card-title-text>
           </md-card-title>
           <md-card-content layout="column" layout-padding>
-            <md-chips class="activities-list" ng-model="vm.selectedActions" md-autocomplete-snap md-require-match="true">
+            <md-chips class="activities-list" ng-model="vm.selectedActions" md-autocomplete-snap md-require-match="true" md-on-remove="vm.removeAction($chip)">
               <md-autocomplete md-search-text="vm.searchTextAction" md-items="item in vm.querySearch(vm.actions, vm.searchTextAction)" md-item-text="item.name" placeholder="Seleccione Accion">
                 <span md-highlight-text="vm.searchTextAction">{{item.name}} :: {{item.id}}</span>
               </md-autocomplete>
@@ -110,7 +110,7 @@
 
             <!-- actions -->
             <div layout="column">
-              <eca-action meta="item"  ng-repeat="item in vm.observations"></eca-action>
+              <eca-action meta="item" ng-model="item" ng-repeat="item in vm.observations"></eca-action>
             </div>
 
             <!-- detail -->

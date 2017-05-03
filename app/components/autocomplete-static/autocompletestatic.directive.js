@@ -77,7 +77,9 @@
       };
     }
 
+    $scope.$watch('vm.searchText', function(c, o) {
+      console.log(c);
+    });
+
   }
 })();
-
-

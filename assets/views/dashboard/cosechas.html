@@ -72,7 +72,7 @@
                 <th md-column md-order-by="cantidad">Cantidad</th>
                 <th md-column md-order-by="medida">Medida</th>
                 <th md-column md-order-by="fecha_cosecha">Fecha Cosecha</th>
-                <th md-column md-numeric md-order-by="created"><span>Creado</span></th>
+                <!-- <th md-column md-numeric md-order-by="created"><span>Creado</span></th> -->
 
               </tr>
             </thead>
@@ -81,8 +81,8 @@
                 <td md-cell>{{data.cultivo.nombre}}</td>
                 <td md-cell>{{data.cantidad}}</td>
                 <td md-cell>{{data.medida.nombre}}</td>
-                <td md-cell>{{data.fecha_cosecha}}</td>
-                <td md-cell am-time-ago="data.created"></td>
+                <td md-cell>{{data.fecha_cosecha |  amDateFormat:'MM-DD-YYYY'}}</td>
+                <!-- <td md-cell am-time-ago="data.created"></td> -->
               </tr>
             </tbody>
           </table>

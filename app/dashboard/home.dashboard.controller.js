@@ -42,6 +42,8 @@
     vm.selectCultivo = selectCultivo;
     vm.detailItem = detailItem;
     vm.removeItem = removeItem;
+    vm.removeRubro = removeRubro;
+    vm.removeAction = removeAction;
     vm.submit = submit;
 
     vm.query = {
@@ -61,13 +63,28 @@
       getInsumos();
     }
 
+    function removeRubro(item) {
+      console.log('should remove crops of', item);
+    }
+
+    function removeAction(item) {
+      console.log('should remove actions', item);
+
+      var filteredResults = _.filter(vm.observations, function(obv) {
+        return obv.action != item.name;
+      });
+
+      vm.observations = angular.copy(filteredResults);
+    }
 
     function submit() {
       // console.log(vm.observations);
       // console.log(vm.selectedCultivos);
       //var bulk = _.merge(vm.selectedCultivos, _.keyBy(vm.observations, 'selector'));
 
-      var data = _.map(vm.observations, function(i) {
+      var payload = angular.copy(vm.observations);
+
+      var data = _.map(payload, function(i) {
         var item = i;
         item.cultivo = i.cultivo.id;
         if (item.hasOwnProperty('fecha_aplicacion')) {
@@ -118,7 +135,7 @@
     function getRubros() {
       $siembras.getRubros({
           page: 1,
-          limit: 10,
+          limit: 500,
           order: '-nombre',
           filter: ''
         })
@@ -176,6 +193,7 @@
 
       if (!item.selected && vm.selectedCultivos[index]) {
         vm.selectedCultivos = vm.selectedCultivos.splice(index, 1);
+        console.log('should remove this crops from the list', vm.selectedCultivos[index]);
       } else {
         vm.selectedCultivos.push(item);
       }
@@ -193,18 +211,7 @@
           fullscreen: true
         })
         .then(function(answer) {
-          console.log(answer);
-          // if (_.isArray(item.cultivo[item.selector])) {
-          //   item.cultivo[item.selector].push(answer);
-          // } else if (_.isObject(item.cultivo[item.selector])) {
-          //   item.cultivo[item.selector] = answer;
-          // } else {
-          //   console.log('undefined');
-          // }
 
-          _.merge(item, answer);
-
-          console.log(item);
         }, function() {
           console.log('cancelled');
         });
@@ -263,7 +270,7 @@
       vm.formattedData = temp;
     });
 
-    function draftObservation() {
+    function draftObservation(cultivo, action) {
       var options = {
         riego: 'Se aplico riego rutinario',
         desmalezamiento: 'se aplicado desmalezamiento en el area',
@@ -271,22 +278,30 @@
         plaguicida: 'Se aplico plaguicida en el cultivo',
         limpieza: 'Se aplico limpieza en el area'
       }
-      var content = _.map(vm.selectedActions, function(action) {
-        return _.map(vm.selectedCultivos, function(item, index) {
+
+      console.log(vm.observations, vm.selectedActions, vm.selectedCultivos);
+
+
+      var actions = action ? action: vm.selectedActions;
+      var cultivos = cultivo ? cultivo: vm.selectedCultivos;
+      var content = _.map(actions, function(action, index) {
+        return _.map(cultivos, function(item) {
           return {
-            id: new Date(),
             text: item.description,
             content: options[angular.lowercase(action.name)],
             type: action.id,
             template: action.template,
             selector: angular.lowercase(action.name),
             cultivo: item,
-            action: action.name
+            action: action.name,
+            actividad: action.id
           };
-        })
+        });
       });
 
-      vm.observations = [].concat.apply([], content);
+      console.log(content);
+
+      vm.observations = [].concat.apply(vm.observations, content );
     }
 
     $scope.$watchCollection('vm.selectedRubros', function(current, original) {
@@ -306,12 +321,14 @@
     });
 
     $scope.$watchCollection('vm.selectedActions', function(current, original) {
-      draftObservation();
+      if (!current.length || current.length === original.length || current.length < original.length) return;
+      console.log('action added', current);
+      draftObservation(null, current.slice(current.length - 1));
     });
 
     $scope.$watchCollection('vm.selectedCultivos', function(current, original) {
-      if (!current.length || current.length === original.length) return;
-      draftObservation();
+      if (!current.length || current.length === original.length || current.length < original.length) return;
+      draftObservation(current.slice(current.length - 1), null);
     });
 
     $scope.$watchCollection('vm.observations', function(current, original) {

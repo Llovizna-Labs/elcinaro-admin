@@ -5,10 +5,10 @@
     .module('ElCinaroAdmin')
     .controller('CultivosController', Controller);
 
-  Controller.$inject = ['_', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$mdBottomSheet', '$mdToast', '$siembras', '$stateParams'];
+  Controller.$inject = ['_', '$scope', '$http', '$q', '$timeout', '$mdDialog', '$mdBottomSheet', '$mdToast', '$suelos', '$siembras', '$stateParams'];
 
   /* @ngInject */
-  function Controller(_, $scope, $http, $q, $timeout, $mdDialog, $mdBottomSheet,  $mdToast, $siembras, $stateParams) {
+  function Controller(_, $scope, $http, $q, $timeout, $mdDialog, $mdBottomSheet,  $mdToast, $suelos, $siembras, $stateParams) {
     var vm = this;
     vm.detail = $stateParams.id ? true : false;
     vm.getData = getData;
@@ -46,7 +46,16 @@
         type: 'select',
         icon: 'perm_identity',
         handler: 'getLotesSiembra',
-        placeholder: 'Lote de Siembra'
+        placeholder: 'Lote de Siembra',
+        mapper: function(item) {
+          return item.semilla_lote.map(function(item) {
+            return {
+              id: item.id,
+              nombre: item.display,
+              display: item.display
+            }
+          })
+        }
       }, {
         name: 'area_siembra',
         type: 'select',
@@ -77,12 +86,69 @@
       handler: 'updateCultivo'
     }];
 
+
+    //Service binding
+    vm.lotes = [];
+    vm.areasSiembra = [];
+    //
+
+    //Directives Binding
+    vm.lotesMeta = {
+      placeholder: 'Selecciona un lote de siembra'
+    };
+
+    vm.areasMeta = {
+      placeholder: 'Seleccione un area de siembra'
+    };
+
+
+    //form binding
+
+    var formTemplate =  {
+      lote: null,
+      cantidad_plantulas: 0,
+      densidad_siembra: 0,
+      codigo: '',
+      area_siembra: null,
+      fecha_siembra: new Date()
+    }
+
     activate();
 
     function activate() {
       console.log('Cultivos Controller');
       vm.detail ? getItem() : getData();
       vm.detailTab = !vm.detail ? vm.tabOptions[0] : vm.tabOptions[1];
+
+      angular.copy(formTemplate, vm.form);
+
+      // controller meta data
+      $q.all([
+          $siembras.getLotes({}),
+          $suelos.getAreasSiembra({}),
+        ])
+        .then(function(results) {
+
+          console.log(results);
+
+          vm.lotes = results[0]['results'].map(function(lote) {
+            return lote.semilla_lote.map(function(item) {
+              return _.merge({ value: item.display.toLowerCase() }, item);
+            });
+          }).reduce(function(acc, item) {
+            return acc.concat(item);
+          }, []);
+          console.log('lotes resolved', vm.lotes);
+
+          vm.areasSiembra = results[1]['results'].filter(function(item) {
+            return item.type === 'invernadero' || item.cultivos_count === 0;
+          }).map(function(item) {
+            return _.merge({ display: item.nombre, value: item.nombre.toLowerCase() }, item);
+          });
+
+          console.log('areasSiembra resolved', vm.areasSiembra);
+        });
+
     }
 
     function getItem() {
@@ -103,17 +169,15 @@
       getData();
     }
 
-    vm.logItem = function() {
-      console.log(vm.item);
-
-    }
 
     vm.formIsValid = function() {
-      return true;
+      return !_.isEmpty(_.pickBy(vm.form, _.isNull));
     }
 
     vm.switchTab = function() {
       var data = _.head(vm.item);
+      vm.currentTab = 1;
+
       vm.detailTab = vm.tabOptions[1];
       data.lote = {
         id: data.cultivo_lote.id,
@@ -155,25 +219,20 @@
 
       if (_.isEmpty(vm.form)) return;
 
-      if (vm.form.area_siembra.type === 'parcela') {
-        vm.form.parcela = vm.form.area_siembra.id;
-        delete vm.form.invernadero;
-      } else {
-        vm.form.invernadero = vm.form.area_siembra.id;
-        delete vm.form.parcela;
-      }
+      console.log(vm.form);
 
-      //field formatting
-      if (vm.form.fecha_siembra) {
-        vm.form['fecha_siembra'] = moment(vm.form['fecha_siembra'])
-          .format('YYYY-MM-DD');
-      }
-      var query = _.mapValues(vm.form, function(o) {
-        return _.isObject(o) ? o.id : o;
-      });
+      var payload = {
+        id: vm.form.id || null,
+        codigo: vm.form.codigo,
+        densidad_siembra: vm.form.densidad_siembra,
+        cantidad_plantulas: vm.form.cantidad_plantulas,
+        lote: vm.form.cultivo_lote.id,
+        fecha_siembra: moment(vm.form.fecha_siembra).format('YYYY-MM-DD'),
+        parcela: vm.form.area_siembra.type === 'parcela' ?  vm.form.area_siembra.id :null,
+        invernadero: vm.form.area_siembra.type === 'invernadero' ?  vm.form.area_siembra.id :null,
+      };
 
-
-      $siembras[handler](query)
+      $siembras[handler](payload)
         .then(function(resp) {
           console.log(resp);
         })
@@ -205,6 +264,7 @@
             return $siembras['deleteCultivo'](vm.item[0])
               .then(function(resp) {
                 getData();
+                vm.item = [];
               })
               .catch(function(err) {
                 console.log(err);
@@ -255,17 +315,13 @@
       console.log(current);
     });
 
-    $scope.$watch('vm.form.fecha_siembra', function(current, original) {
-      if (!current) return;
-      if (!_.isObject(current)) {
-        vm.form.fecha_siembra = new Date(current);
-      }
-    });
-
     $scope.$watch('vm.currentTab', function(current, original) {
+      console.log('currentTab', current);
+      if (!current) getData();
+
       if (!current && !vm.detail) {
-        vm.form = {};
         vm.item = [];
+        angular.copy(formTemplate, vm.form);
         return;
       }
     });

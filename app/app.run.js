@@ -5,11 +5,13 @@
     .module('ElCinaroAdmin')
     .run(runProvider);
 
-  runProvider.$inject = ['$rootScope', '$state', 'Auth'];
+  runProvider.$inject = ['$rootScope', '$state', 'Auth' ,'amMoment'];
 
-  function runProvider($rootScope, $state, Auth) {
+  function runProvider($rootScope, $state, Auth, amMoment) {
     $rootScope.$state = $state;
 
+    amMoment.changeLocale('es');
+    
     console.log('is authenticated', Auth.isAuthenticated());
 
     if (Auth.isAuthenticated()) $rootScope.user = Auth.getUser();

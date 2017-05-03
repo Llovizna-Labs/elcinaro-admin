@@ -228,7 +228,6 @@
     return AuthInterceptor;
 
     function request(config) {
-
       var token;
       if ($localstorage.get('access_token')) {
         token = $localstorage.get('access_token');
@@ -236,15 +235,34 @@
       if (token) {
         config.headers.Authorization = 'Bearer ' + token;
       }
+
+      var actions = ['POST', 'PUT', 'DELETE'];
+
+      if(_.includes(actions, config.method)) {
+        console.log('should refactor request', config);
+        _.mapValues(config.data, function(item) {
+            //if is date
+            if(moment(item, 'YYYY-MM-DD', true).isValid()) {
+              return moment(item).format('YYYY-MM-DD');
+            }
+
+            //if is a object
+            if (_.isObject(item) &&  !_.isArray(item)) {
+              return _.get(item, 'id', null);
+            }
+
+            //otherwise
+            return item;
+        });
+
+      }
       return config;
     }
 
     function response(response) {
 
-      console.log(response);
 
       var url = _.words(_.get(response, 'config.url', null), /[^/ ]+/g);
-
 
 
       var methodes = {

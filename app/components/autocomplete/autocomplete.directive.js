@@ -114,7 +114,6 @@
 
       return handlers[vm.meta.handler]()
         .then(function(resp) {
-          console.log(resp);
           return _.map(resp.results, vm.meta.mapper || mapper);
         });
 

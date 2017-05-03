@@ -40,7 +40,7 @@
 
     function createActividades(payload) {
       var deferred = $q.defer();
-      $http.post(baseApi + '/actividades/', payload)
+      $http.post(baseApi + '/seguimiento/', payload)
         .success(function(data) {
           deferred.resolve(data);
         })

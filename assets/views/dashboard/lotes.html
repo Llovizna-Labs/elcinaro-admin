@@ -37,7 +37,7 @@
           <md-toolbar class="md-table-toolbar alternate" ng-show="vm.item.length" aria-hidden="false">
             <div class="md-toolbar-tools" flex>
               <div layout="row" layout-padding flex="80">
-                <p>{{vm.table.detail.title([vm.item[0].lote_semilla.descripcion])}}</p>
+                <p>{{vm.table.detail.title([vm.item[0].codigo, vm.item[0].rubro_lote])}}</p>
               </div>
               <div layout="row" flex="20" layout-align="end end">
                 <md-button class="md-icon-button" ng-click="vm.switchTab($event)">
@@ -71,7 +71,6 @@
                     <th md-column md-order-by="semilla_utilizada__descripcion">Codigo</th>
                     <th md-column md-order-by="semilla_utilizada__descripcion">Rubro</th>
                     <th md-column md-order-by="cultivos_count">Semillas (C)</th>
-                    <th md-column md-numeric md-order-by="proovedor__nombre"><span>Semillas enviadas / Plantulas recibidas </span></th>
                     <th md-column md-numeric md-order-by="created"><span>Creado</span></th>
                     <th md-column md-order-by="updated">Actualizado</th>
                   </tr>
@@ -81,7 +80,6 @@
                     <td md-cell>{{data.codigo}}</td>
                     <td md-cell>{{data.rubro_lote}}</td>
                     <td md-cell>{{data.semilla_lote.length || 'N/A'}}</td>
-                    <td md-cell>{{'//TODO'}}</td>
                     <td md-cell>{{data.created | amDateFormat:'DD-MM-YYYY' || 'N/A'}}</td>
                     <td md-cell>{{data.updated | amDateFormat:'DD-MM-YYYY' || 'N/A'}}</td>
                   </tr>
@@ -94,7 +92,69 @@
       </md-card>
     </md-tab>
     <!-- detail / edit / add -->
-    <md-tab label="{{vm.detailTab.title}}">
-      <eca-form meta="vm.meta" ng-model="vm.form" options="vm.currentTab"></eca-form>
+    <md-tab label="AGREGAR / EDITAR lotes">
+      <md-card ng-if="vm.currentTab">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline" ng-bind="vm.meta.title"></span>
+            <span class="md-subhead" ng-bind="vm.meta.subtitle"></span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="column" layout-padding>
+          <md-content>
+            <form name="loteForm">
+              <div layout="row">
+                <md-input-container flex="30">
+                  <label>Código</label>
+                  <input required ng-model="vm.multiform.lote.codigo">
+                  <div ng-messages="vm.multiform.lote.codigo">
+                    <div ng-message="required">Este es campo es requerido.</div>
+                  </div>
+                </md-input-container>
+                <auto-complete-static flex="40" meta="vm.rubrosMeta" data="vm.rubros" ng-model="vm.multiform.lote.rubro"></auto-complete-static>
+              </div>
+              <div layout="row">
+                <auto-complete-static flex="40" meta="vm.proveedorMeta" data="vm.proveedores" ng-model="vm.multiform.lote.proveedor"></auto-complete-static>
+                <md-input-container class="md-block" flex-gt-sm>
+                  <label>Fecha Enviado</label>
+                  <md-datepicker ng-model="vm.multiform.lote.fecha_enviado" md-placeholder="Introduzca fecha"></md-datepicker>
+                </md-input-container>
+              </div>
+            </form>
+          </md-content>
+        </md-card-content>
+      </md-card>
+      <div layout-gt-sm="row" layout="row" layout-align="end end">
+        <div layout="row" layout-align="end end">
+          <md-button aria-label="action" class="md-raised" ng-click="vm.attachLote(vm.action, vm.form)">Agregar Semilla</md-button>
+        </div>
+      </div>
+
+      <md-card ng-repeat="lote in vm.multiform.dataset">
+        <md-card-content layout="column" layout-padding>
+          <div layout="row">
+            <auto-complete-static flex="40" meta="vm.semillasMeta" data="vm.semillas" ng-model="lote.semilla"></auto-complete-static>
+            <md-input-container flex="30">
+              <label>Semillas enviadas</label>
+              <input required min="0" type="number" ng-model="lote.cantidad_semillas_enviadas">
+              <div ng-messages="lote.cantidad_semillas_enviadas.$error">
+                <div ng-message="required">This is required.</div>
+              </div>
+            </md-input-container>
+            <md-input-container flex="30">
+              <label>Plantulas recibidas</label>
+              <input required min="0" type="number" ng-model="lote.cantidad_plantulas_recibidas">
+            </md-input-container>
+          </div>
+        </md-card-content>
+      </md-card>
+      <div layout-gt-sm="row" layout="row" layout-align="space-between center">
+        <div layout="row" layout-align="start start">
+          <md-button class="md-accent md-raised">Ayuda</md-button>
+        </div>
+        <div layout="row" layout-align="end end">
+          <md-button aria-label="action" class="md-primary md-raised" ng-click="vm.sendForm()">Enviar</md-button>
+        </div>
+      </div>
     </md-tab>
 </section>

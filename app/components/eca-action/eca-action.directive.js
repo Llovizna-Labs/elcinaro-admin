@@ -12,7 +12,7 @@
             templateUrl: 'assets/views/eca-action/eca-action.html',
             scope: {
               meta: '=',
-              data: '='
+              item: '=?ngModel'
             },
             link: linkFunc,
             controller: Controller,
@@ -27,13 +27,13 @@
         }
     }
 
-    Controller.$inject = ['_','$http', '$insumos', '$util'];
+    Controller.$inject = ['_', '$scope', '$http', '$insumos', '$util'];
 
     /* @ngInject */
-    function Controller(_,$http, $insumos, $util) {
+    function Controller(_, $scope, $http, $insumos, $util) {
         var vm = this;
         vm._ = _;
-        
+
         vm.insumos = [];
 
         vm.medidas = $util.getUnidades();
@@ -48,9 +48,9 @@
         activate();
 
         function activate() {
-          console.log('eca-action');
-          console.log(vm.meta);
-
+          // console.log('eca-action');
+          // console.log(vm.meta);
+          // console.log(vm.data);
           getInsumos();
         }
 

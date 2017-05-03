@@ -175,7 +175,10 @@
       var deferred = $q.defer();
       $q.all([getInvernaderos(query), getParcelas(query)])
         .then(function(resp) {
-          deferred.resolve({results: _.merge(resp[0].results, resp[1].results)});
+          console.log('areas de siembra',resp);
+          deferred.resolve({results: resp.reduce(function(acc,item) {
+            return acc.concat(item.results);
+          }, [])});
         })
         .catch(function(err) {
           deferred.reject(err);

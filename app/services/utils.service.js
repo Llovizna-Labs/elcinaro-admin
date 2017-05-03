@@ -100,21 +100,21 @@
       }, {
         name: 'Fertilizacion',
         _lowername: 'fertilizacion',
-        id: 3,
+        id: 6,
         template: 'fertilizacion.tmpl.html'
       }, {
         name: 'Plaguicida',
         _lowername: 'plagicida',
-        id: 4,
+        id: 5,
         template: 'plaguicida.tmpl.html'
       }, {
         name: 'Limpieza',
         _lowername: 'limpieza',
-        id: 5
+        id: 4
       }, {
         name: 'Observaciones',
         _lowername: 'observaciones',
-        id: 6,
+        id: 3,
         template: 'observaciones.tmpl.html'
       }];
     }

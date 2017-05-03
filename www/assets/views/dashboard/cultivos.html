@@ -37,7 +37,7 @@
           <md-toolbar class="md-table-toolbar alternate" ng-show="vm.item.length" aria-hidden="false">
             <div class="md-toolbar-tools" flex>
               <div layout="row" layout-padding flex="80">
-                <p>{{vm.table.detail.title([vm.item[0].cultivo_lote.lote_semilla.descripcion])}}</p>
+                <p>{{vm.table.detail.title([vm.item[0].nombre])}}</p>
               </div>
               <div layout="row" flex="20" layout-align="end end">
                 <md-button class="md-icon-button" ui-sref="dashboard.cultivos({id: vm.item[0].id})">
@@ -76,24 +76,25 @@
                 <thead md-head md-order="vm.query.order" md-on-reorder="vm.getData">
                   <tr md-row>
                     <th md-column md-numeric md-order-by="lote__id"><span>Lote</span></th>
-                    <th md-column md-order-by="lote__semilla_utilizada__familia__nombre"><span>Rubro</span></th>
-                    <th md-column md-order-by="lote__semilla_utilizada__descripcion">Semilla</th>
+
+                    <th md-column md-order-by="lote__semilla_utilizada__descripcion">Lote Siembra</th>
                     <th md-column><span>Area de Siembra</span></th>
                     <th md-column md-numeric md-order-by="cantidad">Densidad/Siembra</th>
+                    <th md-column><span>Plantas</span></th>
                     <th md-column md-numeric md-order-by="cantidad">Cosechas</th>
-
                     <th md-column md-order-by="fecha_siembra">Fecha de Siembra</th>
                   </tr>
                 </thead>
                 <tbody md-body>
-                  <tr md-row md-select="data" md-select-id="data.id" md-on-select="vm.logItem" md-auto-select ng-repeat="data in vm.data.results">
+                  <tr md-row md-select="data" md-select-id="data.id"  md-auto-select ng-repeat="data in vm.data.results">
                     <td md-cell>{{data.cultivo_lote.id}}</td>
-                    <td md-cell>{{data.cultivo_lote.lote_semilla.semilla_familia.nombre}}</td>
-                    <td md-cell>{{data.cultivo_lote.lote_semilla.descripcion}}</td>
+                    <td md-cell>{{data.cultivo_lote.display}}</td>
                     <td md-cell>{{data.area_siembra.nombre || data.area_siembra.codigo }}</td>
                     <td md-cell>{{data.densidad_siembra}}</td>
+                    <td md-cell>{{data.cantidad_plantulas}}</td>
+
                     <td md-cell>{{data.cosecha_cultivo.length}}</td>
-                    <td md-cell>{{data.fecha_siembra}}</td>
+                    <td md-cell>{{data.fecha_siembra  | amDateFormat:'MMMM Do YYYY, h:mm:ss a'}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -188,38 +189,48 @@
             </md-card-title-text>
           </md-card-title>
           <md-card-content layout="column" layout-padding>
-            <div layout="column">
-              <auto-complete meta="field" ng-model="vm.form[field.name]" ng-repeat="field in vm.meta.fields"></auto-complete>
-            </div>
-            <div layout-padding layout="column">
-              <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
-                  <label>Posicion Inicial</label>
-                  <input ng-model="vm.form.posicion_inicial" type="number" min="1">
-                </md-input-container>
-
-                <md-input-container class="md-block" flex-gt-sm>
-                  <label>Posición Final</label>
-                  <input ng-model="vm.form.posicion_final" type="number" min="1">
-                </md-input-container>
-
-                <md-input-container class="md-block" flex-gt-sm>
-                  <label>Densidad De Siembra</label>
-                  <input ng-model="vm.form.densidad_siembra" ng-model="user.postalCode" type="number">
-                </md-input-container>
+            <form name="cultivoForm">
+              <div layout="row">
+                <auto-complete-static flex="40" meta="vm.lotesMeta" data="vm.lotes" ng-model="vm.form.cultivo_lote"></auto-complete-static>
+                <div flex="5"></div>
+                <auto-complete-static flex="40" meta="vm.areasMeta" data="vm.areasSiembra" ng-model="vm.form.area_siembra"></auto-complete-static>
               </div>
+              <div layout-padding layout="column">
+                <div layout-gt-sm="row">
+                  <md-input-container class="md-block" flex-gt-sm flex="40">
+                    <label>Cantidad Plantas</label>
+                    <input name="cantidadPlantulas" ng-model="vm.form.cantidad_plantulas" type="number" min="1" required>
+                    <div ng-messages="cultivoForm.cantidadPlantulas.$error">
+                      <div ng-message="required">Este campo es requerido.</div>
+                      <div ng-message="md-minlength">Introduzca un numero mayor a 0</div>
+                    </div>
+                  </md-input-container>
+                  <div flex="5">
+                  </div>
 
-              <div layout-gt-sm="row">
-                <md-input-container flex-gt-sm flex="30">
-                  <label>Código</label>
-                  <input ng-model="vm.form.codigo" type="text">
-                </md-input-container>
+                  <md-input-container class="md-block" flex-gt-sm flex="40">
+                    <label>Densidad De Siembra</label>
+                    <input name="densidadSiembra"ng-model="vm.form.densidad_siembra" type="number" required min="0.0" max="1.0">
+                    <div ng-messages="cultivoForm.densidadSiembra.$error">
+                      <div ng-message="required">Este campo es requerido.</div>
+                      <div ng-message="md-maxlength">Introduzca un numero entre 0 y 1</div>
+                    </div>
+                  </md-input-container>
+                </div>
 
-                <md-input-container class="md-block" flex-gt-sm>
-                  <label>Fecha de siembra</label>
-                  <md-datepicker ng-model="vm.form.fecha_siembra" md-placeholder="Enter date"></md-datepicker>
-                </md-input-container>
-              </div>
+                <div layout-gt-sm="row">
+                  <md-input-container flex-gt-sm flex="30">
+                    <label>Código</label>
+                    <input ng-model="vm.form.codigo" type="text" required>
+                  </md-input-container>
+
+                  <md-input-container class="md-block" flex-gt-sm>
+                    <label>Fecha de siembra</label>
+                    <md-datepicker ng-model="vm.form.fecha_siembra" md-placeholder="Introduzca fecha" required></md-datepicker>
+                  </md-input-container>
+                </div>
+            </form>
+
 
               <div layout-gt-sm="row" layout="row" layout-align="space-between center">
                 <div layout="row" layout-align="start start">
@@ -227,7 +238,7 @@
                 </div>
                 <div layout="row" layout-align="end end">
                   <md-button class="md-warn md-raised">Ver listado</md-button>
-                  <md-button class="md-primary md-raised" ng-click="vm.handleForm(vm.detailTab.handler)" ng-disabled="!vm.formIsValid()">{{vm.detailTab.submitButton}}</md-button>
+                  <md-button class="md-primary md-raised" ng-click="vm.handleForm(vm.detailTab.handler)" ng-disabled="!cultivoForm.$valid">{{vm.detailTab.submitButton}}</md-button>
                 </div>
               </div>
             </div>

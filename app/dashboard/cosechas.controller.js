@@ -88,8 +88,8 @@
 
       _.mapValues(data.results, function(item) {
         item.cultivo = {
-          id: item.cultivo_cosecha.id,
-          nombre: item.cultivo_cosecha.cultivo_lote.nombre
+          id: item.cultivo,
+          nombre: item.cultivo_cosecha
         }
 
         item.medida = _.find($util.getUnidades(), function(i) {
