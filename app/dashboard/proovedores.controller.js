@@ -30,6 +30,14 @@
           }
         }
 
+        //Pdf Configuration
+        vm.meta = {
+          modulo: 'proveedores',
+          title:   'Proveedores',
+          subtitle:'Listado de Proveedores',
+          fields: ['id', 'nombre', 'direccion', 'telefono']
+        };
+
         vm.query = {
           order: '-updated',
           limit: 10,

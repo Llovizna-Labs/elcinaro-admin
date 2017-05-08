@@ -23,6 +23,16 @@
       }
     }
 
+
+    //Pdf Configuration
+    vm.pdfMeta = {
+      modulo: 'clientes',
+      title:   'Clientes',
+      subtitle:'Listado de Clientes',
+      fields: ['identification', 'nombre', 'apellido', 'telefono', 'direccion'],
+    };
+
+
     vm.query = {
       order: '',
       limit: 10,

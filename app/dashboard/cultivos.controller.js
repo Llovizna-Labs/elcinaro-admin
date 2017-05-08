@@ -29,7 +29,17 @@
           return 'Cultivo: ' + data.join(' ');
         }
       }
-    }
+    };
+
+    //Pdf Configuration
+    vm.pdfMeta = {
+      modulo: 'cultivos',
+      title:   'Cultivos',
+      subtitle:'Listado de Cultivos',
+      fields: ['codigo', 'nombre', 'cantidad_plantulas', 'dias_sembrado'],
+      headers: ['codigo', 'nombre', 'plantas', 'dias sembrado']
+    };
+
     vm.query = {
       order: 'lote__id',
       limit: 10,
@@ -108,6 +118,7 @@
       lote: null,
       cantidad_plantulas: 0,
       densidad_siembra: 0,
+      dias_cosecha_estimado: 0,
       codigo: '',
       area_siembra: null,
       fecha_siembra: new Date()
@@ -141,7 +152,7 @@
           console.log('lotes resolved', vm.lotes);
 
           vm.areasSiembra = results[1]['results'].filter(function(item) {
-            return item.type === 'invernadero' || item.cultivos_count === 0;
+            return item; //item.type === 'invernadero' || item.cultivos_count === 0;
           }).map(function(item) {
             return _.merge({ display: item.nombre, value: item.nombre.toLowerCase() }, item);
           });
@@ -169,6 +180,9 @@
       getData();
     }
 
+    vm.spawnReportModal = function() {
+      console.log('should spawn printer modal');
+    }
 
     vm.formIsValid = function() {
       return !_.isEmpty(_.pickBy(vm.form, _.isNull));
@@ -227,10 +241,13 @@
         densidad_siembra: vm.form.densidad_siembra,
         cantidad_plantulas: vm.form.cantidad_plantulas,
         lote: vm.form.cultivo_lote.id,
+        dias_cosecha_estimado: vm.form.dias_cosecha_estimado,
         fecha_siembra: moment(vm.form.fecha_siembra).format('YYYY-MM-DD'),
         parcela: vm.form.area_siembra.type === 'parcela' ?  vm.form.area_siembra.id :null,
         invernadero: vm.form.area_siembra.type === 'invernadero' ?  vm.form.area_siembra.id :null,
       };
+
+      console.log(payload);
 
       $siembras[handler](payload)
         .then(function(resp) {

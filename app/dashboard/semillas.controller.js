@@ -80,6 +80,16 @@
       icon: 'info'
     }];
 
+    //Pdf Configuration
+    vm.pdfMeta = {
+      modulo: 'semillas',
+      title:   'Semillas',
+      subtitle:'Listado de Semillas',
+      fields: ['codigo', 'nombre', 'semilla_familia.nombre', 'semilla_proovedor.nombre', 'cantidad', 'precio_compra'],
+      headers: ['codigo', 'nombre', 'semilla', 'proveedor', 'cantidad', 'precio_compra'],
+      order: ['semilla_familia.nombre']
+    };
+
     vm.meta = {
       searchForm: {},
       fields: [{
@@ -137,7 +147,7 @@
 
     function activate() {
       console.log('Semillas Controller');
-      
+
       vm.item.pop();
       vm.form = formTemplate;
       vm.isUpdating = false;
@@ -171,7 +181,7 @@
       console.log(vm.form);
       vm.errors = null;
       vm.loading = true;
-      
+
       var handler = vm.isUpdating ? 'updateSemilla' : 'createSemilla';
 
       $siembras[handler](vm.form)
@@ -220,7 +230,7 @@
             })
             .catch(function(err) {
               console.log(err);
-          
+
             }).finally(function(){
               vm.item = [];
             });
@@ -253,7 +263,7 @@
     });
 
     $scope.$watch('vm.form', function(c,o) {
-      
+
     }, true);
 
     $scope.$watch('vm.currentTab', function(c, o) {

@@ -19,7 +19,8 @@
     "angular-moment": "~1.0.1",
     "angular-moment-picker": "moment-picker#~0.6.2",
     "restangular": "~1.6.1",
-    "angular-loading-bar": "~0.9.0"
+    "angular-loading-bar": "~0.9.0",
+    "pdfmake": "~0.1.28"
   },
   "name": "elcinaro-admin-stack-angular",
   "version": "1.0.0",

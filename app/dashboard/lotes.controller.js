@@ -28,7 +28,7 @@
     };
 
     vm.proveedorMeta = {
-      placeholder: 'Seleccione un proveedor'
+      placeholder: 'Servicio de germinación'
     };
     //
     //Local Binding

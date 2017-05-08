@@ -1,0 +1,89 @@
+<md-dialog aria-label="Reportes" flex="80">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Reportes</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon>close</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-content layout-padding layout="column">
+          <form ng-submit="$event.preventDefault()">
+            <p>Selecciona un reporte de la lista.</p>
+            <md-autocomplete md-selected-item="selectedItem"
+                md-search-text-change="searchTextChange(searchText)"
+                md-search-text="searchText"
+                md-items="item in querySearch(searchText)"
+                md-item-text="item.name" md-min-length="0"
+                placeholder="Nombre"
+                md-menu-class="autocomplete-custom-template">
+              <md-item-template>
+                <span class="item-title">
+                <md-icon>description</md-icon>
+                <span> {{item.name}} </span>
+                </span>
+                <span class="item-metadata">
+                  <span>
+                    <strong>{{item.description}}</strong>
+                  </span>
+                </span>
+              </md-item-template>
+            </md-autocomplete>
+          </form>
+        </md-content>
+
+        <!--detail bar-->
+        <md-toolbar class="md-table-toolbar black-white" ng-show="selectedItem" aria-hidden="false">
+          <div class="md-toolbar-tools" flex>
+            <div layout="row" layout-padding flex="80">
+              <p>Reporte: {{selectedItem.name}}</p>
+            </div>
+            <div layout="row" flex="20" layout-align="end end">
+              <md-button class="md-icon-button" ng-click="enableFilters($event)">
+                <md-icon>mode_edit</md-icon>
+                <md-tooltip md-direction="bottom">
+                  Editar
+                </md-tooltip>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="livePreviewSetup($event)">
+                <md-icon>pageview</md-icon>
+                <md-tooltip md-direction="bottom">
+                  Vista Previa
+                </md-tooltip>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="printerSetup($event)">
+                <md-icon>print</md-icon>
+                <md-tooltip md-direction="bottom">
+                  Imprimir
+                </md-tooltip>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="selectedItem = null">
+                <md-icon>close</md-icon>
+                <md-tooltip md-direction="bottom">
+                  Cancelar
+                </md-tooltip>
+              </md-button>
+            </div>
+          </div>
+        </md-toolbar>
+
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="help()" md-autofocus>
+        Ayuda
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="cancel('not useful')">
+        Cancelar
+      </md-button>
+      <md-button ng-click="answer('useful')">
+        Imprimir
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

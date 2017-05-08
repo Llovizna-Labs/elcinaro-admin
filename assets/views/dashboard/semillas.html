@@ -26,6 +26,9 @@
               <md-button class="md-icon-button" ng-click="vm.spawnModal($event, true)">
                 <md-icon>add</md-icon>
               </md-button>
+
+              <!-- PDF addon -->
+              <report-setup module="semillas" meta="vm.pdfMeta"></report-setup>
             </div>
           </md-toolbar>
           <md-toolbar class="md-table-toolbar md-default" ng-show="vm.toggleSearch" aria-hidden="false">

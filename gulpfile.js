@@ -57,10 +57,11 @@ var vendorScripts = [
   'bower_components/angular-material-data-table/dist/md-data-table.min.js',
   'bower_components/angular-moment-picker/dist/angular-moment-picker.min.js',
   'bower_components/angular-loading-bar/build/loading-bar.min.js',
+  'bower_components/pdfmake/build/pdfmake.min.js',
+  'bower_components/pdfmake/build/vfs_fonts.js',
   'vendors/offline/offline.min.js',
 
-  // 'bower_components/braintree-web/client.js',
-  // 'bower_components/braintree-web/paypal.js',
+  // 'bower_components/folder/library.js',
 
 ];
 var vendorStyles = [

@@ -78,6 +78,7 @@
     }
 
     $scope.$watch('vm.searchText', function(c, o) {
+      if(!c) return;
       console.log(c);
     });
 
